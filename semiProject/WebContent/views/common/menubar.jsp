@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
-    	String contextPath = request.getContextPath();
-    %>
+<%
+    String contextPath = request.getContextPath();
+    
+	String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,6 +95,9 @@
             font-size: 13px;
         }
     </style>
+    <script>
+    
+    </script>
 </head>
 <body>
     <div class="outer">
@@ -126,7 +131,7 @@
                     </ul>
                 </li>
                 <li><a href="">자유게시판</a></li>
-                <li><a href="">카페등록요청</a></li>
+                <li><a href="<%=contextPath%>/cafeRequset.do">카페등록요청</a></li>
             </ul>
         </div>
 </body>
