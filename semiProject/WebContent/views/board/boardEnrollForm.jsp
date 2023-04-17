@@ -9,7 +9,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+ -->
+<title>글작성 페이지</title>
 </head>
 <style>
     div{
@@ -31,7 +38,7 @@
     }
     #content-area{
         width: 100%;
-        height : 100%;
+        height : 600px;
         box-sizing: border-box;
     }
     #btn{
@@ -48,11 +55,11 @@
     
 </style>
 <body>
-	<%@ include file ="../common/menubar.jsp" %>
+	<!--  <%@ include file ="../common/menubar.jsp" %>-->
     <div class="wrap">
         <h2 align="center">게시글 작성</h2>
         <form action="insert.bo" method ="post" enctype="multipart/form-date">
-        <input type ="hidden" name="userNo" value=<%=loginUser.getUserNo() %>>
+        <input type ="hidden" name="userNo" value="">
         <table id="enroll-area">
             <thead>
                 <tr>
@@ -73,7 +80,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="4">
+                	<th>내용</th>
+                    <td colspan="3">
                         <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none" ></textarea>
                     </td>
                 </tr>
@@ -94,7 +102,22 @@
         
         </table>
         </form>
-
     </div>
+    <!-- 
+    <script>
+        $(document).ready(function(){
+            $("#content-area").summernote({
+                height : 300,
+                minHeight : null,
+                maxHeight : 700,
+                focus : true,
+                lang : "ko-KR",
+                placeholder :"내용을 입력하세요" 
+            
+            });
+        });
+
+    </script>
+     -->
 </body>
 </html>

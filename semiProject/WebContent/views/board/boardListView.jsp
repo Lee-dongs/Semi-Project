@@ -71,7 +71,7 @@
 </style>
 <body>
 <%@ include file="../common/menubar.jsp" %>
-    <div class="outer">
+    <div class="list">
         <br>
         <h2 align="center">자유 게시판</h2>
         <table class="list-area" >
@@ -132,6 +132,11 @@
     		
     			location.href ="<%=contextPath%>/insert.bo"
     		}
+    		$(".list-area>tbody>tr").click(function(){
+    			var bno = $(this).children().eq(0).text();
+    			
+    			location.href = "<%=contextPath%>/detail.bo?bno="+bno
+    		})
     	</script>
     
 </body>

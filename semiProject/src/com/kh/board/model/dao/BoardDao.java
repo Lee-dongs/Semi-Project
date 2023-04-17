@@ -156,6 +156,81 @@ public class BoardDao {
 		return result;
 	}
 
+	public int increaseCount(Connection conn, int bno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("increaseCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		return result;
+	}
+
+	public Board selectBoard(Connection conn, int bno) {
+		Board b =null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				b = new Board(rset.getInt("BOARD_NO")
+							 ,rset.getString("LOCATION_NAME")
+							 ,rset.getString("BOARD_TITLE")
+							 ,rset.getString("BOARD_CONTENT")
+							 ,rset.getString("USER_ID")
+							 ,rset.getDate("CREATE_DATE")
+							 ,rset.getInt("COUNT"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return b;
+	}
+
+	public Attachment selectAttachment(Connection conn, int bno) {
+		Attachment at = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment(rset.getInt("BOARD_FILE_NO")
+								   ,rset.getString("ORIGIN_NAME")
+								   ,rset.getString("CHANG_NAME")
+								   ,rset.getString("FILE_PATH"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return at;
+	}
+
 	
 	
 }
