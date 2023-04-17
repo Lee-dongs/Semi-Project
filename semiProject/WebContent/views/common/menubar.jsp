@@ -123,9 +123,6 @@
             font-size: 13px;
         }
     </style>
-    <script>
-    
-    </script>
 </head>
 <body>
     <div class="outer">
@@ -199,8 +196,8 @@
                         <li><a href="">FAQ</a></li>
                     </ul>
                 </li>
-                <li><a href="">자유게시판</a></li>
-                <li><a href="<%=contextPath%>/cafeRequset.do">카페등록요청</a></li>
+                <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
+                <li><a href="">카페등록요청</a></li>
             </ul>
         </div>
       </div>
