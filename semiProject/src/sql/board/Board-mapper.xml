@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectListCount">
+		SELECT COUNT(*) AS COUNT
+		FROM BOARD
+		WHERE STATUS = 'Y'
+	</entry>
+	<entry key="selectList">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   ORDER BY CREATE_DATE DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectLocation">
+		SELECT LOCATION_CODE, LOCATION_NAME
+		FROM LOCATION
+	</entry>
+	<entry key="insertBoard">
+	    INSERT INTO BOARD(BOARD_NO,BOARD_WRITER,LOCATION_CODE,BOARD_TITLE, BOARD_CONTENT) 
+	    VALUES(SEQ_BNO.NEXTVAL,?,?,?,?)
+	</entry>
+	<entry key="insertAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO
+							  ,REF_BNO
+							  ,ORIGIN_NAME
+							  ,CHANGE_NAME
+							  ,FILE_PATH
+							  )
+		VALUES(SEQ_FNO.NEXTVAL,SEQ_BNO.CURRVAL,?,?,?)
+	</entry>
+</properties>
