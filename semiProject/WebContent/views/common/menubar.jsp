@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
     <%
     	String contextPath = request.getContextPath();
+    
+    	String alertMsg = (String)session.getAttribute("alertMsg");
     %>
 <!DOCTYPE html>
 <html>
@@ -125,6 +127,15 @@
     </style>
 </head>
 <body>
+	<script>
+		var msg = "<%=alertMsg%>";
+		
+		if(msg !="null"){
+			alert(msg);
+			
+			<%session.removeAttribute("alertMsg");%>
+		}
+	</script>
     <div class="outer">
         <div id="header">
             <div id="header_1"></div>
@@ -145,18 +156,18 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-            <form action="login.me">
+            <form action="<%=contextPath%>/login.me" method="post">
                 <table id="login_table">
                     <thead>
                         <tr>
                             <td>아이디</td>
-                            <td><input type="text" id="inputId" name="inputId" placeholder="아이디를 입력하세요" required></td>
+                            <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
                     
                         </tr>
                         <tr><td height="20"> </td></tr>
                         <tr>
                             <td>비밀번호</td>
-                            <td><input type="password" id="inputPwd" name="inputPwd" placeholder="비밀번호를 입력하세요" required></td>
+                            <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
                         </tr>
                         <tr><td height="20"> </td></tr>
                     </thead>
@@ -178,7 +189,7 @@
         <div class="modal-footer">
             <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
             <div id="findUserId"><a href="">아이디 찾기</a></div>|
-            <div id="enroll"><a href="">회원가입</a></div> 
+            <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
           
         </div>
         <br>
