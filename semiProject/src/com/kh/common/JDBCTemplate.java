@@ -12,13 +12,15 @@ import java.util.Properties;
 
 public class JDBCTemplate {
 	
-public static Connection getConnection() {
+
+
+	public static Connection getConnection() {
 		
 		Properties prop = new Properties();
 		
-		// �씫�뼱�뱾�씠怨좎옄�븯�뒗 driver.properties�뙆�씪�쓽 寃쎈줈瑜� �븣�븘�궡�꽌 ���엯�븯湲�
+		// 읽어들이고자하는 driver.properties파일의 경로를 알아내서 대입하기
 		String filePath = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
-		// 泥� 踰덉㎏ /�뒗 webcontent�쓽 classes�뙆�씪�쓣 �쓽誘명븿
+		// 첫 번째 /는 webcontent의 classes파일을 의미함
 		
 		Connection conn = null;
 		
@@ -26,10 +28,10 @@ public static Connection getConnection() {
 			prop.load(new FileInputStream(filePath));
 			
 			
-			// 1. jdbc driver�벑濡�
+			// 1. jdbc driver등록
 			Class.forName(prop.getProperty("driver")); 
 			
-			// 2. Connection媛앹껜 �깮�꽦
+			// 2. Connection객체 생성
 			conn = DriverManager.getConnection(prop.getProperty("url")
 												, prop.getProperty("username")
 												, prop.getProperty("password"));
@@ -53,7 +55,7 @@ public static Connection getConnection() {
 		return conn;
 	}
 
-	//2. �쟾�떖諛쏆� Connection媛앹껜瑜� 媛�吏�怨� commit�빐二쇰뒗 硫붿냼�뱶
+	//2. 전달받은 Connection객체를 가지고 commit해주는 메소드
 	public static void commit(Connection conn) {
 		
 		try {
@@ -66,7 +68,7 @@ public static Connection getConnection() {
 		}
 	}
 	
-	// 3. �쟾�떖諛쏆� Connection 媛앹껜瑜� 媛�吏�怨� rollback�빐二쇰뒗 硫붿냼�뱶
+	// 3. 전달받은 Connection 객체를 가지고 rollback해주는 메소드
 	public static void rollback(Connection conn) {
 		
 		try {
@@ -79,7 +81,7 @@ public static Connection getConnection() {
 		}
 	}
 	
-	// 4. �쟾�떖諛쏆� Connection媛앹껜瑜� 諛섎궔�븯�뒗 硫붿냼�뱶
+	// 4. 전달받은 Connection객체를 반납하는 메소드
 	public static void close(Connection conn) {
 		
 		try {
@@ -92,7 +94,7 @@ public static Connection getConnection() {
 		}
 	}
 	
-	// 5. �쟾�떖諛쏆� Statement媛앹껜 諛섎궔�븯�뒗 硫붿냼�뱶
+	// 5. 전달받은 Statement객체 반납하는 메소드
 	public static void close(Statement stmt) {
 		
 		try {
@@ -105,7 +107,7 @@ public static Connection getConnection() {
 		}
 	}
 	
-	// 6. �쟾�떖諛쏆� ResultSet 媛앹껜瑜� 諛섎궔�븯�뒗 硫붿냼�뱶
+	// 6. 전달받은 ResultSet 객체를 반납하는 메소드
 	public static void close(ResultSet rset) {
 		
 		try {
@@ -117,5 +119,5 @@ public static Connection getConnection() {
 			e.printStackTrace();
 		}
 	}
-
 }
+
