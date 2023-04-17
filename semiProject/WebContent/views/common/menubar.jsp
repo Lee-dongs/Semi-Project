@@ -30,7 +30,7 @@
         .outer{
             border: 1px solid black;
             width: 1200px;
-            height: 800px;
+            height: 300px;
             margin: auto;
         }
         div{
