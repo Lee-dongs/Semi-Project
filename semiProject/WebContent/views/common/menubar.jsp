@@ -31,8 +31,10 @@
         */
         }
         .outer{
+
         
             width: 100%;
+
             height: 300px;
             margin: auto;
         }
@@ -207,6 +209,7 @@
                     <li><a href="">카페등록요청</a></li>
                 </ul>
             </div>
+
         </div>
 </body>
 </html>
