@@ -42,7 +42,7 @@
        <script>
         $(function(){
             $("#content_1>img").click(function(){
-                location.href= '<%=contextPath%>/ranking.bo?location=Yeongdeungpo';
+                location.href= '<%=contextPath%>/ranking.bo?location=영등포구';
             });
             $("#photo_2").click(function(){
                 location.href= '';
