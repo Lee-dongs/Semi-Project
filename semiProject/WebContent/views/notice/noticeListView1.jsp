@@ -26,6 +26,7 @@
         background-color: burlywood;
         cursor: pointer;
        }
+      
     </style>
 </head>
 <body>
@@ -49,6 +50,7 @@
                 <%}else{ %>
                 <%for(Notice n:list) {%>
                 <tr>
+                	<td><input type="hidden" name="nno"></td>
                     <td width="400">[공지]<%=n.getNoticeTitle() %></td>
                     <td width="100"><%=n.getNoticeWriter() %></td>
                     <td width="100"><%=n.getCount() %></td>
@@ -61,6 +63,15 @@
         </table>
 
     </div>
+    <script>
+    $(".notice-area>tbody>tr").click(function(){
+    		console.log($(this).children().eq(0).text());
+    		
+    		var nno = $(this).children().eq(0).text();
+    		
+    		//location.href= '<%=contextPath%>/detail.no?nno='+nno;
+    	})
+    </script>
 
 </body>
 </html>

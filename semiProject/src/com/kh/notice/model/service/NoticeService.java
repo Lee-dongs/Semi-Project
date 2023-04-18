@@ -29,4 +29,14 @@ public class NoticeService {
 		return result;
 	}
 
+	public int increaseCount(int noticeNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Notice selecttNotice(int noticeNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

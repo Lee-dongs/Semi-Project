@@ -26,9 +26,7 @@
         	width : 100%;
         	box-sizing:border-box;
         }
-        #but{
-        	float: right;
-        }
+        
 </style>
 </head>
 <body>
@@ -56,7 +54,7 @@
 				
 			</table>
 			<br><br>
-			<div id="but">
+			<div id="but" align="center">
 				 <button type="submit">등록하기</button>
 				 
 				 <button type="button" onclick="history.back();">뒤로가기</button>
