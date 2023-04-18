@@ -22,7 +22,7 @@
             margin: auto;
             margin-top: 30px;
         }
-       .notice-area>tbody>tr>td:hover{
+       .notice-area>tbody>tr:hover{
         background-color: burlywood;
         cursor: pointer;
        }
@@ -34,7 +34,7 @@
         <h2>공지사항</h2>
         <br>
         <div align="center">
-            <a href="" class="btn btn-secondary">공지사항 작성</a>
+            <a href="<%=contextPath %>/insert.no" class="btn btn-secondary">공지사항 작성</a>
             <br><br>
         </div>
         <table class="notice-area" align="center">
@@ -49,7 +49,7 @@
                 <%}else{ %>
                 <%for(Notice n:list) {%>
                 <tr>
-                    <td width="400"><%=n.getNoticeTitle() %></td>
+                    <td width="400">[공지]<%=n.getNoticeTitle() %></td>
                     <td width="100"><%=n.getNoticeWriter() %></td>
                     <td width="100"><%=n.getCount() %></td>
                     <th width="100"><button type="reset" class="btn btn-danger">삭제하기</button></th>
