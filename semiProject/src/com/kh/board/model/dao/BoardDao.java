@@ -119,7 +119,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, b.getBoardWriter());
+			pstmt.setInt(1, Integer.parseInt(b.getBoardWriter()));
 			pstmt.setString(2, b.getLocationCode());
 			pstmt.setString(3, b.getTitle());
 			pstmt.setString(4, b.getContent());
@@ -231,6 +231,149 @@ public class BoardDao {
 		return at;
 	}
 
-	
-	
+	public ArrayList<Board> searchTitle(Connection conn, String keyword, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchTitle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow );
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+								  ,rset.getString("LOCATION_NAME")
+								  ,rset.getString("BOARD_TITLE")
+								  ,rset.getString("USER_ID")
+								  ,rset.getInt("COUNT")
+								  ,rset.getDate("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		
+		return list;
+	}
+
+	public ArrayList<Board> searchContent(Connection conn, String keyword, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchContent");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow );
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+								  ,rset.getString("LOCATION_NAME")
+								  ,rset.getString("BOARD_TITLE")
+								  ,rset.getString("USER_ID")
+								  ,rset.getInt("COUNT")
+								  ,rset.getDate("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Board> searchWriter(Connection conn, String keyword, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchWriter");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow );
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+								  ,rset.getString("LOCATION_NAME")
+								  ,rset.getString("BOARD_TITLE")
+								  ,rset.getString("USER_ID")
+								  ,rset.getInt("COUNT")
+								  ,rset.getDate("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return list;
+	}
+
+	public ArrayList<Board> mostViewList(Connection conn, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("mostViewList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(1, startRow );
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+								  ,rset.getString("LOCATION_NAME")
+								  ,rset.getString("BOARD_TITLE")
+								  ,rset.getString("USER_ID")
+								  ,rset.getInt("COUNT")
+								  ,rset.getDate("CREATE_DATE")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
 }

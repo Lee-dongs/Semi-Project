@@ -8,6 +8,8 @@
 	
 	ArrayList<Board> list = (ArrayList)request.getAttribute("list");
 	
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +29,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
     .list-area{
-        width: 700px;
+        width: 1000px;
         margin: auto;
         border-top: 1px solid black;
     }
@@ -39,12 +41,7 @@
         font-size: 15px;    
     }
     .list-area>tbody{
-        font-size: 17px;
-    }
-    #board_search{
-        float: right;
-        height: 100%;
-        width: 35%;
+        font-size: 20px;
     }
     #boardNo,#userId,#date{
         text-align: center;
@@ -55,18 +52,45 @@
     #title{
     	text-align: left;
     }
-    #btn{
+    .btn{
+    	font-size:10px;
         float: right;
-        background-color: rgb(232, 245, 207);
-        border: none;
-        width: 15%;
+        width: 12%;
+        height: 10%;
         margin-top: 5px;
+        margin-left: 10px;
     }
     tbody>tr:hover{
         background-color: rgb(243, 242, 242);
         cursor: pointer;
     }
-
+    #board_search{
+        float: right;
+        height: 100%;
+        width: 30%;
+        margin-right: 30px;
+    }
+	#search-area{
+        position: relative;
+    }
+    #search-area>button{
+        position: absolute;
+        height: 26px;
+        width: px;
+        top: 0;
+        right: 0;
+        margin: 0;
+        background-color: white;
+        border: 0;
+        opacity: 1;
+    }
+    .bi-search{
+        margin-bottom: 6px;
+    }
+    #category{
+        margin-left: 600px;
+        box-sizing: border-box;
+    }
 
 </style>
 <body>
@@ -74,11 +98,25 @@
     <div class="list">
         <br>
         <h2 align="center">자유 게시판</h2>
+        <br>
         <table class="list-area" >
             <thead>
                 <tr>
                     <th class="search_input" colspan="5">
-                        <input type="search" name="keyword" placeholder="검색" id="board_search">
+                    	<form action="search.bo" method="get" id="search-area">
+                    	<input type="hidden" name="currentPage" value="<%=pi.getCurrentPage() %>">
+                    		<select name="category" id="category">
+                                <option value="제목">제목</option>
+                                <option value="내용">내용</option>
+                                <option value="작성자">작성자</option>
+                            </select>
+                            <input type="text" name="keyword" placeholder="검색" id="board_search">
+                            <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                  </svg>
+                            </button>
+                        </form>
                     </th>
                 </tr>
                 <tr>
@@ -106,7 +144,14 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5"><button type="button" id="btn" onclick="enrollform();">글작성</button></td>
+                    <td colspan="5">
+	        	    <%if(loginUser !=null){ %>
+                    <button type="button" class="btn btn-info" onclick="enrollform();">글작성</button>
+    		        <%} %>
+                    <button type="button" class="btn btn-info" onclick="newerList();">최신순</button>
+                    <button type="button" class="btn btn-info" onclick="mostViewList();">조회순</button>
+                    </td>
+                	
                 </tr>
             </tfoot>
         </table>
@@ -137,6 +182,13 @@
     			
     			location.href = "<%=contextPath%>/detail.bo?bno="+bno
     		})
+    		function newerList(){
+    			
+    			location.href ="<%=contextPath%>/list.bo?currentPage="+<%=pi.getCurrentPage()%>
+    		}
+    		function mostViewList(){
+    			location.href = "<%=contextPath%>/mostview.bo?currentPage="+<%=pi.getCurrentPage()%>
+    		}
     	</script>
     
 </body>

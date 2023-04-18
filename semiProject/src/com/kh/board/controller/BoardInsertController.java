@@ -55,7 +55,7 @@ public class BoardInsertController extends HttpServlet {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10*1024*1024;
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/board/files");
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/board_files/");
 			MultipartRequest mr = new MultipartRequest(request, savePath, maxSize,"UTF-8",
 														new MyFileRenamePolicy());
 															
@@ -70,6 +70,7 @@ public class BoardInsertController extends HttpServlet {
 			b.setContent(content);
 			b.setBoardWriter(boardWriter);
 			
+			
 			Attachment at = null;
 			
 			if(mr.getOriginalFileName("upfile")!=null) {
@@ -79,6 +80,14 @@ public class BoardInsertController extends HttpServlet {
 				at.setFilePath("/resources/board_files");
 			}
 			int result = new BoardService().insertBoard(b,at);
+			
+			if(result>0) {
+				response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1");
+			}else {
+				if(at!=null) {
+					new File(savePath+at.getChangeName()).delete();
+				}
+			}
 		}
 	
 	}

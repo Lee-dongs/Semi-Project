@@ -6,7 +6,7 @@
     
     	Member loginUser = (Member)session.getAttribute("loginUser");
     	
-    	System.out.println(loginUser);
+
     %>
 <!DOCTYPE html>
 <html>

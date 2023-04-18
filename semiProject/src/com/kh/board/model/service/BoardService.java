@@ -87,4 +87,29 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		return at;
 	}
+
+	public ArrayList<Board> searchBoard(String keyword, String category, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		
+		if(category.equals("제목")) {
+			list = new BoardDao().searchTitle(conn, keyword, pi);
+		}else if(category.equals("내용")) {
+			list = new BoardDao().searchContent(conn,keyword,pi);
+		}else if(category.equals("작성자")) {
+			list = new BoardDao().searchWriter(conn,keyword, pi);
+		}
+		
+		
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	public ArrayList<Board> mostViewList(pageInfo pi) {
+		ArrayList<Board> list = new BoardDao().mostViewList(conn, pi);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
 }
