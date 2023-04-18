@@ -44,10 +44,10 @@ public class LoginController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		// 메인페이지 pull한 뒤 키값 확인하기
-		 System.out.println(userId +" " +userPwd);
+		// System.out.println(userId +" " +userPwd);
 		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
-		 System.out.println("컨트롤러" + loginUser);
+		 //System.out.println("컨트롤러" + loginUser);
 		// 알림메세지 모달로 하고싶어요..
 		if(loginUser == null) { // 로그인실패
 			request.setAttribute("errorMsg", "로그인실패");

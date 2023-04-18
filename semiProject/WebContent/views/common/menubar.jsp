@@ -6,7 +6,9 @@
     
     	Member loginUser = (Member)session.getAttribute("loginUser");
     	
-    	System.out.println(loginUser);
+    	String alertMsg = (String)session.getAttribute("alertMsg");
+    	
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -186,6 +188,18 @@
     </style>
 </head>
 <body>
+<script>
+		//script태그 내에서도 스크립틀릿과 같은 jsp요소를 사용할 수 있다.
+		var msg="<%=alertMsg %>";//성공적으로 로그인 되었습니다/null
+		
+		if(msg !="null"){
+			alert(msg);
+			//알람메세지 한번 띄웠으면 지워주기 지우지 않으면 매번 menubar.jsp가 열릴때마다 알람뜸
+			
+			<%session.removeAttribute("alertMsg");%>
+			
+		}
+	</script>
     <div class="outer">
         <div id="header">
             <div id="header_1"></div>
@@ -275,8 +289,8 @@
                     <li><a href="list.no">공지사항</a>
 
                         <ul>
-                            <li><a href="">공지사항</a></li>
-                            <li><a href="">FAQ</a></li>
+                            <li><a href="list.no">공지사항</a></li>
+                            <li><a href="list.fo">FAQ</a></li>
                         </ul>
                     </li>
                     <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>

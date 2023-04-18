@@ -30,13 +30,47 @@ public class NoticeService {
 	}
 
 	public int increaseCount(int noticeNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new NoticeDao().increaseCount(conn,noticeNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
 	}
 
-	public Notice selecttNotice(int noticeNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Notice selectNotice(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Notice n = new NoticeDao().selectNotice(conn,noticeNo);
+		
+		JDBCTemplate.close(conn);
+		return n;
+	}
+
+	public int deleteNotice(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result= new NoticeDao().deleteNotice(conn,noticeNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		return result;
+	}
+
+	public int updateNotice(Notice no) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result= new NoticeDao().updateNotice(conn,no);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		return result;
 	}
 
 }
