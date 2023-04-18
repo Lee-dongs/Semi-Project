@@ -197,7 +197,7 @@
                     </ul>
                 </li>
                 <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
-                <li><a href="">카페등록요청</a></li>
+                <li><a href="<%=contextPath%>/cafeRequest.co">카페등록요청</a></li>
             </ul>
         </div>
       </div>
