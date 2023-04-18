@@ -199,7 +199,9 @@
             </div>
             <div id="menubar">
                 <ul id="navi">
+
                     <li><a href="list.no">공지사항</a>
+
                         <ul>
                             <li><a href="">공지사항</a></li>
                             <li><a href="">FAQ</a></li>
