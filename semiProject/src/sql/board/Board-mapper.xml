@@ -34,4 +34,5 @@
 							  )
 		VALUES(SEQ_FNO.NEXTVAL,SEQ_BNO.CURRVAL,?,?,?)
 	</entry>
+	
 </properties>

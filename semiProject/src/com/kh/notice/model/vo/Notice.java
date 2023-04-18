@@ -1,8 +1,7 @@
 package com.kh.notice.model.vo;
 
-import java.sql.Date;
-
 public class Notice {
+
 private int noticeNo;//	NOTICE_NO
 private String noticeTitle;//	NOTICE_TITLE
 private String noticeWriter;//	NOTICE_WRITER
@@ -80,13 +79,6 @@ public String toString() {
 			+ ", noticeContent=" + noticeContent + ", count=" + count + ", createDate=" + createDate + ", status="
 			+ status + "]";
 }
-
-
-
-
-
-
-
 
 
 

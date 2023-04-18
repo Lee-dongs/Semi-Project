@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>카페 디테일보여주는 페이지</h1>
 </body>
 </html>
