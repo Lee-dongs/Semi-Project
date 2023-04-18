@@ -26,16 +26,15 @@
             background-image: scr;
         }
         .outer{
-            border: 1px solid black;
+
             width: 1200px;
             height: 300px;
             margin: auto;
         }
         div{
-            border: 1px solid black;
             box-sizing: border-box;
         }
-        #header,#menubar,#content{
+        #header,#menubar{
             border: 1px solid black;
             width:100%;
         }
@@ -45,9 +44,7 @@
         #menubar{
             height: 5%;
         }
-        #content{
-            height: 65%;
-        }
+
         /*       login+header            */
         #header>div{
             height: 100%;
