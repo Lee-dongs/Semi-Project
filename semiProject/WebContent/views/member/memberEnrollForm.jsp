@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%
     	String contextPath = request.getContextPath();
+    
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -108,25 +109,26 @@
         <!-- 아이디  -->
         <div class="enroll">
             <b>아이디</b>
-            <span><input type="text" id="userId" name="userId" placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
+            <span><input type="text" id="userId" name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
+            <button class="btn btn-primary" onclick="idChck();;" type="button">아이디 중복체크</button>
             <!--아이디 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkId"></div>
         </div>
         <div class="enroll">
             <b>비밀번호</b>
-            <input type="password" id="userPwd" name="userPwd" placeholder="영문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)로 총 8~15자로 입력하세요">
+            <input type="password" id="userPwd" name="userPwd" required placeholder="영문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)로 총 8~15자로 입력하세요">
             <!--비밀번호 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkPwd"></div>
         </div> 
         <div class="enroll">
             <b>비밀번호 재확인</b>
-            <input type="password" id="userPwdCheck" name="userPwdCheck" placeholder="위의 비밀번호와 일치하는지 확인해주세요">
+            <input type="password" id="userPwdCheck" name="userPwdCheck" required placeholder="위의 비밀번호와 일치하는지 확인해주세요">
             <!--비밀번호 재확인 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkPwd2"></div>
         </div>
         <div class="enroll">
             <b>이름</b>
-            <input type="text" name="userName">
+            <input type="text" name="userName" required>
         </div>
 
         <!--생년월일-->
@@ -166,13 +168,13 @@
         <!--이메일 및 전화번호-->
         <div class="enroll">
             <b>이메일<small>(필수)</small></b>
-            <input type="email" name="email" placeholder="필수사항입니다.">
+            <input type="email" name="email" placeholder="필수사항입니다." required>
         </div>
 
         <div class="phone">
             <b>연락처<small>(필수)</small></b>
             <div>
-                <input type="tel" name="phone" placeholder="전화번호는 -포함하여 입력">
+                <input type="tel" name="phone" placeholder="전화번호는 -포함하여 입력" required>
             </div>
         </div><br>
         <div class="address">
@@ -187,7 +189,16 @@
         
     </form>
 
+	</div>
     <script>
+    
+    // 아이디 중복검사
+    function idCheck(){
+    	
+    	var $checkId = $("#")
+    	
+    }
+    
     // 유효성 검사
     function checkAll(){
             var userId = document.getElementById("userId");
@@ -222,7 +233,26 @@
     </script>
 
 
-    </div>
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

@@ -1,9 +1,12 @@
+<%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
     	String contextPath = request.getContextPath();
     
-    	String alertMsg = (String)session.getAttribute("alertMsg");
+    	Member loginUser = (Member)session.getAttribute("loginUser");
+    	
+    	System.out.println(loginUser);
     %>
 <!DOCTYPE html>
 <html>
@@ -25,12 +28,17 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
+         /*구글 웹 폰트 CDN*/
+     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
         body{
         /*
             background-image: url('resources/images/사진.jpg');
             background-repeat : no-repeat;
            object-fit : fill;    
         */
+        }
+        *{
+            font-family: 'Noto Sans KR', sans-serif;
         }
         .outer{
 
@@ -54,7 +62,7 @@
         #menubar{
             height: 20%;
         }
-        /*       login+header            */
+        /*================ login+header ================*/
         #header>div{
             height: 100%;
             float: left;
@@ -77,7 +85,7 @@
             color: black;
             font-size: 13px;
         }
-        /*        menubar      */
+        /*================ menubar ================*/
         #navi{
             list-style-type: none;
             margin: 0px;
@@ -133,69 +141,66 @@
 		width :70%;
 		margin :auto;
 		}
+
+        /* ================ modal ================ */
+        #header_3{
+            position: relative;
+        }
+        #login-btn{
+           border: 1px solid red;
+           width: 150px;
+           height: 30px; 
+           position: absolute;
+           margin: auto;
+           top: 0;
+           bottom: 0;
+           left: 0;
+           right: 0;
+        }
+        #login-btn>button{
+            width: 100%;
+            height: 100%;
+            line-height: 10px;
+            color: white;
+        }
+        .modal-title{
+        font-weight: 600;
+        color: rgb(220, 205, 35);
+        margin: auto;
+        }
+        #login_table{
+            margin: auto;
+            height: 100%;
+            width: 100%;
+        }
+        #login_table input, #login_table>tbody button{
+            height: 100%;
+            width: 100%;
+        }
+        .modal-footer a{
+            text-decoration: none;
+            color: black;
+            font-size: 13px;
+        }
+
     </style>
 </head>
 <body>
-	<script>
-		var msg = "<%=alertMsg%>";
-		
-		if(msg !="null"){
-			alert(msg);
-			
-			<%session.removeAttribute("alertMsg");%>
-		}
-	</script>
     <div class="outer">
         <div id="header">
             <div id="header_1"></div>
             <div id="header_2"></div>
-            <div id="header_3">
+            <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
+         <%if(loginUser == null){ %>
                     <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">우리사이트 로그인하기</button>
+                  <div id="login-btn">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">로그인하기</button>
+               	</div>
                 <!-- The Modal -->
             <div class="modal" id="myModal">
             <div class="modal-dialog">
             <div class="modal-content">
   
-<<<<<<< HEAD
-  <!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">우리사이트이름</h4>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-            <form action="<%=contextPath%>/login.me" method="post">
-                <table id="login_table">
-                    <thead>
-                        <tr>
-                            <td>아이디</td>
-                            <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
-                    
-                        </tr>
-                        <tr><td height="20"> </td></tr>
-                        <tr>
-                            <td>비밀번호</td>
-                            <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
-                        </tr>
-                        <tr><td height="20"> </td></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2"><button type="submit" class="btn btn-success">로그인</button></td>
-                        </tr>
-                        <tr><td height="20"> </td></tr>
-                        <tr>
-                            <td colspan="2"><input type="button" class="btn btn-warning" value="카카오간편로그인"></td>
-                        </tr>
-                    </tbody>
-                </table>
-=======
             <!-- Modal Header -->
             <div class="modal-header">
             <h4 class="modal-title">우리사이트이름</h4>
@@ -203,18 +208,18 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="login.me">
+                <form action="<%=contextPath %>/login.me" method="post">
                     <table id="login_table">
                         <thead>
                             <tr>
                                 <td>아이디</td>
-                                <td><input type="text" id="inputId" name="inputId" placeholder="아이디를 입력하세요" required></td>
+                                <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
                         
                             </tr>
                             <tr><td height="20"> </td></tr>
                             <tr>
                                 <td>비밀번호</td>
-                                <td><input type="password" id="inputPwd" name="inputPwd" placeholder="비밀번호를 입력하세요" required></td>
+                                <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
                         </thead>
@@ -228,7 +233,6 @@
                             </tr>
                         </tbody>
                     </table>
->>>>>>> refs/remotes/origin/main
 
                 </form>
             </div>
@@ -237,32 +241,34 @@
             <div class="modal-footer">
                 <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
                 <div id="findUserId"><a href="">아이디 찾기</a></div>|
-                <div id="enroll"><a href="">회원가입</a></div> 
+                <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
             
             </div>
             <br>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-    
+            
         	</div>
         </div>
-<<<<<<< HEAD
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
-            <div id="findUserId"><a href="">아이디 찾기</a></div>|
-            <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
-          
-        </div>
-        <br>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-  
-      </div>
-=======
->>>>>>> refs/remotes/origin/main
     </div>
-        </div>
-            </div>
+    
+    <%}else{ %>
+    <div id="user-info">
+     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
+     <br>
+     <div align="center">
+  	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
+  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
+     </div>
+    
+    </div>
+    
+    
+    <%} %>
+        </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
+        
+            </div><!-- 헤더 끝 -->
+           
+            
             <div id="menubar">
                 <ul id="navi">
                     <li><a href="">공지사항</a>

@@ -45,6 +45,7 @@ public class MemberEnrollController extends HttpServlet {
 		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
+		String userPwdCheck = request.getParameter("userPwdCheck");
 		String userName = request.getParameter("userName");
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");
@@ -55,16 +56,23 @@ public class MemberEnrollController extends HttpServlet {
 		
 		Member m = new Member(userId, userPwd, userName, phone, email, address, birth);
 		
+		if(!userPwd.equals(userPwdCheck)) { // 두 비밀번호가 일치하지 않으면
+			request.getSession().setAttribute("messageType", "오류메세지");
+			request.getSession().setAttribute("messageContent", "비밀번호가 일치하지 않습니다.");
+			response.sendRedirect(request.getContextPath());
+		}
+		
 		//System.out.println(m);
 		
 		int result = new MemberService().insertMember(m);
 		
 		if(result > 0) {
-			request.getSession().setAttribute("alertMsg", "환영합니다.");
+			request.getSession().setAttribute("messageType", "성공메세지");
+			request.getSession().setAttribute("messageContent", "회원가입성공");
 			response.sendRedirect(request.getContextPath()); // 메인페이지로
 		}else {
-			request.setAttribute("errorMsg", "회원가입에 실패했습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.getSession().setAttribute("messageType", "오류메세지");
+			request.getSession().setAttribute("messageContent", "이미존재하는 회원입니다.");
 		}
 		
 		

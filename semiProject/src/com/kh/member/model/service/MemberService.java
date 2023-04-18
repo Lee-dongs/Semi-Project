@@ -21,7 +21,7 @@ public class MemberService {
 			JDBCTemplate.rollback(conn);
 		}
 		return result;
-	}
+	} 
 	// 로그인 메소드
 	public Member longinMember(String userId, String userPwd) {
 		
