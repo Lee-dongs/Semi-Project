@@ -1,68 +1,54 @@
-<%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
     	String contextPath = request.getContextPath();
-    
-    	Member loginUser = (Member)session.getAttribute("loginUser");
-    	
-    	System.out.println(loginUser);
     %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="카공족을 위한 카페추천">
-    <title>카공족을 위한 카페추천 사이트</title>
+<meta charset="UTF-8">
+<title>카공족을 위한 카페추천 사이트</title>
     <!-- 부트스트랩 CDN -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <!-- Popper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- 제이쿼리 CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <style>
-         /*구글 웹 폰트 CDN*/
-     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
         body{
-        /*
-            background-image: url('resources/images/사진.jpg');
-            background-repeat : no-repeat;
-           object-fit : fill;    
-        */
-        }
-        *{
-            font-family: 'Noto Sans KR', sans-serif;
+            background-image: scr;
         }
         .outer{
-
-        
-            width: 100%;
-
+            border: 1px solid black;
+            width: 1200px;
             height: 300px;
             margin: auto;
         }
         div{
-           
+            border: 1px solid black;
             box-sizing: border-box;
         }
-        #header,#menubar{
+        #header,#menubar,#content{
             border: 1px solid black;
             width:100%;
         }
         #header{
-            height: 80%;
+            height: 30%;
         }
         #menubar{
-            height: 20%;
+            height: 5%;
         }
-        /*================ login+header ================*/
+        #content{
+            height: 65%;
+        }
+        /*       login+header            */
         #header>div{
             height: 100%;
             float: left;
@@ -72,20 +58,33 @@
             width: 15%;
         }
         #header_2{
-            width: 70%;
+            width: 60%;
         }
         #header_3{
-            width: 15%;
+            width: 25%;
+
         }
-        #login_form{
-            margin-top: 50px;
-        }
+        .modal-title{
+            font-weight: 600;
+            color: rgb(220, 205, 35);
+         }
+   
+        #login_table{
+            margin: auto;
+            height: 100%;
+            width: 100%;
+       }
+    
+       #login_table input, #login_table>tbody button{
+           height: 100%;
+           width: 100%;
+       }
         .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
-        }
-        /*================ menubar ================*/
+       }
+        /*        menubar      */
         #navi{
             list-style-type: none;
             margin: 0px;
@@ -94,95 +93,35 @@
         }
 
         #navi>li{
-            float: left;
+            display: inline-block;
             width: 15%;
             height: 100%;
             text-align: center;
-            margin-top: 2px;
+            vertical-align: top;
         }  
         #navi a{
+            transform: scale(1);
             text-decoration: none;
-            color: white;
+            color: yellowgreen;
             font-size: 15px;
             font-weight: 800;
-            width: 60%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             display: block;
             line-height: 40px;
-            border-style: solid;
-            border-radius: 120px;
-            background-color: rgb(223, 223, 30);
-            margin-left: 30px;
-            box-sizing: border-box;
-            transform: scale(1);
         }
         #navi a:hover{
             color: darkgray;
-            font-size: 16px;
+            font-size: 15px;
         }
         #navi>li>ul{
             list-style-type: none;
-            padding: 0; 
+            padding: 0px; 
             display: none; 
         }
         #navi>li>ul a{
-            font-size: 12px;
-        }
-        #navi>li>ul a:hover{
             font-size: 13px;
         }
-        #navi>li>a:hover +ul {
-            display: block;
-        }
-        #navi>li>ul:hover{  
-            display: block;
-        }
-        .list{
-		width :70%;
-		margin :auto;
-		}
-
-        /* ================ modal ================ */
-        #header_3{
-            position: relative;
-        }
-        #login-btn{
-           border: 1px solid red;
-           width: 150px;
-           height: 30px; 
-           position: absolute;
-           margin: auto;
-           top: 0;
-           bottom: 0;
-           left: 0;
-           right: 0;
-        }
-        #login-btn>button{
-            width: 100%;
-            height: 100%;
-            line-height: 10px;
-            color: white;
-        }
-        .modal-title{
-        font-weight: 600;
-        color: rgb(220, 205, 35);
-        margin: auto;
-        }
-        #login_table{
-            margin: auto;
-            height: 100%;
-            width: 100%;
-        }
-        #login_table input, #login_table>tbody button{
-            height: 100%;
-            width: 100%;
-        }
-        .modal-footer a{
-            text-decoration: none;
-            color: black;
-            font-size: 13px;
-        }
-
     </style>
 </head>
 <body>
@@ -190,98 +129,78 @@
         <div id="header">
             <div id="header_1"></div>
             <div id="header_2"></div>
-            <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
-         <%if(loginUser == null){ %>
-                    <!-- Button to Open the Modal -->
-                  <div id="login-btn">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">로그인하기</button>
-               	</div>
-                <!-- The Modal -->
-            <div class="modal" id="myModal">
-            <div class="modal-dialog">
-            <div class="modal-content">
+            <div id="header_3">
+                                <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">우리사이트 로그인하기</button>
   
-            <!-- Modal Header -->
-            <div class="modal-header">
-            <h4 class="modal-title">우리사이트이름</h4>
-            </div>
-    
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="<%=contextPath %>/login.me" method="post">
-                    <table id="login_table">
-                        <thead>
-                            <tr>
-                                <td>아이디</td>
-                                <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
-                        
-                            </tr>
-                            <tr><td height="20"> </td></tr>
-                            <tr>
-                                <td>비밀번호</td>
-                                <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
-                            </tr>
-                            <tr><td height="20"> </td></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="2"><button type="submit" class="btn btn-success">로그인</button></td>
-                            </tr>
-                            <tr><td height="20"> </td></tr>
-                            <tr>
-                                <td colspan="2"><input type="button" class="btn btn-warning" value="카카오간편로그인"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </form>
-            </div>
-    
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
-                <div id="findUserId"><a href="">아이디 찾기</a></div>|
-                <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
-            
-            </div>
-            <br>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            
-        	</div>
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">우리사이트이름</h4>
         </div>
-    </div>
-    
-    <%}else{ %>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
-  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
-    
-    </div>
-    
-    
-    <%} %>
-        </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
-        
-            </div><!-- 헤더 끝 -->
-           
-            
-            <div id="menubar">
-                <ul id="navi">
-                    <li><a href="">공지사항</a>
-                        <ul>
-                            <li><a href="">공지사항</a></li>
-                            <li><a href="">FAQ</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
-                    <li><a href="">카페등록요청</a></li>
-                </ul>
-            </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="login.me">
+                <table id="login_table">
+                    <thead>
+                        <tr>
+                            <td>아이디</td>
+                            <td><input type="text" id="inputId" name="inputId" placeholder="아이디를 입력하세요" required></td>
+                    
+                        </tr>
+                        <tr><td height="20"> </td></tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td><input type="password" id="inputPwd" name="inputPwd" placeholder="비밀번호를 입력하세요" required></td>
+                        </tr>
+                        <tr><td height="20"> </td></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2"><button type="submit" class="btn btn-success">로그인</button></td>
+                        </tr>
+                        <tr><td height="20"> </td></tr>
+                        <tr>
+                            <td colspan="2"><input type="button" class="btn btn-warning" value="카카오간편로그인"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+            </form>
         </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
+            <div id="findUserId"><a href="">아이디 찾기</a></div>|
+            <div id="enroll"><a href="">회원가입</a></div> 
+          
+        </div>
+        <br>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+  
+      </div>
+    </div>
+  </div>
+        </div>
+        <div id="menubar">
+            <ul id="navi">
+                <li><a href="">공지사항</a>
+                    <ul>
+                        <li><a href="">공지사항</a></li>
+                        <li><a href="">FAQ</a></li>
+                    </ul>
+                </li>
+                <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
+                <li><a href="<%=contextPath%>/cafeRequest.co">카페등록요청</a></li>
+            </ul>
+        </div>
+      </div>
+      </div>
 </body>
 </html>
