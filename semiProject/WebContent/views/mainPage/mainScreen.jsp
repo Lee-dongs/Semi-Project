@@ -8,6 +8,8 @@
 <style>
 	#content{
             text-align: center;
+            width : 1200px;
+            margin : auto;
         }
         #content>div:hover{
             color: gray;
@@ -19,6 +21,7 @@
             width: 300px;
             height: 200px;
             box-sizing: border-box;
+            margin : 20px;
         }
         #content img{
         	box-sizing : border-box;
@@ -38,11 +41,13 @@
             <div id="content_5"><img id="photo5" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_6"><img id="photo6" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
     </div>
+    <br><br><br>
+    
        
        <script>
         $(function(){
             $("#content_1>img").click(function(){
-                location.href= '<%=contextPath%>/ranking.bo?location=영등포구';
+                location.href= '<%=contextPath%>/ranking.cf?location=영등포구';
             });
             $("#photo_2").click(function(){
                 location.href= '';
