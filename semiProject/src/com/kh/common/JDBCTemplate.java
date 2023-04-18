@@ -16,9 +16,7 @@ public class JDBCTemplate {
 		
 		Properties prop = new Properties();
 		
-		// 읽어들이고자하는 driver.properties파일의 경로를 알아내서 대입하기
 		String filePath = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
-		// 첫 번째 /는 webcontent의 classes파일을 의미함
 		
 		Connection conn = null;
 		
