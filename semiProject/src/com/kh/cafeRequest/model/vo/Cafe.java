@@ -119,6 +119,7 @@ public class Cafe {
 				+ ", operationTime=" + operationTime + ", offDay=" + offDay + ", phone=" + phone + ", address="
 				+ address + ", count=" + count + ", createDate=" + createDate + ", status=" + status + "]";
 	}
-
+	
+	
 	
 }

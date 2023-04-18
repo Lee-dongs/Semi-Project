@@ -10,6 +10,8 @@ import java.util.Properties;
 
 import com.kh.board.model.dao.BoardDao;
 import com.kh.cafeRequest.model.vo.Cafe;
+import com.kh.cafeRequest.model.vo.CafeRequest;
+import com.kh.cafeRequest.model.vo.CafeRequestAttachment;
 import com.kh.common.JDBCTemplate;
 
 public class CafeRequestDao {
@@ -50,5 +52,55 @@ public class CafeRequestDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return cafe;
+	}
+
+	//카페등록 요청 메소드
+	public int insertCafeRequest(Connection conn, CafeRequest cafeRe) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertCafeRequest");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+//			REQUEST_WRITER,CAFE_NAME,OPERATION_TIME,ADDRESS,CONTENT
+			pstmt.setInt(1,cafeRe.getRequestWriter());
+			pstmt.setString(2, cafeRe.getCafeName());
+			pstmt.setString(3, cafeRe.getOperationTime());
+			pstmt.setString(4, cafeRe.getAddress());
+			pstmt.setString(5, cafeRe.getContent());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	//카페 등록 요청 첨부파일 등록 메소드
+	public int insertCafeAttachment(Connection conn, CafeRequestAttachment atRe) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertCafeAttachment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+//			FILE_NO,REQUEST_NO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH
+			pstmt.setString(1, atRe.getOriginName());
+			pstmt.setString(2, atRe.getChangeName());
+			pstmt.setString(3, atRe.getFilePath());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
 	}
 }

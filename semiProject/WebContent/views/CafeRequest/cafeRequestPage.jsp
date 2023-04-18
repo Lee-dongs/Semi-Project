@@ -50,12 +50,12 @@
             <div id="requestbox">
                 <div><h1>공부하기 좋은 카페 추천</h1></div>
                 <div id="request">
-                    <form action="<%=contextPath %>/insertRequest.co" method="get" enctype="multipart/form-data">
-                        <input type="hidden" id="userNo" value=<%=loginUser.get %>>
+                    <form action="<%=contextPath %>/insertRequest.co" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="userNo" value="1">
                         <table width="100%">
                             <tr>
                                 <th>카페명:</th>
-                                <td><input id="cafename" type="text" required style="width:82%"><button type="button" onclick="find();" style="height: 39px;">검색</button></td>
+                                <td><input id="cafename" name="cafename" type="text" required style="width:82%"><button type="button" onclick="find();" style="height: 39px;">검색</button></td>
                             </tr>
                             <tr>
                                 <th></th>
@@ -63,7 +63,7 @@
                             </tr>
                             <tr>
                                 <th>주소:</th>
-                                <td colspan=""><input id="address" type="address" style="width:90%" required></td>
+                                <td colspan=""><input id="address" name="address" type="address" style="width:90%" required></td>
                             </tr>
                             <tr>
                                 <th></th>
@@ -71,7 +71,7 @@
                             </tr>
                             <tr>
                                 <th>영업시간:</th>
-                                <td><input id="operationTime" type="text" style="width:90%"></td>
+                                <td><input id="operationTime" name="operationTime" type="text" style="width:90%"></td>
                             </tr>
                             <tr>
                                 <th>추천 이유:</th>
@@ -79,7 +79,7 @@
                             </tr>
                             <tr>
                                 <th>첨부파일:</th>
-                                <td></thd><input type="file" id="file" style="width:90%"></td>
+                                <td></thd><input type="file" name="upfile" style="width:90%"></td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align: center;">
