@@ -1,15 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>랭킹 보여주는 페이지</h1>
-</body>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.Cafe"%>
     <% ArrayList<Cafe> list = (ArrayList<Cafe>)request.getAttribute("list");
        String location = (String)request.getAttribute("location");
@@ -112,18 +101,18 @@
             right: 0px;
         }
 
-        #cafeImgDiv{
+        .cafeImgDiv{
             width: 100%;
             height: 70%;
             box-sizing: border-box;
         }
 
-        #cafeInfoDiv{
+        .cafeInfoDiv{
             width: 100%;
             height: 30%;
         }
 
-        #cafeImgDiv>img{
+        .cafeImgDiv>img{
             width: 100%;
             height: 100%;
         }
@@ -167,7 +156,7 @@
                 <%for(int i=0; i<4; i++){ %>
                 	<div>
 	                    <div>
-	                        <div id="cafeImgDiv">
+	                        <div class="cafeImgDiv">
 	                            <img src="resources/images/농담곰.jpg" alt="">
 	                            <input type="hidden" name="address" value="<%=list.get(i).getAddress() %>">
 	                        </div>
@@ -205,7 +194,7 @@
     		location.href = "<%=contextPath%>/sbReview.cf?location="+"<%=location%>";
     	}
     
-    	$("#cafeListDiv img").click(function(){//이미지 클릭시 주소랑 같이 넘김
+    	$(".cafeImgDiv>img").click(function(){//이미지 클릭시 주소랑 같이 넘김
     		var address = $(this).next().val();
     		location.href = "<%=contextPath%>/detail.cf?add="+address;
     	});
@@ -228,11 +217,11 @@
     					if(list[i] != null){
         					str += "<div>"
       						  +"<div>"
-      						  +"<div id='cafeImgDiv'>"
+      						  +"<div class='cafeImgDiv'>"
       						  +"<img src='resources/images/농담곰.jpg'>"
       						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
       						  +"</div>"
-      						  +"<div id='cafeInfoDiv'>"
+      						  +"<div class='cafeInfoDiv'>"
       						  +"이름(임시) : " + list[i].cafeName + "<br>"
       						  +"평점(임시) : " + list[i].score + "<br>"
       						  +"리뷰개수(임시) : " + list[i].replyCount
@@ -244,6 +233,10 @@
     					}
     				}
     				$("#cafeListDiv").html(str);
+    				$(".cafeImgDiv>img").click(function(){ 
+    					var address = $(this).next().val();
+    					location.href = "<%=contextPath%>/detail.cf?add="+address;
+    				});
     			}
     		});
     	}
@@ -267,11 +260,11 @@
     				for(var i=result*4-4; i<result*4; i++){
     					str += "<div>"
     						  +"<div>"
-    						  +"<div id='cafeImgDiv'>"
+    						  +"<div class='cafeImgDiv'>"
     						  +"<img src='resources/images/농담곰.jpg'>"
     						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
     						  +"</div>"
-    						  +"<div id='cafeInfoDiv'>"
+    						  +"<div class='cafeInfoDiv'>"
     						  +"이름(임시) : " + list[i].cafeName + "<br>"
     						  +"평점(임시) : " + list[i].score + "<br>"
     						  +"리뷰개수(임시) : " + list[i].replyCount
@@ -280,6 +273,9 @@
     						  +"</div>"
     				}
     				$("#cafeListDiv").html(str);
+    				$(".cafeImgDiv>img").click(function(){ 
+    					location.href = "<%=contextPath%>/detail.cf?add="+address;
+    				});
     			}
     		});
     	}
