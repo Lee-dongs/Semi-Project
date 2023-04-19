@@ -1,15 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>랭킹 보여주는 페이지</h1>
-</body>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.Cafe"%>
     <% ArrayList<Cafe> list = (ArrayList<Cafe>)request.getAttribute("list");
        String location = (String)request.getAttribute("location");
