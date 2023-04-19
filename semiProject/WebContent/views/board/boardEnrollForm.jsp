@@ -9,12 +9,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>글작성 페이지</title>
 </head>
 <style>
-    div{
-       
-    }
+	.wrap>h2{
+		margin:auto;
+	}
     #enroll-area{
         width: 700px;
         height: 800px;
@@ -31,7 +31,7 @@
     }
     #content-area{
         width: 100%;
-        height : 100%;
+        height : 600px;
         box-sizing: border-box;
     }
     #btn{
@@ -50,9 +50,10 @@
 <body>
 	<%@ include file ="../common/menubar.jsp" %>
     <div class="wrap">
-        <h2 align="center">게시글 작성</h2>
-        <form action="insert.bo" method ="post" enctype="multipart/form-date">
-        <input type ="hidden" name="userNo" value=<%=loginUser.getUserNo() %>>
+        <h2>게시글 작성</h2>
+        <br>
+        <form action="insert.bo" method ="post" enctype="multipart/form-data">
+        <input type ="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
         <table id="enroll-area">
             <thead>
                 <tr>
@@ -65,7 +66,7 @@
                         </select>
                     </td>
                     <th>제목</th>
-                    <td><input type="text" id="title-area"></td>
+                    <td><input type="text" id="title-area" name ="title"></td>
                     </tr>
                     <tr>
                         <td colspan="4">글씨 editor 추가예정</td>
@@ -73,7 +74,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="4">
+                	<th>내용</th>
+                    <td colspan="3">
                         <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none" ></textarea>
                     </td>
                 </tr>
@@ -94,7 +96,6 @@
         
         </table>
         </form>
-
     </div>
 </body>
 </html>

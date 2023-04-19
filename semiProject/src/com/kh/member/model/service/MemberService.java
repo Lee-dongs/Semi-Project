@@ -7,6 +7,7 @@ import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
 
 public class MemberService {
+
 	
 	// 회원가입 메소드
 	public int insertMember(Member m) {

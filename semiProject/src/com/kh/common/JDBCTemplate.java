@@ -11,12 +11,14 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class JDBCTemplate {
-
-	public static Connection getConnection() {
+	
+public static Connection getConnection() {
 		
 		Properties prop = new Properties();
 		
+		// 읽어들이고자하는 driver.properties파일의 경로를 알아내서 대입하기
 		String filePath = JDBCTemplate.class.getResource("/sql/driver/driver.properties").getPath();
+		// 첫 번째 /는 webcontent의 classes파일을 의미함
 		
 		Connection conn = null;
 		
@@ -115,5 +117,8 @@ public class JDBCTemplate {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
 
+	

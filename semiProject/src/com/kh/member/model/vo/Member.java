@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Member {
 	
+	
 	private int userNo;
 	private String userId;
 	private String userPwd;
@@ -17,12 +18,6 @@ public class Member {
 	private Date enrollDate;
 	private Date modifyDate;
 	private String status;
-	
-	
-	public Member() {
-		super();
-	}
-
 
 	public Member(String userId, String userPwd, String userName, String email, String birth) {
 		super();
@@ -204,7 +199,4 @@ public class Member {
 				+ ", status=" + status + "]";
 	}
 	
-	
 }
-	
-	

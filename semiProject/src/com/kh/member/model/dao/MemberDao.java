@@ -12,6 +12,7 @@ import com.kh.common.JDBCTemplate;
 import com.kh.member.model.vo.Member;
 
 public class MemberDao {
+
 	
 	private Properties prop = new Properties();
 	
