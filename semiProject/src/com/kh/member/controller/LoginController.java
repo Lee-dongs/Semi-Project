@@ -43,7 +43,8 @@ public class LoginController extends HttpServlet {
 		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
-		
+		// 메인페이지 pull한 뒤 키값 확인하기
+
 		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
 

@@ -15,117 +15,232 @@
 <title>Insert title here</title>
 </head>
 <style>
-    div{
-       
-    }
-    #enroll-area{
-        width: 700px;
+    .wrap{
+        width: 800px;
         height: 800px;
-        border-top: 1px solid;
-        border-collapse: collapse;
         margin: auto;
     }
-    #enroll-area>tr,th,td{
-        border-bottom: 1px solid #444444;
-        padding: 5px;
-    }
-    #enroll-area>thead{
-        text-align: center;
-    }
-  
-    #btn{
-        text-align: center;
-    }
-    #title-area{
+ 
+    hr{
+        background-color: black;
         width: 100%;
+        height: 2px;
+    }
+    .board-info{
+        margin: 0;
+        padding: 0;
+    }
+    .board-info>li{
+        list-style-type: none;
+        display: inline-block;
+        width: 23%;
+        text-align: left;
+    }
+    #con-area{
+        width: 100%;
+        height: 300px;
         box-sizing: border-box;
     }
-    #file-area{
-        width: 100%;
-    }
-    #reply-wrap{
-        border: 1px solid;
-        width: 500px;
-        height: 100%;
-        margin: auto;
-    }
-    #reply-area{
-        border: 1px solid;
-        width: 100%;
-        height: 100%;
+    #like-area{
+        height: 10%;
         text-align: center;
+        
+    }
+    #like-area >button{
+        height: 40px;
+        width: 80px;
+        margin-left: 10px;
     }
     
-    
+    #reply-area{
+        width: 100%;
+        height: 30%;
+    	
+    }
+    #reply-input{
+        margin-left: 100px;
+        width: 70%;
+        height: 20%;
+    }
+    #btn-reply{
+        height: 20%;
+        background-color: rgb(243, 197, 112);
+        border: 0;
+    }
+    #byte{
+        margin-left: 580px;
+    }
+    .reply{
+        margin-left: 100px;
+        width: 600px;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+    }
+    .reply>thead>tr>th{
+        text-align: left;
+    }
+    #btn-area{
+        height: 10%;
+    }
+    #btn-area > button{
+        float: right;
+        height: 40px;
+        width: 80px;
+        margin-left: 10px;
+    }
+    #btn-insert{
+        background-color: rgb(243, 197, 112);
+        border: 0;
+    }
+    #btn-area2{
+        height: 10%;
+        text-align: center;
+    } 
+    #btn-area2>button{
+        margin-left: 10px;
+        height: 40px;
+        width: 80px;
+    }
 </style>
+
 <body>
-	<%@ include file ="../common/menubar.jsp" %>
+	<%@ include file="../common/menubar.jsp" %>
     <div class="wrap">
-        <h2 align="center">게시글 작성</h2>
-        <input type ="hidden" name="userNo" value="">
-        <table id="enroll-area">
-            <thead>
-                <tr>
-                    <th>위치</th>
-                    <td width="50px"><%=b.getLocationCode() %></td>
-                    <th>제목</th>
-                    <td><%=b.getTitle() %></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">글씨 editor 추가예정</td>
-                    </tr>
-            </thead>
-            <tbody>
-                <tr>
-                	<th>내용</th>
-                    <td colspan="4">
-                        <p style="width:200px"><%=b.getContent() %></p>
-                    </td>
-                </tr>
-                <tr>
-                	<td>파일첨부</td>
-                    <td colspan="3" id="file-area">
-                    <!-- 파일 유무에 대한 조건 걸기 -->
-                    <!--<a href = "" download></a>  -->                    
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                <!-- 로그인 유저만 볼수 있도록 조건걸기 -->
-                    <td colspan="4" id="btn">
-                        <button onclick ="updateBoard();" >수정</button>
-                        <button onclick ="deleteBoard();" >삭제</button>
-                        <button type="reset" onclick ="history.back()">이전화면</button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <br><br>
-    <div id="reply-wrap" align = "center">
-    	<table border="1" id="reply-area">
-    	<thead>
-	    	<tr>
-	    		<th>작성자</th>
-	    		<th>내용</th>
-	    		<th>날짜<th>
-	    	</th>
-		</thead>
-		<tbody>
-    		<tr>
-    			<td>admin</td>
-    			<td>내용</td>
-    			<td>0000-00-00</td>
-    		</tr>
-    	</tbody>
-    	</table>
+        <br>
+        <h2 align="center">자유게시판</h3>
+        <br>
+        <h4><%=b.getTitle() %></h4>
+            <ul class="board-info">
+                <li>글번호 <%=b.getBoardNo() %></li>
+                <li>작성자 <%=b.getBoardWriter() %></li>
+                <li>등록일 <%=b.getCreateDate() %></li>
+                <li>조회수 <%=b.getCount() %></li>
+           </ul>
+        <hr>
+        <div id="con-area">
+            <p>
+                <%=b.getContent() %>
+            </p>
+        </div>
+        <div id="like-area">
+                <button type="button">싫어요</button>
+                <button type="button">좋아요</button>
+        </div>
+        <hr>
+        <div id="btn-area">
+            <button type="button" id="btn-insert" onclick ="enrollform();">글쓰기</button>
+            <button type="button" onclick ="listBoard();">목록</button>
+        </div>
+        <hr>
+        <br>
+        <%if(loginUser!=null && (loginUser.equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>
+        <div id="btn-area2">
+            <button type="button" onclick="updateBoard();">수정</button>
+            <button type="button" onclick="deleteBoard();">삭제</button>
+        </div>
+        <%} %>
+        <div id="reply-area">
+            <input type="text" id="reply-input" placeholder="댓글을 입력하세요" onkeyup="chkByte(this,'500')">
+            <button type="submit" id="btn-reply" onclick="insertReply();">등록</button>
+            <br>
+            <span id="byte">0</span>/500byte
+
+            <br>
+            <table class="reply" >
+                <tbody>
+                  
+                </tbody>
+            </table> 
+        </div>
     </div>
     <script>
-    	function updateBoard(){
-    		location.href =<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>
-    	}
     	
+    	function enrollform(){
+    		location.href ="<%=contextPath%>/insert.bo"
+    	};
+    	function listBoard(){
+    		location.href ="<%=contextPath%>/list.bo?currentPage=1"
+    	};
+    	function updateBoard(){
+    		location.href ="<%=contextPath%>/update.bo"
+    	};
+    	function deleteBoard(){
+    		location.href ="<%=contextPath%>/delete.bo"
+    	};
+	    function insertReply(){
+			$.ajax({
+				url : "insertReply.bo",
+				data : {
+					bno : <%=b.getBoardNo()%>,
+					content : $("#reply-input").val()
+				},
+				type : "post",
+				success : function(result){
+					if(result>0){
+						$("#reply-input").val(" ");
+						selectReplyList();
+					}
+				}
+			});
+		};
+		function selectReplyList(){
+			$.ajax({
+				url	: "selectReplyList.bo",
+				data : {
+					bno : <%=b.getBoardNo()%>
+				},
+				success : function(list){
+					var str = "";
+					for(var i=0;i<list.length;i++){
+					str += "<tr>"
+						 + "<td width='15%'>" + list[i].replyWriter+"</td>"
+						 + "<td	width='60%'>"+list[i].content+"</td>"
+						 + "<td>"+list[i].createDate+"</td>"
+						 + "</tr>"
+				}
+					$(".reply tbody").html(str)
+				}
+			});
+		};
+		$(function(){
+			selectReplyList();
+		});
+		
+		function chkByte(obj, maxByte){
+			var str = obj.value
+			var str_len = str.length;
+			
+			var rbyte = 0;
+		    var rlen = 0;
+		    var one_char = "";
+		    var str2 = "";
+
+
+		    for(var i=0; i<str_len; i++)
+		    {
+		        one_char = str.charAt(i);
+		        if(escape(one_char).length > 4) {
+		            rbyte += 3;                                         //한글3Byte
+		        }else{
+		            rbyte++;                                            //영문 등 나머지 1Byte
+		        }
+		        if(rbyte <= maxByte){
+		            rlen = i+1;                                          //return할 문자열 갯수
+		        }
+		     }
+		     if(rbyte > maxByte)
+		     {
+		        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+		        alert("500byte를 초과할 수 없습니다.")
+		        str2 = str.substr(0,rlen);                                  //문자열 자르기
+		        obj.value = str2;
+		        fnChkByte(obj, maxByte);
+		     }
+		     else
+		     {
+		        document.getElementById('byte').innerText = rbyte;
+		     }
+		}
     </script>
 </body>
 </html>
