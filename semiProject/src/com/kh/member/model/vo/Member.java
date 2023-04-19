@@ -24,6 +24,16 @@ public class Member {
 	}
 
 
+	public Member(String userId, String userPwd, String userName, String email, String birth) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.email = email;
+		this.birth = birth;
+	}
+
+
 	public Member(String userId, String userPwd, String userName, String phone, String email, String address,
 			String birth) {
 		super();

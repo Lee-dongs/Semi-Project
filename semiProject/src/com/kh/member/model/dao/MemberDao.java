@@ -25,7 +25,7 @@ public class MemberDao {
 			e.printStackTrace();
 		}
 	}
-
+	// 회원가입 메소드
 	public int insertMember(Connection conn, Member m) {
 		
 		int result = 0;
@@ -54,7 +54,7 @@ public class MemberDao {
 		
 		return result;
 	}
-
+	// 로그인 메소드
 	public Member loginMember(Connection conn, String userId, String userPwd) {
 		
 		Member m = null;
@@ -95,6 +95,30 @@ public class MemberDao {
 		}
 	
 		return m;
+	}
+	// 아이디 중복확인 메소드
+	public int checkId(Connection conn, String checkId) {
+		
+		int count = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("checkId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, checkId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

@@ -33,5 +33,21 @@ public class MemberService {
 				
 		return m;
 	}
+	// 아이디 중복확인 메소드
+	public int checkId(String checkId) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int count = new MemberDao().checkId(conn, checkId);
+		
+		JDBCTemplate.close(conn);
+		
+		return count;
+	}
+	// 카카오 로그인 메소드
+	public int kakaoLoginMember(Member m) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

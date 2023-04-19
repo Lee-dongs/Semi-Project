@@ -12,16 +12,16 @@ import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class KakaoLoginController
  */
-@WebServlet("/login.me")
-public class LoginController extends HttpServlet {
+@WebServlet("/kakao-login.me")
+public class KakaoLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public KakaoLoginController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +30,9 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
+	
 	}
 
 	/**
@@ -41,22 +42,22 @@ public class LoginController extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		// 메인페이지 pull한 뒤 키값 확인하기
+		String userName = request.getParameter("nickname");
+		String userPwd = Integer.toString((int) (Math.random()*1000));// 카카오 로그인은 비밀번호가 없는데 db는 notnull이라 난수로 설정
+		String email = request.getParameter("email");
+		String birth = request.getParameter("birthday");
+		String userId = email.substring(0,email.indexOf("@")); // 카카오계정 이메일로 아이디 사용
+				
+		System.out.println(userName);
+		System.out.println(userPwd);
+		System.out.println(email);
+		System.out.println(birth);
+		System.out.println(userId);
 		
-		Member loginUser = new MemberService().longinMember(userId, userPwd);
-
-		// 알림메세지 모달로 하고싶어요..
-		if(loginUser == null) { // 로그인실패
-			request.setAttribute("errorMsg", "로그인실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}else {
-			request.getSession().setAttribute("loginUser", loginUser);
-			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");
-			
-			response.sendRedirect(request.getContextPath());
-		}
+		Member m = new Member(userId, userPwd, userName, email, birth);
+		
+		int result = new MemberService().kakaoLoginMember(m);
+		
 		
 		
 		

@@ -62,7 +62,7 @@ public class MemberEnrollController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}
 		
-		//System.out.println(m);
+		System.out.println(m);
 		
 		int result = new MemberService().insertMember(m);
 		

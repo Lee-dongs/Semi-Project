@@ -57,5 +57,9 @@ public class NoticeDao {
 		
 		return list;
 	}
+	
+	public void select() {
+		
+	}
 
 }
