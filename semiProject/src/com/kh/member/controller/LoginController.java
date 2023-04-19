@@ -44,8 +44,16 @@ public class LoginController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		// 메인페이지 pull한 뒤 키값 확인하기
+<<<<<<< HEAD
+=======
+		// System.out.println(userId +" " +userPwd);
+>>>>>>> refs/remotes/origin/s
 		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
+<<<<<<< HEAD
+=======
+		 //System.out.println("컨트롤러" + loginUser);
+>>>>>>> refs/remotes/origin/s
 		// 알림메세지 모달로 하고싶어요..
 		if(loginUser == null) { // 로그인실패
 			request.setAttribute("errorMsg", "로그인실패");

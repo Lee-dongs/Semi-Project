@@ -1,8 +1,7 @@
 package com.kh.notice.model.vo;
 
-import java.sql.Date;
-
 public class Notice {
+
 private int noticeNo;//	NOTICE_NO
 private String noticeTitle;//	NOTICE_TITLE
 private String noticeWriter;//	NOTICE_WRITER
@@ -14,6 +13,16 @@ private String status;//	STATUS
 public Notice() {
 	super();
 }
+
+public Notice(int noticeNo, String noticeTitle, String noticeWriter, String noticeContent, Date createDate) {
+	super();
+	this.noticeNo = noticeNo;
+	this.noticeTitle = noticeTitle;
+	this.noticeWriter = noticeWriter;
+	this.noticeContent = noticeContent;
+	this.createDate = createDate;
+}
+
 public Notice(int noticeNo, String noticeTitle, String noticeWriter, int count, Date createDate) {
 	super();
 	this.noticeNo = noticeNo;
@@ -70,13 +79,6 @@ public String toString() {
 			+ ", noticeContent=" + noticeContent + ", count=" + count + ", createDate=" + createDate + ", status="
 			+ status + "]";
 }
-
-
-
-
-
-
-
 
 
 

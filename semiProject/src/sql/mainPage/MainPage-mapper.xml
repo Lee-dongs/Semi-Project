@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="selectCafeList">
+	SELECT CAFE_NO, CAFE_NAME, ADDRESS
+	FROM CAFE_INFO
+	JOIN LOCATION USING(LOCATION_CODE)
+	WHERE LOCATION_NAME = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="selectCafeScore">
+	SELECT (SUM(TASTE) + SUM(PRICE) + SUM(VIBE) + SUM(ACCESSIBILITY))/4 SCORE
+	FROM SCORE
+	WHERE CAFE_NO = ?
+	GROUP BY CAFE_NO
+</entry>
+
+<entry key="countReply">
+	SELECT COUNT(*)
+	FROM CAFE_REPLY
+	WHERE CAFE_NO = ?
+	GROUP BY CAFE_NO
+</entry>
+</properties>
