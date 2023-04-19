@@ -5,7 +5,6 @@
     	String contextPath = request.getContextPath();
     
     	Member loginUser = (Member)session.getAttribute("loginUser");
-    	
 
     	String alertMsg = (String)session.getAttribute("alertMsg");
     %>
@@ -28,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
     <style>
          /*구글 웹 폰트 CDN*/
      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
@@ -169,14 +169,18 @@
         color: rgb(220, 205, 35);
         margin: auto;
         }
-        #login_table{
+        #login-table{
             margin: auto;
             height: 100%;
             width: 100%;
         }
-        #login_table input, #login_table>tbody button{
+        #login-table input{
             height: 100%;
             width: 100%;
+        }
+        #login-table>tbody button{
+        	height: 100%;
+        	width: 65%;
         }
         .modal-footer a{
             text-decoration: none;
@@ -210,7 +214,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form action="<%=contextPath %>/login.me" method="post">
-                    <table id="login_table">
+                    <table id="login-table">
                         <thead>
                             <tr>
                                 <td>아이디</td>
@@ -229,12 +233,16 @@
                                 <td colspan="2"><button type="submit" class="btn btn-success">로그인</button></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
-                            <tr>
-                                <td colspan="2"><input type="button" class="btn btn-warning" value="카카오간편로그인"></td>
-                            </tr>
                         </tbody>
                     </table>
-
+                </form>
+                
+                <img src="resources/images/kakao_login_medium_wide.png" id="kakao-login-btn" 
+                onclick="kakaoLogin();">
+                <form id="kakao-login-form" method="post" action="<%=contextPath %>/kakao-login.me">
+                	<input type="hidden" name="email">
+                	<input type="hidden" name="nickname">
+                	<input type="hidden" name="birthday">
                 </form>
             </div>
     
@@ -259,6 +267,9 @@
      <div align="center">
   	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
   	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
+  	   <a href="javascript:void(0)">
+       <input type="button" onclick="kakaoLogout();" class="btn btn-warning" value="카카오로그아웃">
+       </a>
      </div>
     
     </div>
@@ -284,5 +295,74 @@
             </div>
 
         </div>
+        
+        
+   <!-- 카카오 로그인 -->
+	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	
+	<script>
+	
+	Kakao.init('698ae24b3c91e63011b0fe6f4bee6fe4');
+	
+	console.log(Kakao.isInitialized());
+	
+	// 로그인
+	function kakaoLogin() {
+	    Kakao.Auth.login({
+	      success: function (response) {
+	        Kakao.API.request({
+	          url: '/v2/user/me',
+	          success: function (response) {
+	        	  console.log(response);
+	        	  
+	        	  var email = response.kakao_account.email;
+	        	  var nickname = response.kakao_account.profile.nickname;
+	        	  var birthday = response.kakao_account.birthday;
+	        	  
+	        	  $('input[name=email]').attr('value', email);
+	        	  $('input[name=nickname]').attr('value', nickname);
+	        	  $('input[name=birthday]').attr('value', birthday);
+	        	  
+	        	  document.querySelector('#kakao-login-form').submit();
+	        	  
+	          },
+	          fail: function (error) {
+	            console.log(error)
+	          },
+	        })
+	      },
+	      fail: function (error) {
+	        console.log(error)
+	      },
+	    })
+	  }
+	//카카오로그아웃  
+	function kakaoLogout() {
+	    if (Kakao.Auth.getAccessToken()) {
+	      Kakao.API.request({
+	        url: '/v1/user/unlink',
+	        success: function (response) {
+	        	console.log(response)
+	        },
+	        fail: function (error) {
+	          console.log(error)
+	        },
+	      })
+	      Kakao.Auth.setAccessToken(undefined)
+	    }
+	  }  
+	
+	</script>
+	
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.kh.notice.model.vo;
 
+import java.util.Date;
+
 public class Notice {
 
 private int noticeNo;//	NOTICE_NO

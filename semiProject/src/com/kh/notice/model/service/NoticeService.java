@@ -1,8 +1,14 @@
 package com.kh.notice.model.service;
 
-public class NoticeService {
+import java.sql.Connection;
+import java.util.ArrayList;
 
-<<<<<<< HEAD
+import com.kh.common.JDBCTemplate;
+import com.kh.notice.model.dao.NoticeDao;
+import com.kh.notice.model.vo.Notice;
+
+public class NoticeService {
+	
 	public ArrayList<Notice> selectList() {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Notice> list = new NoticeDao().selectList(conn);
@@ -66,7 +72,4 @@ public class NoticeService {
 		}
 		return result;
 	}
-
-=======
->>>>>>> refs/remotes/origin/main
 }
