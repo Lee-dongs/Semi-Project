@@ -44,12 +44,12 @@ public class LoginController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		
-		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
 
 		// 알림메세지 모달로 하고싶어요..
 		if(loginUser == null) { // 로그인실패
 			request.setAttribute("errorMsg", "로그인실패");
+			
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}else {
 			request.getSession().setAttribute("loginUser", loginUser);
