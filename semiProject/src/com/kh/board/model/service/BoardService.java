@@ -11,8 +11,8 @@ import com.kh.common.JDBCTemplate;
 import com.kh.common.model.vo.pageInfo;
 
 public class BoardService {
+	Connection conn = JDBCTemplate.getConnection();
 	public int selectListCount() {
-		Connection conn = JDBCTemplate.getConnection();
 		
 		int listCount = new BoardDao().selectListCount(conn);
 		
@@ -22,7 +22,6 @@ public class BoardService {
 	}
 
 	public ArrayList<Board> selectList(pageInfo pi) {
-		Connection conn = JDBCTemplate.getConnection();
 		
 		ArrayList<Board> list = new BoardDao().selectList(conn, pi);
 		
@@ -32,7 +31,6 @@ public class BoardService {
 	}
 
 	public ArrayList<Location> selectLocation() {
-		Connection conn = JDBCTemplate.getConnection();
 		
 		ArrayList<Location> list = new BoardDao().selectLocation(conn);
 		
@@ -41,7 +39,6 @@ public class BoardService {
 	}
 
 	public int insertBoard(Board b, Attachment at) {
-		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new BoardDao().insertBoard(conn,b);
 		
@@ -63,5 +60,60 @@ public class BoardService {
 		return result*result2;
 	}
 
+<<<<<<< HEAD
+	public int increaseCount(int bno) {
+		
+		int result = new BoardDao().increaseCount(conn, bno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public Board selectBoard(int bno) {
+		Board b = new BoardDao().selectBoard(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		return b;
+	}
+
+	public Attachment selectAttachment(int bno) {
+		Attachment at = new BoardDao().selectAttachment(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		return at;
+	}
+
+	public ArrayList<Board> searchBoard(String keyword, String category, pageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+		
+		if(category.equals("제목")) {
+			list = new BoardDao().searchTitle(conn, keyword, pi);
+		}else if(category.equals("내용")) {
+			list = new BoardDao().searchContent(conn,keyword,pi);
+		}else if(category.equals("작성자")) {
+			list = new BoardDao().searchWriter(conn,keyword, pi);
+		}
+		
+		
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	public ArrayList<Board> mostViewList(pageInfo pi) {
+		ArrayList<Board> list = new BoardDao().mostViewList(conn, pi);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+=======
 	
+>>>>>>> refs/remotes/origin/s
 }
