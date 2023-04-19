@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
-    	String contextPath = request.getContextPath();
     
-    %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -98,7 +95,8 @@
 </head>
 <body>
 	<!-- 메뉴바 include : 깔끔해보이지 않으면 빼고, 로고 클릭 시 메인페이지 넘어가도록 하겠습니다.-->
-
+	<%@ include file="../common/menubar.jsp" %>
+	
     <div class="enrollWrap"> 
     <form action="<%=contextPath %>/enrollForm.me" id="enroll-form" method="post"> <!-- MemberEnrollController이동 -->
         <!--로고 이미지 넣을 곳-->

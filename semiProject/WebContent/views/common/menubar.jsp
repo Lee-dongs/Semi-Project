@@ -191,6 +191,17 @@
     </style>
 </head>
 <body>
+	<script>
+	// alert창 한 번 띄워주기
+	var msg = "<%=alertMsg%>";
+	
+	if(msg !="null"){
+		alert(msg);
+		
+		<%session.removeAttribute("alertMsg");%>
+	}
+	</script>
+
     <div class="outer">
         <div id="header">
             <div id="header_1"></div>
@@ -267,11 +278,7 @@
      <div align="center">
   	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
   	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
-  	   <a href="javascript:void(0)">
-       <input type="button" onclick="kakaoLogout();" class="btn btn-warning" value="카카오로그아웃">
-       </a>
      </div>
-    
     </div>
     
     
@@ -295,7 +302,6 @@
             </div>
 
         </div>
-        
         
    <!-- 카카오 로그인 -->
 	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
