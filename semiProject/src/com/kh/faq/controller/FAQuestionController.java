@@ -1,23 +1,28 @@
 package com.kh.faq.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.faq.model.service.FAQService;
+import com.kh.faq.model.vo.FAQ;
+
 /**
  * Servlet implementation class FAQControllerTest
  */
-@WebServlet("/FAQControllerTest")
-public class FAQControllerTest extends HttpServlet {
+@WebServlet("/list.fo")
+public class FAQuestionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQControllerTest() {
+    public FAQuestionController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,8 +31,11 @@ public class FAQControllerTest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		ArrayList<FAQ> list = new FAQService().selecList();
+		
+		request.setAttribute("list", list);
+		
+		request.getRequestDispatcher("views/faq/faquestionView.jsp").forward(request, response);
 	}
 
 	/**

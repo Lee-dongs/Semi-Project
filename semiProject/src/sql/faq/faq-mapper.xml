@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="selectList">
+	SELECT FAQ_NO,FAQ_TITLE,FAQ_CONTENT
+	FROM FAQ
+	WHERE STATUS='Y'
+	ORDER BY FAQ_NO DESC
+</entry>
+
+<entry key="insertFAQ">
+	INSERT INTO FAQ(FAQ_NO,FAQ_TITLE,FAQ_CONTENT,FAQ_WRITER)
+	VALUES(SEQ_FNO.NEXTVAL,?,?,?)
+</entry>
+</properties>
