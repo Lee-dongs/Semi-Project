@@ -14,4 +14,14 @@ WHERE USER_ID = ?
 AND USER_PWD = ?
 AND STATUS = 'Y'
 </entry>
+<entry key="checkId">
+SELECT COUNT(*) "COUNT"
+FROM MEMBER
+WHERE USER_ID = ?
+</entry>
+
+<entry key="kakaoLoginMember">
+INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
+VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
+</entry>
 </properties>

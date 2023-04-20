@@ -4,8 +4,7 @@
     <wb-module deploy-name="semiProject">
                         
         
-        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/" source-path="/src"/>                
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>                
         
         <property name="context-root" value="semiProject"/>
                         

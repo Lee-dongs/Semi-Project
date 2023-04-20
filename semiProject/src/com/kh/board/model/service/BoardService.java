@@ -7,6 +7,7 @@ import com.kh.board.model.dao.BoardDao;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Location;
+import com.kh.board.model.vo.Reply;
 import com.kh.common.JDBCTemplate;
 import com.kh.common.model.vo.pageInfo;
 
@@ -60,10 +61,6 @@ public class BoardService {
 		return result*result2;
 	}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/main
 	public int increaseCount(int bno) {
 		
 		int result = new BoardDao().increaseCount(conn, bno);
@@ -114,5 +111,40 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		
 		return list;
+	}
+
+	public int replyinsert(int bno, String content, int userNo) {
+		int result = new BoardDao().replyinsert(conn,bno,content,userNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	public ArrayList<Reply> selectReplyList(int bno) {
+		ArrayList<Reply> list = new BoardDao().selectReplyList(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	public int deleteReply(int rno) {
+		int result = new BoardDao().deleteReply(conn, rno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return result;
+	}
 	}
 }

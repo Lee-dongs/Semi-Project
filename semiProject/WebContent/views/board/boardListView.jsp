@@ -68,7 +68,7 @@
         float: right;
         height: 100%;
         width: 30%;
-        margin-right: 30px;
+        margin-right: 35px;
     }
 	#search-area{
         position: relative;
@@ -88,7 +88,7 @@
         margin-bottom: 6px;
     }
     #category{
-        margin-left: 600px;
+        margin-left: 590px;
         box-sizing: border-box;
     }
 
@@ -146,7 +146,7 @@
                 <tr>
                     <td colspan="5">
 	        	    <%if(loginUser !=null){ %>
-                    <button type="button" class="btn btn-info" onclick="enrollform();">글작성</button>
+                    <button type="button" class="btn btn-info" onclick="enrollform();">글쓰기</button>
     		        <%} %>
                     <button type="button" class="btn btn-info" onclick="newerList();">최신순</button>
                     <button type="button" class="btn btn-info" onclick="mostViewList();">조회순</button>
@@ -158,7 +158,7 @@
         <br><br>
         <div align="center" class="pagin-area">
 	        <%if(pi.getCurrentPage()!=1) {%>
-	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">이전</button>
+	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'"><</button>
 	        <%} %>
 	        <%for(int i=pi.getStartPage();i<=pi.getEndPage();i++){ %>
 	        	<%if(i!=pi.getCurrentPage()){ %>
@@ -168,7 +168,7 @@
         	<%} %>
         <%} %>
         <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">다음</button>
+        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">></button>
         <%} %>
         </div>
     </div>
@@ -176,19 +176,19 @@
     		function enrollform(){
     		
     			location.href ="<%=contextPath%>/insert.bo"
-    		}
+    		};
     		$(".list-area>tbody>tr").click(function(){
     			var bno = $(this).children().eq(0).text();
     			
     			location.href = "<%=contextPath%>/detail.bo?bno="+bno
-    		})
+    		});
     		function newerList(){
     			
     			location.href ="<%=contextPath%>/list.bo?currentPage="+<%=pi.getCurrentPage()%>
-    		}
+    		};
     		function mostViewList(){
     			location.href = "<%=contextPath%>/mostview.bo?currentPage="+<%=pi.getCurrentPage()%>
-    		}
+    		};
     	</script>
     
 </body>
