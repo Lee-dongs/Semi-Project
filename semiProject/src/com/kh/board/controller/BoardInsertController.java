@@ -18,7 +18,6 @@ import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Location;
 import com.kh.common.MyFileRenamePolicy;
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 /**
  * Servlet implementation class BoardInsertController

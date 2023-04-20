@@ -1,4 +1,4 @@
-package com.kh.mainPage.controller;
+package com.kh.faq.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,22 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
-import com.kh.mainPage.model.service.MainPageService;
-import com.kh.mainPage.model.vo.Cafe;
 
+import com.kh.faq.model.service.FAQService;
+import com.kh.faq.model.vo.FAQ;
 
 /**
- * Servlet implementation class NextPageController
+ * Servlet implementation class FAQControllerTest
  */
-@WebServlet("/nextPage.cf")
-public class NextPageController extends HttpServlet {
+@WebServlet("/list.fo")
+public class FAQuestionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NextPageController() {
+    public FAQuestionController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,11 +31,11 @@ public class NextPageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pageCount = Integer.parseInt(request.getParameter("pageCount"));
+		ArrayList<FAQ> list = new FAQService().selecList();
 		
-		response.setContentType("json/application; charset=UTF-8");
+		request.setAttribute("list", list);
 		
-		new Gson().toJson(pageCount+1, response.getWriter());
+		request.getRequestDispatcher("views/faq/faquestionView.jsp").forward(request, response);
 	}
 
 	/**
