@@ -109,6 +109,117 @@
 		text-decoration: none;
 		color: black;
 	}
+	/*        팝업         */
+	label {
+         display: block;
+         margin-top: 20px;
+         letter-spacing: 2px;
+     }
+     #cancel {
+         width: 127px; height: 48px;
+         text-align: center;
+         border: none;
+         margin-top: 20px;
+         cursor: pointer;
+     }
+     #cancel:hover{
+         color: #fff;
+         background-color: #216282;
+         opacity: 0.9;
+     }
+
+    .modal1,.modal2,.modal3{
+         position: fixed;
+         left: 0;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5);
+         opacity: 0;
+         visibility: hidden;
+         transform: scale(1.1);
+         transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+     }
+     .modal-content1,.modal-content2,.modal-content3{
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         background-color: white;
+         padding: 1rem 1.5rem;
+         width: 800px;
+         height: 500px;
+         border-radius: 0.5rem;
+     }
+     .close-button1,.close-button2,.close-button3 {
+         float: right;
+         width: 1.5rem;
+         line-height: 1.5rem;
+         text-align: center;
+         cursor: pointer;
+         border-radius: 0.25rem;
+         background-color: lightgray;
+     }
+     .close-button1:hover {
+         background-color: darkgray;
+     }
+     .close-button2:hover {
+         background-color: darkgray;
+     }
+     .close-button3:hover {
+         background-color: darkgray;
+     }
+     .show-modal {
+         opacity: 1;
+         visibility: visible;
+         transform: scale(1.0);
+         transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+     }
+     /*           */
+    
+     .modal-content1>div{
+        border: 1px solid black;
+        position: absolute;
+        top: 20%;
+        left:5%;
+        width: 720px;
+        height: 300px;
+        overflow: auto;
+     }
+     .modal-content2>div{
+        border: 1px solid black;
+        position: absolute;
+        top: 20%;
+        left:5%;
+        width: 720px;
+        height: 300px;
+        overflow: auto;
+     }
+     .modal-content3>div{
+        border: 1px solid black;
+        position: absolute;
+        top: 20%;
+        left:5%;
+        width: 720px;
+        height: 300px;
+        overflow: auto;
+     }
+     /*  scroll   */
+     .a{
+            width: 720px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .b{
+            border: 1px solid black;
+            width: 720px;
+            height: 30px;
+            display: none; 
+        }
 </style>
 <body>
 	<%@include file="../common/menubar.jsp" %>
@@ -175,12 +286,116 @@
                     </div>
                 </div>    
             </div>
-        </div>    
+        </div> 
+        <!-- 팝업 될 레이어 -->
+        <div class="modal1">
+            <div class="modal-content1">
+                <span class="close-button1">&times;</span>
+                <div>
+                    <table class="a">
+                        <tr>
+                            <td>글번호</td>
+                            <td>내글 어어어ㅓ어어어</td>
+                            <td>날짜.....</td>
+                        </tr>
+                    </table>
+                    <table  class="b">
+                        <tr>
+                            <td>글번호</td>
+                            <td>내글 어어어ㅓ어어어</td>
+                            <td>날짜.....</td>
+                        </tr>
+                    </table>
+
+                    
+                </div>
+            </div>
+        </div>
+        <!-- 팝업 될 레이어 -->
+        <div class="modal2">
+            <div class="modal-content2">
+                <span class="close-button2">&times;</span>
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- 팝업 될 레이어 -->
+        <div class="modal3">
+            <div class="modal-content3">
+                <span class="close-button3">&times;</span>
+                <div>
+                    
+                </div>
+            </div>
+        </div>   
         <script>
 	        function check(){
 	        	var chk = confirm("정말로 탈퇴하실껀가요?");
 	        	return chk;
+	        };
+	        var modal1 = document.querySelector(".modal1");
+	         var trigger1 = document.querySelector(".myBoardNotice");
+
+	         var modal2 = document.querySelector(".modal2");
+	         var trigger2 = document.querySelector(".myRequestNotice");
+
+	         var modal3 = document.querySelector(".modal3");
+	         var trigger3 = document.querySelector(".myQuestionNotice");
+
+	         var closeButton1 = document.querySelector(".close-button1");
+	         var closeButton2 = document.querySelector(".close-button2");
+	         var closeButton3 = document.querySelector(".close-button3");
+
+	        
+
+	        // console.log(modal1);
+
+	        function toggleModal1() {
+	             modal1.classList.toggle("show-modal");
 	        }
+	        function toggleModal2() {
+	             modal2.classList.toggle("show-modal");
+	        }
+	        function toggleModal3() {
+	             modal3.classList.toggle("show-modal");
+	        }
+	         
+	 
+	        function windowOnClick(event) {
+	             if (event.target === modal1) {
+	                 toggleModal1();
+	             }
+	             if (event.target === modal2) {
+	                 toggleModal2();
+	             }
+	             if (event.target === modal3) {
+	                 toggleModal3();
+	             }
+	             
+	         }
+
+	        trigger1.addEventListener("click", toggleModal1);
+	        trigger2.addEventListener("click", toggleModal2);
+	        trigger3.addEventListener("click", toggleModal3);
+	        closeButton1.addEventListener("click", toggleModal1);
+	        closeButton2.addEventListener("click", toggleModal2);
+	        closeButton3.addEventListener("click", toggleModal3);
+	        window.addEventListener("click", windowOnClick);
+	        
+	        $(function(){
+	            $(".a").click(function(){
+	                console.log($(this).next());
+	                var $p = $(this).next(); 
+	                
+	                if($p.css("display")=="none"){ 
+	                    $(this).siblings(".b").slideUp(); 
+	                    $p.slideDown(100); 
+	                }else{
+	                    $p.slideUp(100); 
+	                }
+	            });
+	        });
         </script>
         <br><br><br> 
 </body>
