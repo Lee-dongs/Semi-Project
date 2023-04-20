@@ -8,10 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.kh.mainPage.model.service.MainPageService;
 import com.kh.mainPage.model.vo.Cafe;
+
 
 /**
  * Servlet implementation class NextPageController
