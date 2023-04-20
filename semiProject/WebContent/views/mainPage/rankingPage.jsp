@@ -300,6 +300,7 @@
     				}
     				$("#cafeListDiv").html(str);
     				$(".cafeImgDiv>img").click(function(){ 
+    					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;
     				});
     			}
