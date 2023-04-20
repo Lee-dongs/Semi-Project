@@ -26,22 +26,22 @@
             margin:auto;
             text-align:center;
         }
-        #faq-area{
-           border-top: 1px solid black; 
+        thead>tr{
+        border-top: 1px solid black; 
+        border-bottom: 1px solid black;
+        }
+        .faq-area{           
            width: 700px;
-        }
-        #faq-area th{
-            border-bottom: 1px solid black;
-        }
+        }       
         .tr1:hover{
             background-color: rgb(234, 210, 179);
         }
-              
-         
+       
          #tr2{
             background-color: rgb(245, 225, 198);
             display: none;
         }
+        
          #div1{
             border: 1px solid black;
             width: 500px;
@@ -123,10 +123,10 @@
         </div>
          
         <br>
-        <table align="center" id="faq-area" >
+        <table align="center" class="faq-area" >
             <thead>
                 <tr align="center">
-                    <th colspan="2">고객문의</th>
+                    <th colspan="2">자주묻는 질문</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,19 +140,17 @@
                 <tr class="tr1">
                     <td align="center"><%=f.getFaqNo() %></td>
                     <td align="center" width=""><%=f.getFaqTitle() %></td>
-                    
+                    <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
+                    <td width="100"><a href="<%=contextPath%>/delete.fo?ffo=<%=f.getFaqNo()%>"class="btn btn-danger">삭제하기</a></td>  
+                    <%} %>
                 </tr>
                 
                 <tr id="tr2">
                     <td colspan="2" id="td1" align="center">
-                        <br>
-                        <div id="div1">
-                            <%=f.getFaqTitle() %>
-                        </div>
-                        <br>
+                        <br>                                           
                         <div id="div2">
                             <%=f.getFaqContent() %>
-                        </div>   
+                        </div> 
                         <br><br>                     
                     </td>
                 </tr>
@@ -160,22 +158,29 @@
                 <%} %>
             </tbody>
         </table>
+        
+        <table>
+        	<thead></thead>
+        	<tbody></tbody>
+        </table>
     </div>
     
     <script>
-        $(function(){
-            $(".tr1").click(function(){
-
-				
-                var $tr = $(this).next(); 
-                if($tr.css("display") == "none"){
-                    $(this).siblings("#tr2").slideUp();
-                    $tr.slideDown(0);
-                }else{
-                    $tr.slideUp(0);
-                }
-            })
+        
+        $(".tr1").click(function(){
+             var $tr = $(this).next(); 
+             if($tr.css("display") == "none"){
+                 $(this).siblings("#tr2").slideUp();
+                 $tr.slideDown(0);
+             }else{
+                 $tr.slideUp(0);
+             }
+         });
+        $(".faq-area>tbody>tr").click(function(){
+        	//console.log($(this).children().eq(0).text());
+        	var ffo =$(this).children().eq(0).text();       	       	
         })
+        
     </script>
 </body>
 </html>

@@ -12,4 +12,10 @@
 	INSERT INTO FAQ(FAQ_NO,FAQ_TITLE,FAQ_CONTENT,FAQ_WRITER)
 	VALUES(SEQ_FNO.NEXTVAL,?,?,?)
 </entry>
+<entry key="deleteFAQ">
+	UPDATE FAQ
+	SET STATUS = 'N'
+	WHERE FAQ_NO = ?
+	AND STATUS = 'Y'
+</entry>
 </properties>

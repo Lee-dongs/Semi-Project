@@ -156,7 +156,7 @@ public class BoardDao {
 		return result;
 	}
 
-<<<<<<< HEAD
+
 	public int increaseCount(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -377,10 +377,5 @@ public class BoardDao {
 		}
 		return list;
 	}
-=======
-	
 
-	
-	
->>>>>>> refs/remotes/origin/s
 }

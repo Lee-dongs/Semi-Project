@@ -12,5 +12,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/dev/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/dev/gson-2.8.9.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
