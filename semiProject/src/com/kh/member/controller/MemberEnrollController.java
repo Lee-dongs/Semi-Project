@@ -56,6 +56,7 @@ public class MemberEnrollController extends HttpServlet {
 		
 		Member m = new Member(userId, userPwd, userName, phone, email, address, birth);
 		
+
 		
 		int result = new MemberService().insertMember(m);
 		

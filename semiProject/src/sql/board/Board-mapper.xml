@@ -34,10 +34,6 @@
 							  )
 		VALUES(SEQ_FNO.NEXTVAL,SEQ_BNO.CURRVAL,?,?,?)
 	</entry>
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/main
 	<entry key="increaseCount">
 		UPDATE BOARD
 		SET COUNT = COUNT+1
@@ -105,7 +101,6 @@
 			   ORDER BY COUNT DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
-<<<<<<< HEAD
 	<entry key="insertReply">
 		INSERT INTO BOARD_REPLY(BOARD_REPLY_NO, BOARD_REF_BNO, BOARD_REPLY_WRITER, BOARD_REPLY_CONTENT)
 		VALUES(SEQ_BRNO.NEXTVAL,?,?,?)
@@ -123,7 +118,4 @@
 		WHERE BOARD_REPLY_NO = ?
 		AND STATUS ='Y'
 	</entry>
-=======
-
->>>>>>> refs/remotes/origin/main
 </properties>

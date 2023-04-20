@@ -78,7 +78,7 @@ public class CafeRequestInsertController extends HttpServlet {
 			int result = new CafeRequestService().insertCafeRequest(cafeRe, atRe);
 			
 			if(result>0) {
-				request.getSession().setAttribute("alertMsg", "게시글 작성 성공");
+				request.getSession().setAttribute("alertMsg", "카페 요청되었습니다.");
 				response.sendRedirect(request.getContextPath()+"/cafeRequest.co");
 			}else {
 				

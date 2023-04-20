@@ -121,6 +121,26 @@ public class MemberDao {
 		}
 		return count;
 	}
+	public int deleteMember(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteMember");
+
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
 	// 카카오로그인 메소드
 	public int kakaoLoginMember(Connection conn, Member m) {
 		

@@ -11,6 +11,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<h1 align="center"><%=errerMsg %></h1>
 	
 	<h3 align="center"><a href="<%=request.getContextPath()%>">인덱스로</a></h3>

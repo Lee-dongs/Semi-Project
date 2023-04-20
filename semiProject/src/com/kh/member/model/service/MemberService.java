@@ -64,5 +64,33 @@ public class MemberService {
 		return result;
 	}
 	
+	//회원탈퇴 메소드
+	public int deleteMember(String userId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = 0;
+		result = new MemberDao().deleteMember(conn,userId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return result;
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().kakaoLoginMember(conn, m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
 
 }
