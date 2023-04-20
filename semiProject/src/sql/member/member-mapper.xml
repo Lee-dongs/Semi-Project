@@ -20,75 +20,16 @@ AND STATUS = 'Y'
 	SET STATUS = 'N' 
 	WHERE USER_ID = ?
 </entry>
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
-<entry key="checkId">
-SELECT COUNT(*) "COUNT"
-FROM MEMBER
-WHERE USER_ID = ?
+
 <entry key="checkId">
 SELECT COUNT(*) "COUNT"
 FROM MEMBER
 WHERE USER_ID = ?
 </entry>
-</properties>
 
 <entry key="kakaoLoginMember">
 INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
 VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
 </entry>
-</properties>
 
-<entry key="kakaoLoginMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
-VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
-</entry>
-</properties>
-
-<entry key="kakaoLoginMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
-VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
-</entry>
-</properties>
-
-<entry key="kakaoLoginMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
-VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
-</entry>
-</properties>
-
-<entry key="kakaoLoginMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
-VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
-</entry>
 </properties>
