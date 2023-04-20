@@ -39,8 +39,8 @@ public class MemberDao {
 			pstmt.setString(1, m.getUserId());
 			pstmt.setString(2, m.getUserPwd());
 			pstmt.setString(3, m.getUserName());
-			pstmt.setString(4, m.getEmail());
-			pstmt.setString(5, m.getPhone());
+			pstmt.setString(4, m.getPhone());
+			pstmt.setString(5, m.getEmail());
 			pstmt.setString(6, m.getAddress());
 			pstmt.setString(7, m.getBirth());
 			
@@ -81,10 +81,10 @@ public class MemberDao {
 						, rset.getString("ADDRESS")
 						, rset.getString("BIRTH")
 						, rset.getInt("REPORT")
-						, rset.getInt("WARNING")
 						, rset.getDate("ENROLL_DATE")
 						, rset.getDate("MODIFY_DATE")
-						, rset.getString("STATUS"));	
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO"));	
 			}
 			
 		} catch (SQLException e) {
@@ -135,6 +135,33 @@ public class MemberDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 카카오로그인 메소드
+	public int kakaoLoginMember(Connection conn, Member m) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("kakaoLoginMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserId());
+			pstmt.setString(2, m.getUserPwd());
+			pstmt.setString(3, m.getUserName());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setString(5, m.getBirth());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			JDBCTemplate.close(pstmt);
 		}
 		

@@ -76,7 +76,7 @@
                     <td width="400" id="no2">[공지]<%=n.getNoticeTitle() %></td>
                     <td width="100"><%=n.getNoticeWriter() %></td>
                     <td width="100"><%=n.getCount() %></td>
-                    <%if(loginUser !=null && loginUser.getUserId().equals(n.getNoticeWriter())) {%>
+                    <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
                     <th width="100">
                     <a href="<%=contextPath %>/delete.no?nno=<%=n.getNoticeNo() %>" class="btn btn-danger">삭제하기</a>
                     </th>

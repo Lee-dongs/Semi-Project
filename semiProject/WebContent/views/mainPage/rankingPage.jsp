@@ -101,7 +101,7 @@
             right: 0px;
         }
 
-        .cafeImgDiv{
+        #cafeImgDiv{
             width: 100%;
             height: 70%;
             box-sizing: border-box;
@@ -260,11 +260,11 @@
     				for(var i=result*4-4; i<result*4; i++){
     					str += "<div>"
     						  +"<div>"
-    						  +"<div class='cafeImgDiv'>"
+    						  +"<div id='cafeImgDiv'>"
     						  +"<img src='resources/images/농담곰.jpg'>"
     						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
     						  +"</div>"
-    						  +"<div class='cafeInfoDiv'>"
+    						  +"<div id='cafeInfoDiv'>"
     						  +"이름(임시) : " + list[i].cafeName + "<br>"
     						  +"평점(임시) : " + list[i].score + "<br>"
     						  +"리뷰개수(임시) : " + list[i].replyCount

@@ -43,19 +43,24 @@ public class LoginController extends HttpServlet {
 		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
+		// 메인페이지 pull한 뒤 키값 확인하기
+
 		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
 
-		// 알림메세지 모달로 하고싶어요..
+		
 		if(loginUser == null) { // 로그인실패
-			request.setAttribute("errorMsg", "로그인실패");
-			
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.getSession().setAttribute("alertMsg", "로그인 정보를 다시 확인해주세요");
+			response.sendRedirect(request.getHeader("Referer"));
 		}else {
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");
+			if(userId.equals("admin")) {
+				request.getRequestDispatcher("views/manager/managerMain.jsp").forward(request, response);
+			}else {
+				response.sendRedirect(request.getContextPath());
+			}
 			
-			response.sendRedirect(request.getContextPath());
 		}
 		
 		

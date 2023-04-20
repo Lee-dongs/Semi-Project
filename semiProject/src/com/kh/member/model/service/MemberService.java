@@ -21,6 +21,7 @@ public class MemberService {
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
+		
 		return result;
 	} 
 	// 로그인 메소드
@@ -47,8 +48,20 @@ public class MemberService {
 	}
 	// 카카오 로그인 메소드
 	public int kakaoLoginMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().kakaoLoginMember(conn, m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 	
 	//회원탈퇴 메소드
@@ -63,6 +76,20 @@ public class MemberService {
 		}
 		
 		JDBCTemplate.close(conn);
+		return result;
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().kakaoLoginMember(conn, m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
 		return result;
 	}
 

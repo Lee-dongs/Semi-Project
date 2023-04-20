@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Properties;
 
 import com.kh.common.JDBCTemplate;
@@ -104,94 +103,6 @@ public class MainPageDao {
 		}
 		
 		return list;
-	}
-
-	public Cafe selectCafeInfo(Connection conn, String address) {
-		Cafe cafe = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectCafeInfo");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, address);
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				if(rset.getString(4).equals("N")) {
-					cafe = new Cafe(rset.getInt(1),
-							rset.getString(2),
-							rset.getString(3),
-							"없음",
-							rset.getString(5),
-							rset.getString(6),
-							rset.getInt(7));
-				}else {
-					cafe = new Cafe(rset.getInt(1),
-							rset.getString(2),
-							rset.getString(3),
-							rset.getString(4),
-							rset.getString(5),
-							rset.getString(6),
-							rset.getInt(7));
-				}			
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return cafe;
-	}
-
-	public Cafe countScore(Connection conn, Cafe cafe) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("countScore");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cafe.getCafeNo());
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				cafe.setScoreCount(rset.getInt(1));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return cafe;
-	}
-
-	public LinkedHashMap<String, Integer> selectMenu(Connection conn, int cafeNo) {
-		LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectMenu");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cafeNo);
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				map.put(rset.getString(1), rset.getInt(2));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		return map;
 	}
 
 }
