@@ -52,7 +52,7 @@
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZmpczK4t42nwpaOJUDQpSyZn4HSO43SMFQ&usqp=CAU" alt="Avatar" style="width:100%">
                             <div class="container">
                                 <h4><b>관리자</b></h4> 
-                                <p>EMAIL : dora.cat.com</p> 
+                                <p>EMAIL : yujin</p> 
                             </div>
                             </div>
                          </td>
