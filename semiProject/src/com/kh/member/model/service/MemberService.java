@@ -77,20 +77,6 @@ public class MemberService {
 		
 		JDBCTemplate.close(conn);
 		return result;
-		
-		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = new MemberDao().kakaoLoginMember(conn, m);
-		
-		if(result > 0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
-		
-		JDBCTemplate.close(conn);
-		
-		return result;
 	}
-
+	
 }

@@ -12,9 +12,6 @@
         
         
         <property name="context-root" value="semiProject"/>
-                                
-        
-        
         <property name="java-output-path" value="/semiProject/WebContent/WEB-INF/classes"/>
                             
     
