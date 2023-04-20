@@ -102,7 +102,7 @@
             right: 0px;
         }
 
-        #cafeImgDiv{
+        .cafeImgDiv{
             width: 100%;
             height: 70%;
             box-sizing: border-box;
@@ -286,7 +286,7 @@
 						}
     					str += "<div>"
     						  +"<div>"
-    						  +"<div id='cafeImgDiv'>"
+    						  +"<div class='cafeImgDiv'>"
     						  +"<img src='"+newPath+"'>"
     						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
     						  +"</div>"
