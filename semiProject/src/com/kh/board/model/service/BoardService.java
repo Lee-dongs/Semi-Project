@@ -116,6 +116,12 @@ public class BoardService {
 	public int replyinsert(int bno, String content, int userNo) {
 		int result = new BoardDao().replyinsert(conn,bno,content,userNo);
 		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
 		JDBCTemplate.close(conn);
 		
 		return result;
@@ -126,6 +132,19 @@ public class BoardService {
 		
 		JDBCTemplate.close(conn);
 		return list;
+	}
+
+	public int deleteReply(int rno) {
+		int result = new BoardDao().deleteReply(conn, rno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return result;
 	}
 
 }

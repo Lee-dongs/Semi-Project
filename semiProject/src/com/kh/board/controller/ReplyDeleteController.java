@@ -1,29 +1,26 @@
 package com.kh.board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.kh.board.model.service.BoardService;
-import com.kh.board.model.vo.Reply;
+import com.kh.member.model.service.MemberService;
 
 /**
- * Servlet implementation class ReplyListController
+ * Servlet implementation class ReplyDeleteController
  */
-@WebServlet("/selectReplyList.bo")
-public class ReplyListController extends HttpServlet {
+@WebServlet("/delete.re")
+public class ReplyDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyListController() {
+    public ReplyDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +29,9 @@ public class ReplyListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int bno = Integer.parseInt(request.getParameter("bno"));
+		int rno = Integer.parseInt(request.getParameter("replyNo"));
 		
-		ArrayList<Reply> list = new BoardService().selectReplyList(bno);
-		
-		response.setContentType("json/application; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
-		
+		int result = new BoardService().deleteReply(rno);
 	}
 
 	/**

@@ -112,4 +112,10 @@
 		WHERE R.BOARD_REF_BNO = ?
 		AND R.STATUS = 'Y'
 	</entry>
+	<entry key="deleteReply">
+		UPDATE BOARD_REPLY
+		SET STATUS = 'N'
+		WHERE BOARD_REPLY_NO = ?
+		AND STATUS ='Y'
+	</entry>
 </properties>

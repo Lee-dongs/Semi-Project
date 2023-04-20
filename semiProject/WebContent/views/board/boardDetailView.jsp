@@ -1,3 +1,4 @@
+<%@page import="com.kh.board.model.vo.Reply"%>
 <%@page import="com.kh.board.model.vo.Attachment"%>
 <%@page import="com.kh.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -6,7 +7,8 @@
     	Board b = (Board)request.getAttribute("b");
     
     	Attachment at = (Attachment)request.getAttribute("at");
- 
+    	
+		
     %>
 <!DOCTYPE html>
 <html>
@@ -76,8 +78,12 @@
         border-bottom: 1px solid black;
         border-top: 1px solid black;
     }
-    .reply>thead>tr>th{
-        text-align: left;
+    .reply button{
+        text-decoration: none;
+        margin-left: 8px;
+        color: black;
+        float: right;
+
     }
     #btn-area{
         height: 10%;
@@ -144,17 +150,18 @@
             <button type="submit" id="btn-reply" onclick="insertReply();">등록</button>
             <br>
             <span id="byte">0</span>/500byte
-
+			
             <br>
-            <table class="reply" >
+            <table class="reply">
                 <tbody>
                   
                 </tbody>
+                
             </table> 
         </div>
     </div>
     <script>
-    	
+    	/*버튼 눌렀을때 페이지 이동할 주소*/
     	function enrollform(){
     		location.href ="<%=contextPath%>/insert.bo"
     	};
@@ -167,6 +174,8 @@
     	function deleteBoard(){
     		location.href ="<%=contextPath%>/delete.bo"
     	};
+    	
+    	/*댓글 삽입*/
 	    function insertReply(){
 			$.ajax({
 				url : "insertReply.bo",
@@ -183,6 +192,7 @@
 				}
 			});
 		};
+		/*댓글리스트 불러오기*/
 		function selectReplyList(){
 			$.ajax({
 				url	: "selectReplyList.bo",
@@ -197,6 +207,17 @@
 						 + "<td	width='60%'>"+list[i].content+"</td>"
 						 + "<td>"+list[i].createDate+"</td>"
 						 + "</tr>"
+						 + "<tr>"
+						 + "<td colspan='3'>"
+						 + '<button onclick = "deleteReply('+list[i].replyNo+');">'
+						 + '삭제'
+						 + '</button>'
+						 + '<button onclick = "updateReply('+list[i].replyNo+');">'
+						 + '수정'
+						 + '</button>'
+						 + "</td>"
+						 + "</tr>"
+						 
 				}
 					$(".reply tbody").html(str)
 				}
@@ -206,6 +227,7 @@
 			selectReplyList();
 		});
 		
+		/*글자 입력시 바이트수 체크*/
 		function chkByte(obj, maxByte){
 			var str = obj.value
 			var str_len = str.length;
@@ -230,8 +252,7 @@
 		     }
 		     if(rbyte > maxByte)
 		     {
-		        // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-		        alert("500byte를 초과할 수 없습니다.")
+		        alert(maxByte + "를 초과할 수 없습니다.")
 		        str2 = str.substr(0,rlen);                                  //문자열 자르기
 		        obj.value = str2;
 		        fnChkByte(obj, maxByte);
@@ -241,6 +262,18 @@
 		        document.getElementById('byte').innerText = rbyte;
 		     }
 		}
+			function deleteReply(replyNo){
+				
+				$.ajax({
+					url : "delete.re",
+					data :{
+						replyNo : replyNo
+					},
+					success : function(result){
+						alert("댓글이 삭제 되었습니다.");
+					}
+				});
+			}
     </script>
 </body>
 </html>
