@@ -187,10 +187,11 @@
             color: black;
             font-size: 13px;
         }
-
+      
     </style>
 </head>
 <body>
+ 
 	<script>
 	// alert창 한 번 띄워주기
 	var msg = "<%=alertMsg%>";
@@ -201,6 +202,20 @@
 		<%session.removeAttribute("alertMsg");%>
 	}
 	</script>
+	<!-- alert메시지 부트스트랩으로 해봤어요 
+	<%if(alertMsg != null){ %>
+	<div class="alert alert-success alert-dismissible fade show">
+  <strong>Success!</strong> <%=alertMsg%>
+	</div>
+	<% session.removeAttribute("alertMsg"); } %>
+	
+	<script>
+	setTimeout(function() {
+	    document.querySelector('.alert').style.display = 'none';
+	  }, 1500);
+	</script>
+-->
+
 
     <div class="outer">
         <div id="header">
