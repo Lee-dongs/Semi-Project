@@ -60,6 +60,10 @@ public class BoardService {
 		return result*result2;
 	}
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/main
 	public int increaseCount(int bno) {
 		
 		int result = new BoardDao().increaseCount(conn, bno);
@@ -111,5 +115,4 @@ public class BoardService {
 		
 		return list;
 	}
-
 }

@@ -34,7 +34,7 @@
 							  )
 		VALUES(SEQ_FNO.NEXTVAL,SEQ_BNO.CURRVAL,?,?,?)
 	</entry>
-<<<<<<< HEAD
+
 	<entry key="increaseCount">
 		UPDATE BOARD
 		SET COUNT = COUNT+1
@@ -102,7 +102,5 @@
 			   ORDER BY COUNT DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
-=======
-	
->>>>>>> refs/remotes/origin/s
+
 </properties>

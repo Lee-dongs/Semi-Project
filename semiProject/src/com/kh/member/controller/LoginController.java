@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
 		
 		
 		Member loginUser = new MemberService().longinMember(userId, userPwd);
-		
+
 		
 		if(loginUser == null) { // 로그인실패
 			request.getSession().setAttribute("alertMsg", "로그인 정보를 다시 확인해주세요");

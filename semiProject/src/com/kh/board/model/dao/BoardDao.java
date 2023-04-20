@@ -155,7 +155,7 @@ public class BoardDao {
 		
 		return result;
 	}
-
+	
 	public int increaseCount(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -375,5 +375,5 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return list;
-	}
+	}	
 }

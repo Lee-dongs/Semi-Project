@@ -305,10 +305,10 @@
             
             <div id="menubar">
                 <ul id="navi">
-                    <li><a href="">공지사항</a>
+                    <li><a href="list.no">공지사항</a>
                         <ul>
-                            <li><a href="">공지사항</a></li>
-                            <li><a href="">FAQ</a></li>
+                            <li><a href="list.no">공지사항</a></li>
+                            <li><a href="list.fo">FAQ</a></li>
                         </ul>
                     </li>
                     <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
