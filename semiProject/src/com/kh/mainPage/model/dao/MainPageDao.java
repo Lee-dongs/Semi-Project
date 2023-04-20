@@ -6,12 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Properties;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.mainPage.model.vo.Cafe;
+import com.kh.mainPage.model.vo.CafeAttachment;
 
 public class MainPageDao {
 	
@@ -192,6 +194,36 @@ public class MainPageDao {
 		}
 		
 		return map;
+	}
+
+	public ArrayList<CafeAttachment> selectAttachmentList(Connection conn, ArrayList<Cafe> list) {
+		ArrayList<CafeAttachment> cfatList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachmentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			for(int i=0; i<list.size(); i++) {
+				pstmt.setInt(1, list.get(i).getCafeNo());
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					cfatList.add(new CafeAttachment(rset.getInt(1),
+													rset.getString(2)));	
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+
+		return cfatList;
 	}
 
 }

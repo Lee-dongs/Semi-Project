@@ -2,12 +2,12 @@ package com.kh.mainPage.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.mainPage.model.dao.MainPageDao;
 import com.kh.mainPage.model.vo.Cafe;
+import com.kh.mainPage.model.vo.CafeAttachment;
 
 public class MainPageService {
 
@@ -69,6 +69,16 @@ public class MainPageService {
 		JDBCTemplate.close(conn);
 		
 		return map;
+	}
+
+	public ArrayList<CafeAttachment> selectAttachmentList(ArrayList<Cafe> list) { //카페 대문 이미지 조회
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<CafeAttachment> cfatList = new MainPageDao().selectAttachmentList(conn, list);
+		
+		JDBCTemplate.close(conn);
+		
+		return cfatList;
 	}
 
 }

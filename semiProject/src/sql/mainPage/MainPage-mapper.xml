@@ -41,4 +41,11 @@
 	FROM CAFE_MENU
 	WHERE CAFE_NO = ?
 </entry>
+
+<entry key="selectAttachmentList">
+	SELECT CAFE_REF_NO, FILE_PATH||CHANGE_NAME "TITLEIMG"
+	FROM CAFE_ATTACHMENT
+	WHERE CAFE_REF_NO = ?
+	AND STATUS = 'Y'
+</entry>
 </properties>
