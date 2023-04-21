@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.Cafe"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.*"%>
     <% ArrayList<Cafe> list = (ArrayList<Cafe>)request.getAttribute("list");
        String location = (String)request.getAttribute("location");
        String status = (String)request.getAttribute("status");
+       ArrayList<CafeAttachment> cfatList = (ArrayList<CafeAttachment>)request.getAttribute("cfatList");
     %>
 <!DOCTYPE html>
 <html>
@@ -101,7 +102,7 @@
             right: 0px;
         }
 
-        #cafeImgDiv{
+        .cafeImgDiv{
             width: 100%;
             height: 70%;
             box-sizing: border-box;
@@ -123,7 +124,7 @@
             height: 15%;
             position: absolute;
             margin : auto;
-            top: 0px;
+            top: -300px;
             bottom: 0px;
             left: 0px;
             right: 0px;
@@ -134,7 +135,16 @@
             height: 100%;
         }
 
+        #prevDiv>div{
+            width: 60%;
+            height: 15%;
+            margin-top: 100px;
+        }
 
+        #prevDiv button{
+            width: 70px;
+            height: 53px;
+        }
     </style>
 </head>
 <body>
@@ -157,7 +167,11 @@
                 	<div>
 	                    <div>
 	                        <div class="cafeImgDiv">
-	                            <img src="resources/images/농담곰.jpg" alt="">
+	                        	<%for(int j=0; j<cfatList.size(); j++) {%>
+	                        		<%if(cfatList.get(j).getCafeRefNo() == list.get(i).getCafeNo()) {%>
+	                        			<img src="<%=cfatList.get(j).getNewPath()%>">
+	                        		<%} %>
+	                        	<%} %>
 	                            <input type="hidden" name="address" value="<%=list.get(i).getAddress() %>">
 	                        </div>
 	                        <div id="cafeInfoDiv">
@@ -212,19 +226,25 @@
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
     				var list = newCafeList();
+					var newPath;
     				var str="";
-    				for(var i=result*4-4; i<result*4; i++){
-    					if(list[i] != null){
+    				for(var i=result*4-4; i<result*4; i++){    					
+    					if(list[0][i] != null){
+    						for(var j=0; j<list[1].length; j++){
+    							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
+    								var newPath = list[1][j].newPath;
+    							}
+    						}
         					str += "<div>"
       						  +"<div>"
       						  +"<div class='cafeImgDiv'>"
-      						  +"<img src='resources/images/농담곰.jpg'>"
-      						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
+      						  +"<img src='"+ newPath +"'>"
+      						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
       						  +"</div>"
       						  +"<div class='cafeInfoDiv'>"
-      						  +"이름(임시) : " + list[i].cafeName + "<br>"
-      						  +"평점(임시) : " + list[i].score + "<br>"
-      						  +"리뷰개수(임시) : " + list[i].replyCount
+      						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
+      						  +"평점(임시) : " + list[0][i].score + "<br>"
+      						  +"리뷰개수(임시) : " + list[0][i].replyCount
       						  +"</div>"
       						  +"</div>"
       						  +"</div>"
@@ -256,24 +276,31 @@
     					$("#prevDiv button").attr("disabled", true);
     				}
     				var list = newCafeList();
+					var newPath;
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
+						for(var j=0; j<list[1].length; j++){
+							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
+								var newPath = list[1][j].newPath;
+							}
+						}
     					str += "<div>"
     						  +"<div>"
-    						  +"<div id='cafeImgDiv'>"
-    						  +"<img src='resources/images/농담곰.jpg'>"
-    						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
+    						  +"<div class='cafeImgDiv'>"
+    						  +"<img src='"+newPath+"'>"
+    						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
     						  +"</div>"
     						  +"<div id='cafeInfoDiv'>"
-    						  +"이름(임시) : " + list[i].cafeName + "<br>"
-    						  +"평점(임시) : " + list[i].score + "<br>"
-    						  +"리뷰개수(임시) : " + list[i].replyCount
+    						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
+    						  +"평점(임시) : " + list[0][i].score + "<br>"
+    						  +"리뷰개수(임시) : " + list[0][i].replyCount
     						  +"</div>"
     						  +"</div>"
     						  +"</div>"
     				}
     				$("#cafeListDiv").html(str);
     				$(".cafeImgDiv>img").click(function(){ 
+    					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;
     				});
     			}
@@ -281,7 +308,7 @@
     	}
     	
     	function newCafeList(){ //새로운 카페 리스트 띄우기
-    		var cafeList;
+    		var arr = [];
     		$.ajax({
     			url:"newList.cf",
     			data:{
@@ -291,12 +318,15 @@
     			type : "get",
     			async: false,
     			success : function(list){
-    				cafeList = list;
+    				arr[0] = list[0];
+    				arr[1] = list[1];			
     			}
     		});
     		
-    		return cafeList;
+    		return arr;
+    		
     	}
+    	
     </script>
 </body>
 

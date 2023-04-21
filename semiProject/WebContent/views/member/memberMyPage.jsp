@@ -334,6 +334,7 @@
 	        	var chk = confirm("정말로 탈퇴하실껀가요?");
 	        	return chk;
 	        };
+	        
 	        var modal1 = document.querySelector(".modal1");
 	         var trigger1 = document.querySelector(".myBoardNotice");
 
@@ -349,7 +350,7 @@
 
 	        
 
-	        // console.log(modal1);
+	       
 
 	        function toggleModal1() {
 	             modal1.classList.toggle("show-modal");

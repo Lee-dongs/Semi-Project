@@ -146,5 +146,6 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
-	
+
 }
+
