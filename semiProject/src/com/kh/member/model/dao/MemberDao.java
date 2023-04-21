@@ -6,9 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.kh.common.JDBCTemplate;
+import com.kh.common.model.vo.pageInfo;
 import com.kh.member.model.vo.Member;
 
 public class MemberDao {
@@ -166,6 +169,172 @@ public class MemberDao {
 		}
 		
 		return result;
+	}
+	public ArrayList<Member> selectMember(Connection conn, pageInfo pi) {
+		
+		ArrayList<Member> list = new ArrayList<>();
+			
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("selectMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = (startRow + pi.getBoardLimit()) - 1;
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Member(rset.getInt("USER_NO")
+						, rset.getString("USER_ID")
+						, rset.getString("USER_PWD")
+						, rset.getString("USER_NAME")
+						, rset.getString("PHONE")
+						, rset.getString("EMAIL")
+						, rset.getString("ADDRESS")
+						, rset.getString("BIRTH")
+						, rset.getInt("REPORT")
+						, rset.getDate("ENROLL_DATE")
+						, rset.getDate("MODIFY_DATE")
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO")));
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+	public int selectListCount(Connection conn) {
+		
+		int listCount = 0;
+		ResultSet rset = null;
+		Statement stmt = null;
+		String sql = prop.getProperty("selectListCount");
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(stmt);
+		}
+		
+	
+		return listCount;
+	}
+	// 아이디로 회원 검색하는 메소드
+	public ArrayList<Member> searchMemberById(Connection conn, String keyword, pageInfo pi) {
+		
+		ArrayList<Member> list = new ArrayList<>();
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("searchMemberById");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = (startRow + pi.getBoardLimit()) - 1;
+			
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Member(rset.getInt("USER_NO")
+						, rset.getString("USER_ID")
+						, rset.getString("USER_PWD")
+						, rset.getString("USER_NAME")
+						, rset.getString("PHONE")
+						, rset.getString("EMAIL")
+						, rset.getString("ADDRESS")
+						, rset.getString("BIRTH")
+						, rset.getInt("REPORT")
+						, rset.getDate("ENROLL_DATE")
+						, rset.getDate("MODIFY_DATE")
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+	// 이름으로 회원 검색하는 메소드
+	public ArrayList<Member> searchMemberByName(Connection conn, String keyword, pageInfo pi) {
+		
+		ArrayList<Member> list = new ArrayList<>();
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("searchMemberByName");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = (startRow + pi.getBoardLimit()) - 1;
+			
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Member(rset.getInt("USER_NO")
+						, rset.getString("USER_ID")
+						, rset.getString("USER_PWD")
+						, rset.getString("USER_NAME")
+						, rset.getString("PHONE")
+						, rset.getString("EMAIL")
+						, rset.getString("ADDRESS")
+						, rset.getString("BIRTH")
+						, rset.getInt("REPORT")
+						, rset.getDate("ENROLL_DATE")
+						, rset.getDate("MODIFY_DATE")
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
 	}
 
 }
