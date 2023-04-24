@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mainPage.model.service.MainPageService;
 import com.kh.mainPage.model.vo.Cafe;
+import com.kh.mainPage.model.vo.CafeAttachment;
 
 /**
  * Servlet implementation class CafeDetailViewController
@@ -41,17 +42,21 @@ public class CafeDetailViewController extends HttpServlet {
 		cafe = new MainPageService().countScore(cafe);
 		
 		ArrayList<Cafe> cafeList = new ArrayList<>();
-		cafeList.add(cafe);
+		cafeList.add(cafe); //굳이 arraylist에 추가하는 이유는 카페 평점, 리뷰 개수 가져오는 메서드가 arraylist를 리턴하기때문
 		
 		cafeList = new MainPageService().selectCafeScore(cafeList); //카페 평점 가져오기
 		
 		cafeList = new MainPageService().countReply(cafeList); //카페 리뷰 개수 가져오기
+		
+		ArrayList<CafeAttachment> detailAtList = new MainPageService().selectDetailAtList(cafe.getCafeNo()); //해당 카페의 디테일 이미지 가져오기
 		
 		LinkedHashMap<String, Integer> map = new MainPageService().selectMenu(cafeList.get(0).getCafeNo()); //map으로 메뉴, 가격 저장
 		
 		Iterator<Entry<String, Integer>> entry = map.entrySet().iterator();
 		
 		
+		request.setAttribute("add", request.getParameter("add"));
+		request.setAttribute("detailAtList", detailAtList);	
 		request.setAttribute("menu", entry);
 		request.setAttribute("cafe", cafeList.get(0));
 		request.getRequestDispatcher("views/mainPage/cafeDetailView.jsp").forward(request, response);
