@@ -15,7 +15,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=robvxzpemd"></script>
     <title>Document</title>
         <!-- 부트스트랩 CDN -->
     <!-- Latest compiled and minified CSS -->
@@ -554,9 +555,7 @@
                 </div>
             </div>
         </div>
-        <div id="map">
-            지도들어갈곳
-        </div>
+			<div id="map"></div>
     </div>
 
 		
@@ -744,7 +743,17 @@
 			return true;
 		}
 		
+		var mapOptions = {
+			    center: new naver.maps.LatLng(37.533879, 126.896824),
+			    zoom: 14
+			};
 
+		var map = new naver.maps.Map('map', mapOptions);
+		
+		var marker = new naver.maps.Marker({
+		    position: new naver.maps.LatLng(37.533879, 126.896824),
+		    map: map
+		});
 
     </script>
 </body>
