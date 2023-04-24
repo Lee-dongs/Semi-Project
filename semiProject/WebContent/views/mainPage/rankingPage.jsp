@@ -234,7 +234,6 @@
                 </div>
             </div>
         </div>
-        <button onclick="asdf()" id="asdf">adsf</button>
     </div>
     <br><br><br><br>
     
@@ -252,23 +251,29 @@
     		location.href = "<%=contextPath%>/detail.cf?add="+address;
     	});
     	
-    	function score(score){
-    		/*
-        	<div class="star-ratings">
-        	<div class="star-ratings-fill space-x-2 text-lg" 
-        	style="width:400px">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-            <div class="star-ratings-base space-x-2 text-lg">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
-        </div>
-        */
-    		return "테스트";
-    	}
-
+    	$(function(){
+    		var list = newCafeList();
+			var k = 0;
+    		for(var i=0; i<4; i++){
+				var size = list[0][i].score * 20 + 1.5;
+				$(".star-ratings-fill:eq("+k+")").width(size+"%");
+				k = k+1;			
+    		}
+    	});
+    	
+    	
     	function score(){
-    		console.log($(".star-ratings-fill:eq(0)"));
+    		str = "";
+    		str += "<div class='star-ratings'>"
+    			+"<div class='star-ratings-fill space-x-2 text-lg' style='width:400px'>"
+    			+"<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>"
+    			+"</div>"
+    			+"<div class='star-ratings-base space-x-2 text-lg'>"
+    			+"<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>"
+    			+"</div>"
+    			+"</div>"
+
+    		return str;
     	}
     		
     	
@@ -276,19 +281,18 @@
     	function nextPage(){ //다음 페이지 처리
     		$("#prevDiv button").attr("disabled", false);
     		$.ajax({
-    			url:"nextPage.cf",
+    			url:"nextPage.cf", //현재 pageCount의 데이터를 보내 +1을 하여 돌려줌
     			data:{
-    				pageCount : $(".currentPage").val(),   				
+    				pageCount : $(".currentPage").val(),  //페이지 정보를 전달
     			},
     			type : "get",
-    			async: false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
-    				var list = newCafeList();
-					var newPath;
+    				var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
+					var newPath; //카페 사진 가져올 경로
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
-    					if(list[0][i] != null){
+    					if(list[0][i] != null){ //새로운 경로 찾기
     						for(var j=0; j<list[1].length; j++){
     							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
     								var newPath = list[1][j].newPath;
@@ -302,21 +306,28 @@
       						  +"</div>"
       						  +"<div class='cafeInfoDiv'>"
       						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
-      						  +"평점(임시) : " + list[0][i].score + "<br>"
+      						  +"평점(임시) : " + score() + "<br>"
       						  +"리뷰개수(임시) : " + list[0][i].replyCount
       						  +"</div>"
       						  +"</div>"
       						  +"</div>"
     					}else{
-    						$("#nextDiv button").attr("disabled", true);
+    						$("#nextDiv button").attr("disabled", true); //더이상 보여줄 리스트가 없으면 다음 페이지 disabled
     					}
     				}
-    				
     				if(list[0].length == result*4){
-    					$("#nextDiv button").attr("disabled", true);
+    					$("#nextDiv button").attr("disabled", true); //리스트의 크기가 4배수면 다음 페이지 disabled
     				}
     				$("#cafeListDiv").html(str);
-    				$(".cafeImgDiv>img").click(function(){ 
+    				
+					var k = 0;
+    				for(var j=result*4-4; j<result*4; j++){ //별점 사이즈 조정하기(* .html로 새로이 갱신한 뒤에 해야함)
+    					var size = list[0][j].score * 20 + 1.5;
+    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+    					k = k+1;
+    				}
+    				
+    				$(".cafeImgDiv>img").click(function(){ //이미지 클릭하면 address값에 맞는 페이지 띄워줌
     					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;
     				});
@@ -332,7 +343,6 @@
     				pageCount : $(".currentPage").val(),   				
     			},
     			type : "get",
-    			async: false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
     				if(result == 1){
@@ -355,14 +365,21 @@
     						  +"</div>"
     						  +"<div id='cafeInfoDiv'>"
     						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
-    						  +"평점(임시) : " + list[0][i].score + "<br>"
+    						  +"(평점)" + score() + "<br>"
     						  +"리뷰개수(임시) : " + list[0][i].replyCount
     						  +"</div>"
     						  +"</div>"
     						  +"</div>"
-    						  score();
     				}
     				$("#cafeListDiv").html(str);
+    				
+					var k = 0;
+    				for(var j=result*4-4; j<result*4; j++){
+    					var size = list[0][j].score * 20 +1.5;
+    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+    					k = k+1;
+    				}
+    				
     				$(".cafeImgDiv>img").click(function(){ 
     					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;
@@ -380,19 +397,17 @@
     				status : "<%=status%>"
     			},
     			type : "get",
-    			async: false,
+    			async: false, //순서를 보장해야하기 때문에 동기식으로 처리
     			success : function(list){
     				arr[0] = list[0];
-    				arr[1] = list[1];			
+    				arr[1] = list[1];
     			}
     		});
     		
     		return arr;
     		
     	}
-    	
 
-    	
     </script>
 </body>
 
