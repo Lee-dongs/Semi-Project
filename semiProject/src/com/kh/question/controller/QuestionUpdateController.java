@@ -1,4 +1,4 @@
-package com.kh.faq.controller;
+package com.kh.question.controller;
 
 import java.io.IOException;
 
@@ -7,23 +7,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.kh.faq.model.service.FAQService;
-import com.kh.faq.model.vo.FAQ;
-import com.kh.member.model.vo.Member;
+import com.kh.question.model.service.QuestionService;
+import com.kh.question.model.vo.Question;
 
 /**
- * Servlet implementation class FAQinsertController
+ * Servlet implementation class QuestionUpdateController
  */
-@WebServlet("/insert.fo")
-public class FAQinsertController extends HttpServlet {
+@WebServlet("/update.qo")
+public class QuestionUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQinsertController() {
+    public QuestionUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,8 +30,14 @@ public class FAQinsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		int questionNo = Integer.parseInt(request.getParameter("qqo"));
+		
+		Question qq = new QuestionService().seletQuestion(questionNo);			
+		System.out.println(qq);
+		request.setAttribute("question", qq);
+		
+		
+		request.getRequestDispatcher("views/question/questionUpdateForm.jsp").forward(request, response);
 	}
 
 	/**
@@ -41,26 +45,24 @@ public class FAQinsertController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		int questionNo = Integer.parseInt(request.getParameter("qqo"));
+		String title =request.getParameter("quTitle");
+		String content = request.getParameter("quContent");
 		
-		String title =request.getParameter("title");
-		String content = request.getParameter("content");
-		HttpSession session = request.getSession();
-		String userNo = String.valueOf(((Member)session.getAttribute("loginUser")).getUserNo());
+		Question q = new Question();
+		q.setQuestionNo(questionNo);
+		q.setQuestionTitle(title);
+		q.setContent(content);
 		
-		FAQ f = new FAQ();
-		f.setFaqTitle(title);
-		f.setFaqContent(content);
-		f.setFaqWriter(userNo);
-		
-		int result = new FAQService().insertFAQ(f);
+		int result = new QuestionService().updateQuestion(q);
 		
 		if(result>0) {
+						
 			response.sendRedirect(request.getContextPath()+"/list.fo?currentPage=1");
 		}else {
-			request.setAttribute("errorMsg", "공지사항 작성 실패");
+			request.setAttribute("errorMsg", "문의글 수정 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		
 	}
 
 }

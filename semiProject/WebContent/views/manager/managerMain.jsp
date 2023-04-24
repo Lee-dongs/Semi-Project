@@ -80,7 +80,7 @@
             location.href="<%=contextPath%>/report.ma";
         };
         function questionPage(){
-            location.href="<%=contextPath%>/list.fo";
+            location.href="<%=contextPath%>/list.fo?currentPage=1";
         };
 
     </script>

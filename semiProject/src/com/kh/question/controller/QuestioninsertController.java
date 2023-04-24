@@ -1,4 +1,4 @@
-package com.kh.faq.controller;
+package com.kh.question.controller;
 
 import java.io.IOException;
 
@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.kh.faq.model.service.FAQService;
-import com.kh.faq.model.vo.FAQ;
 import com.kh.member.model.vo.Member;
+import com.kh.question.model.service.QuestionService;
+import com.kh.question.model.vo.Question;
 
 /**
- * Servlet implementation class FAQinsertController
+ * Servlet implementation class QuestioninsertController
  */
-@WebServlet("/insert.fo")
-public class FAQinsertController extends HttpServlet {
+@WebServlet("/insert.qo")
+public class QuestioninsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQinsertController() {
+    public QuestioninsertController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,20 +47,19 @@ public class FAQinsertController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String userNo = String.valueOf(((Member)session.getAttribute("loginUser")).getUserNo());
 		
-		FAQ f = new FAQ();
-		f.setFaqTitle(title);
-		f.setFaqContent(content);
-		f.setFaqWriter(userNo);
+		Question q = new Question();
+		q.setQuestionTitle(title);
+		q.setContent(content);
+		q.setQuestionWriter(userNo);
 		
-		int result = new FAQService().insertFAQ(f);
+		int result = new QuestionService().insertQuestion(q);
 		
 		if(result>0) {
 			response.sendRedirect(request.getContextPath()+"/list.fo?currentPage=1");
 		}else {
-			request.setAttribute("errorMsg", "공지사항 작성 실패");
+			request.setAttribute("errorMsg", "문의글 작성 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		
 	}
 
 }
