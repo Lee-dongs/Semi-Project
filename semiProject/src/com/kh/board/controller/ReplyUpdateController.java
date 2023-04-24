@@ -8,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.board.model.service.BoardService;
-import com.kh.member.model.service.MemberService;
 
 /**
- * Servlet implementation class ReplyDeleteController
+ * Servlet implementation class ReplyUpdateController
  */
-@WebServlet("/delete.re")
-public class ReplyDeleteController extends HttpServlet {
+@WebServlet("/update.re")
+public class ReplyUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyDeleteController() {
+    public ReplyUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +28,23 @@ public class ReplyDeleteController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int rno = Integer.parseInt(request.getParameter("replyNo"));
-		
-		int result = new BoardService().deleteReply(rno);
-		
-		response.setContentType("json/application; charset=UTF-8");
-		response.getWriter().print(result);
+	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+	
+		int rno = Integer.parseInt(request.getParameter("replyNo"));
+		String content = request.getParameter("content");
+		
+		int result = new BoardService().updateReply(rno, content);
+		
+		
+		response.setContentType("json/applicaton; charset=UTF-8");
+		response.getWriter().print(result);
 	}
 
 }

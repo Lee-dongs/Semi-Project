@@ -14,7 +14,7 @@ public class NoticeService {
 		ArrayList<Notice> list = new NoticeDao().selectList(conn);
 		
 		JDBCTemplate.close(conn);
-		return list;
+		return null;
 	}
 
 	public int insertNotice(Notice n) {

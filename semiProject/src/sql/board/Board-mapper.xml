@@ -26,7 +26,7 @@
 	    VALUES(SEQ_BNO.NEXTVAL,?,?,?,?)
 	</entry>
 	<entry key="insertAttachment">
-		INSERT INTO ATTACHMENT(BOARD_FILE_NO
+		INSERT INTO BOARD_ATTACHMENT(BOARD_FILE_NO
 							  ,BOARD_REF_BNO
 							  ,ORIGIN_NAME
 							  ,CHANGE_NAME
@@ -34,10 +34,6 @@
 							  )
 		VALUES(SEQ_FNO.NEXTVAL,SEQ_BNO.CURRVAL,?,?,?)
 	</entry>
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/main
 	<entry key="increaseCount">
 		UPDATE BOARD
 		SET COUNT = COUNT+1
@@ -45,7 +41,7 @@
 		AND STATUS = 'Y'
 	</entry>
 	<entry key="selectBoard">
-		SELECT BOARD_NO, LOCATION_NAME,BOARD_TITLE,BOARD_CONTENT,USER_ID,CREATE_DATE,COUNT
+		SELECT BOARD_NO, LOCATION_NAME,BOARD_TITLE,BOARD_CONTENT,USER_ID,CREATE_DATE,COUNT,GOOD,BAD
 		FROM BOARD B
 		LEFT JOIN LOCATION L ON (B.LOCATION_CODE = L.LOCATION_CODE)
 		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
@@ -105,7 +101,6 @@
 			   ORDER BY COUNT DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
-<<<<<<< HEAD
 	<entry key="insertReply">
 		INSERT INTO BOARD_REPLY(BOARD_REPLY_NO, BOARD_REF_BNO, BOARD_REPLY_WRITER, BOARD_REPLY_CONTENT)
 		VALUES(SEQ_BRNO.NEXTVAL,?,?,?)
@@ -123,7 +118,175 @@
 		WHERE BOARD_REPLY_NO = ?
 		AND STATUS ='Y'
 	</entry>
-=======
-
->>>>>>> refs/remotes/origin/main
+	<entry key="deleteBoard">
+		DELETE BOARD
+		WHERE BOARD_NO = ?
+		AND STATUS ='Y'
+	</entry>
+	<entry key="deleteAttachment">
+		DELETE BOARD_Attachment
+		WHERE BOARD_REF_BNO = ?
+		AND STATUS ='Y'
+	</entry>
+	<entry key="updateBoard">
+		UPDATE BOARD
+		SET LOCATION_CODE = ?
+		   ,BOARD_TITLE =?
+		   ,BOARD_CONTENT =?
+		   ,MODIFY_DATE = SYSDATE
+		WHERE BOARD_NO =?
+		AND STATUS ='Y'
+	</entry>
+	<entry key="updateAttachment">
+		UPDATE BOARD_ATTACHMENT
+		SET ORIGIN_NAME = ?
+		   ,CHANGE_NAME = ?
+		   ,FILE_PATH = ?
+		   ,UPLOAD_DATE = SYSDATE
+		WHERE BOARD_FILE_NO = ?
+		AND STATUS ='Y'
+	</entry>
+	<entry key="newInsertAttachment">
+		INSERT INTO BOARD_ATTACHMENT(BOARD_FILE_NO,BOARD_REF_BNO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH)
+		VALUES(SEQ_BANO.NEXTVAL,?,?,?,?)
+	</entry>
+	<entry key="updateReply">
+		UPDATE BOARD_REPLY
+		SET BOARD_REPLY_CONTENT = ?
+		   ,MODIFY_DATE = SYSDATE
+		WHERE BOARD_REPLY_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="updateLike">
+		UPDATE BOARD
+		SET GOOD = GOOD+1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'	
+	</entry>
+	<entry key="updateLike2">
+		UPDATE BOARD
+		SET GOOD = GOOD-1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'	
+	</entry>
+	<entry key="updateBad">
+		UPDATE BOARD
+		SET BAD = BAD+1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'	
+	</entry>
+	<entry key="updateBad2">
+		UPDATE BOARD
+		SET BAD = BAD-1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'	
+	</entry>
+	<entry key="insertLike">
+		INSERT INTO BOARD_LIKE
+		VALUES(SEQ_BLNO.NEXTVAL,?,?,1)
+	</entry>
+	<entry key="insertUnLike">
+		INSERT INTO BOARD_UNLIKE
+		VALUES(SEQ_BULNO.NEXTVAL,?,?,1)
+	</entry>
+	<entry key="likeSelectList">
+		SELECT *
+		FROM BOARD_LIKE
+		WHERE BOARD_NO = ?
+	</entry>
+	<entry key="unLikeSelectList">
+		SELECT *
+		FROM BOARD_UNLIKE
+		WHERE BOARD_NO = ?
+	</entry>
+	<entry key="chkUserUnLike">
+		SELECT COUNT(*) AS COUNT
+		FROM BOARD_UNLIKE
+		WHERE USER_NO = ?
+	</entry>
+	<entry key="chkUserLike">
+		SELECT COUNT(*) AS COUNT
+		FROM BOARD_LIKE
+		WHERE USER_NO = ?
+	</entry>
+	<entry key="deleteUnLike">
+		DELETE FROM BOARD_UNLIKE
+		WHERE USER_NO = ?
+	</entry>
+	<entry key="deleteLike">
+		DELETE FROM BOARD_LIKE
+		WHERE USER_NO = ?
+	</entry>
+	<entry key="selectDongJak">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S3'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectMaPo">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S2'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectSeoDaeMoon">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S7'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectYeongDeungPo">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S1'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectYangCheon">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S5'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="selectYangCheon">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT BOARD_NO,LOCATION_NAME, BOARD_TITLE, USER_ID,COUNT, CREATE_DATE
+			   FROM BOARD B 
+			   JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			   JOIN LOCATION L ON(B.LOCATION_CODE = L.LOCATION_CODE)
+			   WHERE B.STATUS = 'Y'
+			   AND L.LOCATION_CODE = 'S6'
+			   ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
 </properties>

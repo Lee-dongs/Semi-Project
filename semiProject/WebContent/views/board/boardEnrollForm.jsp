@@ -66,7 +66,7 @@
                         </select>
                     </td>
                     <th>제목</th>
-                    <td><input type="text" id="title-area" name ="title"></td>
+                    <td><input type="text" id="title-area" name ="title" required></td>
                     </tr>
                     <tr>
                         <td colspan="4">글씨 editor 추가예정</td>
@@ -76,7 +76,7 @@
                 <tr>
                 	<th>내용</th>
                     <td colspan="3">
-                        <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none" ></textarea>
+                        <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none" required ></textarea>
                     </td>
                 </tr>
                 <tr>
