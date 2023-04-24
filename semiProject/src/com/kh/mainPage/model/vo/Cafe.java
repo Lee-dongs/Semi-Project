@@ -17,6 +17,16 @@ public class Cafe {
 	private double score;//평점
 	
 	private int replyCount;//리뷰개수
+	
+	private int scoreCount;//평점을 준 사람 수
+
+	public int getScoreCount() {
+		return scoreCount;
+	}
+
+	public void setScoreCount(int scoreCount) {
+		this.scoreCount = scoreCount;
+	}
 
 	public Cafe() {
 		super();
@@ -43,6 +53,20 @@ public class Cafe {
 		this.cafeNo = cafeNo;
 		this.cafeName = cafeName;
 		this.address = address;
+	}
+	
+	
+
+	public Cafe(int cafeNo, String cafeName, String operationTime, String offDay, String phone, String address,
+			int count) {
+		super();
+		this.cafeNo = cafeNo;
+		this.cafeName = cafeName;
+		this.operationTime = operationTime;
+		this.offDay = offDay;
+		this.phone = phone;
+		this.address = address;
+		this.count = count;
 	}
 
 	public double getScore() {
@@ -146,8 +170,10 @@ public class Cafe {
 		return "Cafe [cafeNo=" + cafeNo + ", locationCode=" + locationCode + ", cafeName=" + cafeName
 				+ ", operationTime=" + operationTime + ", offDay=" + offDay + ", phone=" + phone + ", address="
 				+ address + ", count=" + count + ", createDate=" + createDate + ", status=" + status + ", score="
-				+ score + ", replyCount=" + replyCount + "]";
+				+ score + ", replyCount=" + replyCount + ", scoreCount=" + scoreCount + "]";
 	}
+
+	
 
 	
 

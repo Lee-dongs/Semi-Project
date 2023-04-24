@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<entry key="selectCafeList">
+<entry key="selectCafeList"> <!-- 카페 '리스트' 조회문 -->
 	SELECT CAFE_NO, CAFE_NAME, ADDRESS
 	FROM CAFE_INFO
 	JOIN LOCATION USING(LOCATION_CODE)
@@ -9,17 +9,43 @@
 	AND STATUS = 'Y'
 </entry>
 
-<entry key="selectCafeScore">
+<entry key="selectCafeScore"> <!-- 평균 평점 조회문 -->
 	SELECT (SUM(TASTE) + SUM(PRICE) + SUM(VIBE) + SUM(ACCESSIBILITY))/4 SCORE
 	FROM SCORE
 	WHERE CAFE_NO = ?
 	GROUP BY CAFE_NO
 </entry>
 
-<entry key="countReply">
+<entry key="countReply">  <!-- 총 리뷰 개수 조회문 -->
 	SELECT COUNT(*)
 	FROM CAFE_REPLY
 	WHERE CAFE_NO = ?
 	GROUP BY CAFE_NO
+</entry>
+
+<entry key="selectAttachmentList">
+	SELECT CAFE_REF_NO, FILE_PATH||CHANGE_NAME "TITLEIMG"
+	FROM CAFE_ATTACHMENT
+	WHERE CAFE_REF_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="selectCafeInfo"> <!-- 카페 정보 조회문 -->
+	SELECT CAFE_NO, CAFE_NAME, OPERATION_TIME, OFF_DAY, PHONE, ADDRESS, COUNT
+	FROM CAFE_INFO
+	WHERE ADDRESS = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="countScore">
+	SELECT COUNT(*)
+	FROM SCORE
+	WHERE CAFE_NO = ?
+</entry>
+
+<entry key="selectMenu">
+	SELECT MENU_NAME, CAFE_PRICE
+	FROM CAFE_MENU
+	WHERE CAFE_NO = ?
 </entry>
 </properties>

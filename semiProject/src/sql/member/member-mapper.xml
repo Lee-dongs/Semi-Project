@@ -14,6 +14,13 @@ WHERE USER_ID = ?
 AND USER_PWD = ?
 AND STATUS = 'Y'
 </entry>
+
+<entry key="deleteMember">
+UPDATE MEMBER 
+SET STATUS = 'N' 
+WHERE USER_ID = ?
+</entry>
+
 <entry key="checkId">
 SELECT COUNT(*) "COUNT"
 FROM MEMBER
@@ -24,4 +31,43 @@ WHERE USER_ID = ?
 INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
 VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
 </entry>
+
+<entry key="selectMember">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+FROM (SELECT *
+FROM MEMBER
+WHERE STATUS = 'Y'
+ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="selectListCount">
+SELECT COUNT(*) COUNT
+FROM MEMBER
+WHERE STATUS='Y'
+</entry>
+
+<entry key="searchMemberById">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+FROM (SELECT *
+FROM MEMBER
+WHERE USER_ID LIKE '%'||?||'%'
+AND STATUS = 'Y'
+ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="searchMemberByName">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+FROM (SELECT *
+FROM MEMBER
+WHERE USER_NAME LIKE '%'||?||'%'
+AND STATUS = 'Y'
+ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
 </properties>

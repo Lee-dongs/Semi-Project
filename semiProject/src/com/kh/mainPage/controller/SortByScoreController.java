@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mainPage.model.service.MainPageService;
 import com.kh.mainPage.model.vo.Cafe;
+import com.kh.mainPage.model.vo.CafeAttachment;
 
 /**
  * Servlet implementation class SortByScoreController
@@ -49,6 +50,10 @@ public class SortByScoreController extends HttpServlet {
 				return Double.compare(b.getScore(), a.getScore());//평점이 높은것부터 정렬
 			}
 		});
+		
+		ArrayList<CafeAttachment> cfatList = new MainPageService().selectAttachmentList(list);//대문 이미지 조회
+		
+		request.setAttribute("cfatList", cfatList);
 		request.setAttribute("status", "score");
 		request.setAttribute("list", list);
 		request.setAttribute("location", location);	
