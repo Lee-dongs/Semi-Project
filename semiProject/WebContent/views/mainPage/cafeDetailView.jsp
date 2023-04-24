@@ -672,7 +672,7 @@
     	}
     
     	$("#scoreDiv").click(function(){
-    		if(<%=m%> == null){
+    		if(<%=m == null%>){
     			alert("로그인 후 사용가능한 기능입니다.");
     		}else{
         		$("#modal").fadeIn();
@@ -684,7 +684,7 @@
     	});
     	
     	$("#reviewDiv").click(function(){
-    		if(<%=m%> == null){
+    		if(<%=m == null%>){
     			alert("로그인 후 사용가능한 기능입니다.");
     		}else{
         		$("#modal2").fadeIn();
