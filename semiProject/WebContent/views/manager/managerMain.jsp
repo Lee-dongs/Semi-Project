@@ -71,7 +71,7 @@
 
     <script>
         function memberManagePage(){
-            location.href="<%=contextPath%>/memberManage.ma";
+            location.href="<%=contextPath%>/memberManagement.ma?currentPage=1";
         };
         function cafeRequestPage(){
             location.href="<%=contextPath%>/cafeRequest.co";

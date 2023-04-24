@@ -12,11 +12,13 @@ public class Board {
 	Date createDate;
 	Date modifyDate;
 	String status;
+	int good;
+	int bad;
 	public Board() {
 		super();
 	}
 	public Board(int boardNo, String boardWriter, String locationCode, String title, String content, int count,
-			Date createDate, Date modifyDate, String status) {
+			Date createDate, Date modifyDate, String status, int good, int bad) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -27,6 +29,8 @@ public class Board {
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.status = status;
+		this.good = good;
+		this.bad = bad;
 	}
 	
 	public Board(int boardNo,String locationCode, String title, String boardWriter,  int count, Date createDate) {
@@ -39,7 +43,7 @@ public class Board {
 		this.createDate = createDate;
 	}
 	
-	public Board(int boardNo, String locationCode, String title, String content,String boardWriter, Date createDate,int count) {
+	public Board(int boardNo, String locationCode, String title, String content,String boardWriter, Date createDate,int count,int good, int bad) {
 		super();
 		this.boardNo = boardNo;
 		this.locationCode = locationCode;
@@ -48,6 +52,8 @@ public class Board {
 		this.boardWriter = boardWriter;
 		this.createDate = createDate;
 		this.count = count;
+		this.good = good;
+		this.bad = bad;
 	}
 	public int getBoardNo() {
 		return boardNo;
@@ -103,12 +109,25 @@ public class Board {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public int getGood() {
+		return good;
+	}
+	public void setGood(int good) {
+		this.good = good;
+	}
+	public int getBad() {
+		return bad;
+	}
+	public void setBad(int bad) {
+		this.bad = bad;
+	}
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", locationCode=" + locationCode
 				+ ", title=" + title + ", content=" + content + ", count=" + count + ", createDate=" + createDate
-				+ ", modifyDate=" + modifyDate + ", status=" + status + "]";
+				+ ", modifyDate=" + modifyDate + ", status=" + status + ", good=" + good + ", bad=" + bad + "]";
 	}
+	
 	
 	
 }

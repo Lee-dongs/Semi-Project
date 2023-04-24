@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.Cafe"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.kh.mainPage.model.vo.*"%>
     <% ArrayList<Cafe> list = (ArrayList<Cafe>)request.getAttribute("list");
        String location = (String)request.getAttribute("location");
        String status = (String)request.getAttribute("status");
+       ArrayList<CafeAttachment> cfatList = (ArrayList<CafeAttachment>)request.getAttribute("cfatList");
     %>
 <!DOCTYPE html>
 <html>
@@ -101,18 +102,18 @@
             right: 0px;
         }
 
-        #cafeImgDiv{
+        .cafeImgDiv{
             width: 100%;
             height: 70%;
             box-sizing: border-box;
         }
 
-        #cafeInfoDiv{
+        .cafeInfoDiv{
             width: 100%;
             height: 30%;
         }
 
-        #cafeImgDiv>img{
+        .cafeImgDiv>img{
             width: 100%;
             height: 100%;
         }
@@ -123,7 +124,7 @@
             height: 15%;
             position: absolute;
             margin : auto;
-            top: 0px;
+            top: -300px;
             bottom: 0px;
             left: 0px;
             right: 0px;
@@ -134,7 +135,43 @@
             height: 100%;
         }
 
+        #prevDiv>div{
+            width: 60%;
+            height: 15%;
+            margin-top: 100px;
+        }
 
+        #prevDiv button{
+            width: 70px;
+            height: 53px;
+        }
+        
+        .star-ratings {
+  			color: #aaa9a9; 
+			position: relative;
+			unicode-bidi: bidi-override;
+			width: max-content;
+			-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+			-webkit-text-stroke-width: 1.3px;
+			-webkit-text-stroke-color: #2b2a29;
+		}
+ 
+		.star-ratings-fill {
+		  color: #fff58c;
+		  padding: 0;
+		  position: absolute;
+		  z-index: 1;
+		  display: flex;
+		  top: 0;
+		  left: 0;
+		  overflow: hidden;
+		  -webkit-text-fill-color: gold;
+		}
+		 
+		.star-ratings-base {
+		  z-index: 0;
+		  padding: 0;
+		}
     </style>
 </head>
 <body>
@@ -156,13 +193,27 @@
                 <%for(int i=0; i<4; i++){ %>
                 	<div>
 	                    <div>
-	                        <div id="cafeImgDiv">
-	                            <img src="resources/images/농담곰.jpg" alt="">
+	                        <div class="cafeImgDiv">
+	                        	<%for(int j=0; j<cfatList.size(); j++) {%>
+	                        		<%if(cfatList.get(j).getCafeRefNo() == list.get(i).getCafeNo()) {%>
+	                        			<img src="<%=cfatList.get(j).getNewPath()%>">
+	                        		<%} %>
+	                        	<%} %>
 	                            <input type="hidden" name="address" value="<%=list.get(i).getAddress() %>">
 	                        </div>
 	                        <div id="cafeInfoDiv">
 	                            	이름(임시) : <%=list.get(i).getCafeName() %> <br>
-	                            	평점(임시) : <%=list.get(i).getScore() %> <br>
+	                            	
+	                            	<div class="star-ratings">
+                                    	<div class="star-ratings-fill space-x-2 text-lg" 
+                                    	style="width:400px">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                        <div class="star-ratings-base space-x-2 text-lg">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                    </div>
+                                    <br>
 	                            	리뷰개수(임시) : <%=list.get(i).getReplyCount() %>
 	                        </div>
 	                    </div>
@@ -194,45 +245,91 @@
     		location.href = "<%=contextPath%>/sbReview.cf?location="+"<%=location%>";
     	}
     
-    	$("#cafeListDiv img").click(function(){//이미지 클릭시 주소랑 같이 넘김
+    	$(".cafeImgDiv>img").click(function(){//이미지 클릭시 주소랑 같이 넘김
     		var address = $(this).next().val();
     		location.href = "<%=contextPath%>/detail.cf?add="+address;
     	});
+    	
+    	$(function(){
+    		var list = newCafeList();
+			var k = 0;
+    		for(var i=0; i<4; i++){
+				var size = list[0][i].score * 20 + 1.5;
+				$(".star-ratings-fill:eq("+k+")").width(size+"%");
+				k = k+1;			
+    		}
+    	});
+    	
+    	
+    	function score(){
+    		str = "";
+    		str += "<div class='star-ratings'>"
+    			+"<div class='star-ratings-fill space-x-2 text-lg' style='width:400px'>"
+    			+"<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>"
+    			+"</div>"
+    			+"<div class='star-ratings-base space-x-2 text-lg'>"
+    			+"<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>"
+    			+"</div>"
+    			+"</div>"
+
+    		return str;
+    	}
+    		
     	
     	
     	function nextPage(){ //다음 페이지 처리
     		$("#prevDiv button").attr("disabled", false);
     		$.ajax({
-    			url:"nextPage.cf",
+    			url:"nextPage.cf", //현재 pageCount의 데이터를 보내 +1을 하여 돌려줌
     			data:{
-    				pageCount : $(".currentPage").val(),   				
+    				pageCount : $(".currentPage").val(),  //페이지 정보를 전달
     			},
     			type : "get",
-    			async: false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
-    				var list = newCafeList();
+    				var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
+					var newPath; //카페 사진 가져올 경로
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
-    					if(list[i] != null){
+    					if(list[0][i] != null){ //새로운 경로 찾기
+    						for(var j=0; j<list[1].length; j++){
+    							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
+    								var newPath = list[1][j].newPath;
+    							}
+    						}
         					str += "<div>"
       						  +"<div>"
-      						  +"<div id='cafeImgDiv'>"
-      						  +"<img src='resources/images/농담곰.jpg'>"
-      						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
+      						  +"<div class='cafeImgDiv'>"
+      						  +"<img src='"+ newPath +"'>"
+      						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
       						  +"</div>"
-      						  +"<div id='cafeInfoDiv'>"
-      						  +"이름(임시) : " + list[i].cafeName + "<br>"
-      						  +"평점(임시) : " + list[i].score + "<br>"
-      						  +"리뷰개수(임시) : " + list[i].replyCount
+      						  +"<div class='cafeInfoDiv'>"
+      						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
+      						  +"평점(임시) : " + score() + "<br>"
+      						  +"리뷰개수(임시) : " + list[0][i].replyCount
       						  +"</div>"
       						  +"</div>"
       						  +"</div>"
     					}else{
-    						$("#nextDiv button").attr("disabled", true);
+    						$("#nextDiv button").attr("disabled", true); //더이상 보여줄 리스트가 없으면 다음 페이지 disabled
     					}
     				}
+    				if(list[0].length == result*4){
+    					$("#nextDiv button").attr("disabled", true); //리스트의 크기가 4배수면 다음 페이지 disabled
+    				}
     				$("#cafeListDiv").html(str);
+    				
+					var k = 0;
+    				for(var j=result*4-4; j<result*4; j++){ //별점 사이즈 조정하기(* .html로 새로이 갱신한 뒤에 해야함)
+    					var size = list[0][j].score * 20 + 1.5;
+    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+    					k = k+1;
+    				}
+    				
+    				$(".cafeImgDiv>img").click(function(){ //이미지 클릭하면 address값에 맞는 페이지 띄워줌
+    					var address = $(this).next().val();
+    					location.href = "<%=contextPath%>/detail.cf?add="+address;
+    				});
     			}
     		});
     	}
@@ -245,36 +342,53 @@
     				pageCount : $(".currentPage").val(),   				
     			},
     			type : "get",
-    			async: false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
     				if(result == 1){
     					$("#prevDiv button").attr("disabled", true);
     				}
     				var list = newCafeList();
+					var newPath;
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
+						for(var j=0; j<list[1].length; j++){
+							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
+								var newPath = list[1][j].newPath;
+							}
+						}
     					str += "<div>"
     						  +"<div>"
-    						  +"<div id='cafeImgDiv'>"
-    						  +"<img src='resources/images/농담곰.jpg'>"
-    						  +"<input type='hidden' name='address' value='"+list[i].address+"'>"
+    						  +"<div class='cafeImgDiv'>"
+    						  +"<img src='"+newPath+"'>"
+    						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
     						  +"</div>"
     						  +"<div id='cafeInfoDiv'>"
-    						  +"이름(임시) : " + list[i].cafeName + "<br>"
-    						  +"평점(임시) : " + list[i].score + "<br>"
-    						  +"리뷰개수(임시) : " + list[i].replyCount
+    						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
+    						  +"(평점)" + score() + "<br>"
+    						  +"리뷰개수(임시) : " + list[0][i].replyCount
     						  +"</div>"
     						  +"</div>"
     						  +"</div>"
     				}
     				$("#cafeListDiv").html(str);
+    				
+					var k = 0;
+    				for(var j=result*4-4; j<result*4; j++){
+    					var size = list[0][j].score * 20 +1.5;
+    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+    					k = k+1;
+    				}
+    				
+    				$(".cafeImgDiv>img").click(function(){ 
+    					var address = $(this).next().val();
+    					location.href = "<%=contextPath%>/detail.cf?add="+address;
+    				});
     			}
     		});
     	}
     	
     	function newCafeList(){ //새로운 카페 리스트 띄우기
-    		var cafeList;
+    		var arr = [];
     		$.ajax({
     			url:"newList.cf",
     			data:{
@@ -282,14 +396,17 @@
     				status : "<%=status%>"
     			},
     			type : "get",
-    			async: false,
+    			async: false, //순서를 보장해야하기 때문에 동기식으로 처리
     			success : function(list){
-    				cafeList = list;
+    				arr[0] = list[0];
+    				arr[1] = list[1];
     			}
     		});
     		
-    		return cafeList;
+    		return arr;
+    		
     	}
+
     </script>
 </body>
 

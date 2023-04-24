@@ -46,6 +46,7 @@
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
+	<%if(loginUser!=null){ %>
 	<div id="outer2">
             <div id="requestbox">
                 <div><h1>공부하기 좋은 카페 추천</h1></div>
@@ -93,7 +94,8 @@
                 </div> 
                 
             </div>
-        </div>    
+        </div>
+        <%} %>    
             <script>
                 var infowindow = new kakao.maps.InfoWindow({zIndex:1});
                 
@@ -153,6 +155,8 @@
 		                		$("#input").css("color","blue");
 		                		$("#btn_request").removeAttr("disabled");
 		                	};
+		                	
+		                	
 		                	},
 		                	error: function(){
 		                		console.log("통신 실패했습니다.");
