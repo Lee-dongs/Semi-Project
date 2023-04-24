@@ -32,6 +32,7 @@ INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
 VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
 </entry>
 
+
 <entry key="selectMember">
 SELECT *
 FROM (SELECT ROWNUM RNUM, M.*
@@ -71,3 +72,4 @@ WHERE RNUM BETWEEN ? AND ?
 </entry>
 
 </properties>
+
