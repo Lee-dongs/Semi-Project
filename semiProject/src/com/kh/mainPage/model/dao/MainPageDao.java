@@ -14,6 +14,7 @@ import java.util.Properties;
 import com.kh.common.JDBCTemplate;
 import com.kh.mainPage.model.vo.Cafe;
 import com.kh.mainPage.model.vo.CafeAttachment;
+import com.kh.mainPage.model.vo.CafeReply;
 
 public class MainPageDao {
 	
@@ -224,6 +225,111 @@ public class MainPageDao {
 		}
 		
 		return map;
+	}
+
+	public ArrayList<CafeAttachment> selectDetailAtList(Connection conn, int cafeNo) {
+		ArrayList<CafeAttachment> detailAtList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectDetailAtList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeNo);
+			pstmt.setInt(2, 2);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				detailAtList.add(new CafeAttachment(rset.getInt(1),
+													rset.getString(2)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+				
+		return detailAtList;
+	}
+
+	public ArrayList<CafeReply> selectReplyList(Connection conn, int cafeNo) {
+		ArrayList<CafeReply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new CafeReply(rset.getInt(1),
+									   rset.getString(2),
+									   rset.getString(3),
+									   rset.getDate(4)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int insertScore(Connection conn, int cafeNo, int userNo, ArrayList<Integer> list) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertScore");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeNo);
+			pstmt.setInt(2, userNo);
+			pstmt.setInt(3, list.get(0));
+			pstmt.setInt(4, list.get(1));
+			pstmt.setInt(5, list.get(2));
+			pstmt.setInt(6, list.get(3));
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertReview(Connection conn, int cafeNo, int userNo, String content) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeNo);
+			pstmt.setInt(2, userNo);
+			pstmt.setString(3, content);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <style>
@@ -145,6 +146,33 @@
             width: 70px;
             height: 53px;
         }
+        
+        .star-ratings {
+  			color: #aaa9a9; 
+			position: relative;
+			unicode-bidi: bidi-override;
+			width: max-content;
+			-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+			-webkit-text-stroke-width: 1.3px;
+			-webkit-text-stroke-color: #2b2a29;
+		}
+ 
+		.star-ratings-fill {
+		  color: #fff58c;
+		  padding: 0;
+		  position: absolute;
+		  z-index: 1;
+		  display: flex;
+		  top: 0;
+		  left: 0;
+		  overflow: hidden;
+		  -webkit-text-fill-color: gold;
+		}
+		 
+		.star-ratings-base {
+		  z-index: 0;
+		  padding: 0;
+		}
     </style>
 </head>
 <body>
@@ -176,7 +204,17 @@
 	                        </div>
 	                        <div id="cafeInfoDiv">
 	                            	이름(임시) : <%=list.get(i).getCafeName() %> <br>
-	                            	평점(임시) : <%=list.get(i).getScore() %> <br>
+	                            	
+	                            	<div class="star-ratings">
+                                    	<div class="star-ratings-fill space-x-2 text-lg" 
+                                    	style="width:400px">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                        <div class="star-ratings-base space-x-2 text-lg">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                    </div>
+                                    <br>
 	                            	리뷰개수(임시) : <%=list.get(i).getReplyCount() %>
 	                        </div>
 	                    </div>
@@ -196,6 +234,7 @@
                 </div>
             </div>
         </div>
+        <button onclick="asdf()" id="asdf">adsf</button>
     </div>
     <br><br><br><br>
     
@@ -213,6 +252,26 @@
     		location.href = "<%=contextPath%>/detail.cf?add="+address;
     	});
     	
+    	function score(score){
+    		/*
+        	<div class="star-ratings">
+        	<div class="star-ratings-fill space-x-2 text-lg" 
+        	style="width:400px">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <div class="star-ratings-base space-x-2 text-lg">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+        </div>
+        */
+    		return "테스트";
+    	}
+
+    	function score(){
+    		console.log($(".star-ratings-fill:eq(0)"));
+    	}
+    		
+    	
     	
     	function nextPage(){ //다음 페이지 처리
     		$("#prevDiv button").attr("disabled", false);
@@ -228,7 +287,7 @@
     				var list = newCafeList();
 					var newPath;
     				var str="";
-    				for(var i=result*4-4; i<result*4; i++){    					
+    				for(var i=result*4-4; i<result*4; i++){
     					if(list[0][i] != null){
     						for(var j=0; j<list[1].length; j++){
     							if(list[1][j].cafeRefNo == list[0][i].cafeNo){
@@ -251,6 +310,10 @@
     					}else{
     						$("#nextDiv button").attr("disabled", true);
     					}
+    				}
+    				
+    				if(list[0].length == result*4){
+    					$("#nextDiv button").attr("disabled", true);
     				}
     				$("#cafeListDiv").html(str);
     				$(".cafeImgDiv>img").click(function(){ 
@@ -297,6 +360,7 @@
     						  +"</div>"
     						  +"</div>"
     						  +"</div>"
+    						  score();
     				}
     				$("#cafeListDiv").html(str);
     				$(".cafeImgDiv>img").click(function(){ 
@@ -326,6 +390,8 @@
     		return arr;
     		
     	}
+    	
+
     	
     </script>
 </body>
