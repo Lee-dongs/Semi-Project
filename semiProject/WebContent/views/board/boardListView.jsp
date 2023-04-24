@@ -7,10 +7,7 @@
 	pageInfo pi = (pageInfo)request.getAttribute("pi");
 	
 	ArrayList<Board> list = (ArrayList)request.getAttribute("list");
-	
-	
-	
-%>
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,8 +85,11 @@
         margin-bottom: 6px;
     }
     #category{
-        margin-left: 590px;
+        margin-left: 510px;
         box-sizing: border-box;
+    }
+    #location{
+        float: left;
     }
 
 </style>
@@ -103,7 +103,7 @@
             <thead>
                 <tr>
                     <th class="search_input" colspan="5">
-                    	<form action="search.bo" method="get" id="search-area">
+                    	<form action="search.bo" method="get" id="search-area" onsubmit="return chkBlank();">
                     	<input type="hidden" name="currentPage" value="<%=pi.getCurrentPage() %>">
                     		<select name="category" id="category">
                                 <option value="제목">제목</option>
@@ -189,6 +189,15 @@
     		function mostViewList(){
     			location.href = "<%=contextPath%>/mostview.bo?currentPage="+<%=pi.getCurrentPage()%>
     		};
+    		
+    		function chkBlank(){
+    			if($("#board_search").val().length==0){
+    				alert("검색할 내용을 입력해주세요");
+    				return false;
+    			}
+    			
+    		};
+    		
     	</script>
     
 </body>

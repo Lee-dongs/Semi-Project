@@ -1,6 +1,8 @@
 package com.kh.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.board.model.service.BoardService;
-import com.kh.member.model.service.MemberService;
+import com.kh.board.model.vo.Like;
+import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class ReplyDeleteController
+ * Servlet implementation class BoardLikeController
  */
-@WebServlet("/delete.re")
-public class ReplyDeleteController extends HttpServlet {
+@WebServlet("/like.bo")
+public class BoardLikeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyDeleteController() {
+    public BoardLikeController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +32,33 @@ public class ReplyDeleteController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int rno = Integer.parseInt(request.getParameter("replyNo"));
-		
-		int result = new BoardService().deleteReply(rno);
-		
-		response.setContentType("json/application; charset=UTF-8");
-		response.getWriter().print(result);
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int uno = loginUser.getUserNo();
+		int result = 0;
+		result = new BoardService().chkUserLike(uno);
+		
+		if(result>0) {
+			result = new BoardService().deleteLike(uno,bno)-1;
+			response.setContentType("json/application; charset=UTF-8");
+			response.getWriter().print(result);
+		}else {
+			result = new BoardService().insertLike(bno, uno);
+			response.setContentType("json/application; charset=UTF-8");
+			response.getWriter().print(result);
+		}
+		
+		
+	
 	}
 
 }
