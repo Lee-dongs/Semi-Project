@@ -24,6 +24,12 @@ public class Member {
 	}
 
 	
+	public Member(String userId) {
+		super();
+		this.userId = userId;
+	}
+
+
 	public Member(String userId, String userPwd, String userName, String email, String birth) {
 		super();
 		this.userId = userId;

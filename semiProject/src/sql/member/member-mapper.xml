@@ -3,7 +3,7 @@
 <properties>
 
 <entry key="insertMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, PHONE, ADDRESS, BIRTH)
+INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, PHONE, EMAIL, ADDRESS, BIRTH)
 VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)
 </entry>
 
@@ -68,6 +68,17 @@ WHERE USER_NAME LIKE '%'||?||'%'
 AND STATUS = 'Y'
 ORDER BY REPORT DESC) M)
 WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="findUserId">
+SELECT USER_NAME, USER_ID
+FROM MEMBER
+WHERE EMAIL = ?
+AND STATUS = 'Y'
+</entry>
+
+<entry key="updatePwd">
+UPDATE MEMBER SET USER_PWD=? WHERE USER_ID=? AND STATUS = 'Y'
 </entry>
 
 </properties>
