@@ -63,6 +63,7 @@ public class BoardService {
 		return result*result2;
 	}
 
+
 	public int increaseCount(int bno) {
 		
 		int result = new BoardDao().increaseCount(conn, bno);
