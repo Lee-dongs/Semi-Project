@@ -380,13 +380,24 @@
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
 		}
 		
+		#modal3{ 
+		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		}
+		
 		.m_head{
             height: 50px;
             margin-top: -60px;
         }
 
         .close_btn{
-            width: 100%;
+           	width : 100%;
+            text-align: right;
+            padding-right: 20px;
+            font-size: 35px;          
+        }
+        
+        #close_btn3{
+        	width : 45%;
             text-align: right;
             padding-right: 20px;
             font-size: 35px;
@@ -459,11 +470,28 @@
             -webkit-text-fill-color: #fff58c;
             }
         	
-        	#reviewText{
+        	#reviewText, #reportText{
         		margin-top : 30px;
         		resize : none;
         	}
+        	
 
+        	
+        	#categoryList>div{
+        		float:left;
+        	}
+        	#categoryList>select{
+        		float:left;
+        		width : 100px;
+        	}
+        	
+        	/*========================================*/
+        	
+        	.moreBtn{
+        		width:100%;
+        		color : red;
+        	}
+			
     </style>
 </head>
 <body>
@@ -652,15 +680,36 @@
 	                <div>
 	                	<textarea name="reviewText" rows="20" cols="40" id="reviewText" required></textarea>
 	                </div>
-	                <input type="hidden", name="cafeNo", value="<%=cafe.getCafeNo() %>">
-					<input type="hidden", name="add", value="<%=add %>">
+	                <input type="hidden" name="cafeNo" value="<%=cafe.getCafeNo() %>">
+					<input type="hidden" name="add" value="<%=add %>">
 	                <button type="submit" class="btn btn-success">확인</button>
                 	<button type="reset" class="btn btn-danger">초기화</button>
 	            </div>
 			</div>
 		</div>	
 	</form>
+	
+	<div id="modal3">
+		<div class="modal_content">
+			<div class="m_head">
+				<div id=categoryList>
+					<div style="margin-left : 30px; margin-right : 15px;">신고사유</div>
+					<select name="reportCategory">
+						<option value="욕설">욕설</option>
+						<option value="홍보">홍보</option>
+						<option value="도배">도배</option>
+					</select>
+	        		<div class="close_btn" id="close_btn3">x</div>
+				</div>
 
+	                <div>
+	                	<textarea name="reportText" rows="20" cols="40" id="reportText" required></textarea>
+	                </div>
+	                <button onclick="insertReport()" class="btn btn-success">확인</button>
+                	<button type="reset" class="btn btn-danger">초기화</button>
+	    	</div>
+		</div>
+	</div>
 	
     <script>
     	var msg = "<%=alertMsg%>";
@@ -671,60 +720,148 @@
     		<%session.removeAttribute("alertMsg");%>
     	}
     
-    	$("#scoreDiv").click(function(){
+    	$("#scoreDiv").click(function(){ //별점주기 버튼 클릭시 모달창 띄움
     		if(<%=m == null%>){
     			alert("로그인 후 사용가능한 기능입니다.");
     		}else{
+                $("#modal").css({
+                    "top": (($(window).height()-$("#modal").outerHeight())/2+$(window).scrollTop())+"px",
+                    "left": (($(window).width()-$("#modal").outerWidth())/2+$(window).scrollLeft())+"px"
+                    //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+                 
+                 });
         		$("#modal").fadeIn();
     		}
     	});
     	
-    	$("#close_btn").click(function(){
+    	$("#close_btn").click(function(){ //x버튼 클릭하면 모달창 닫음
     		$("#modal").fadeOut();
     	});
     	
-    	$("#reviewDiv").click(function(){
+    	$("#reviewDiv").click(function(){ //리뷰쓰기 클릭하면 모달창 띄움
     		if(<%=m == null%>){
     			alert("로그인 후 사용가능한 기능입니다.");
     		}else{
+                $("#modal2").css({
+                    "top": (($(window).height()-$("#modal2").outerHeight())/2+$(window).scrollTop())+"px",
+                    "left": (($(window).width()-$("#modal2").outerWidth())/2+$(window).scrollLeft())+"px"
+                    //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+                 
+                 });
         		$("#modal2").fadeIn();
     		}
     	});
     	
-    	$("#close_btn2").click(function(){
+    	$("#close_btn2").click(function(){ //x버튼 클릭하면 모달창 닫음
     		$("#modal2").fadeOut();
     	});
     
-    	function selectReplyList(){
+		$(function(){
+			selectReplyList(1);
+		})
+		
+    	function selectReplyList(count){ //댓글 리스트 가져와서 띄우기
     		$.ajax({
     			url:"list.re",
     			data:{
     				cafeNo : <%=cafe.getCafeNo()%>
     			},
     			type : "get",
+    			async : false,
     			success : function(list){
-    				var str = "<hr>" + "<p>리뷰 ("+<%=cafe.getReplyCount() %>+")</p>";
     				
-    				for(var i=0; i<list.length; i++){
+    				var str="";
+    				if(count == 1){
+        				str = "<hr>" + "<p ='review'>리뷰 ("+<%=cafe.getReplyCount() %>+")</p>";
+    				}
+    				var checkBtn = false;
+								
+    				var userId;
+    				for(var i=4*count - 4; i<count*4; i++){
+    					if(i == list.length){
+    						checkBtn = true;
+    						break;
+    					}
+    					userId = list[i].userId;
     					str +=
     						 "<div class='dd'>"
     						+"<div class='userInfo'>"
     						+list[i].cafeReplyWriter
     						+"</div>"
-    						+"<div>"+list[i].createDate+"</div>"
-    						+"<div class='report'>" + "신고" + "</div>"
+    						+"<div>"+list[i].createDate+"</div>" //javascript:void(0) : 하이퍼링크 사용안함              '"' + userId + '"' : string처리
+    						+"<div class='report'>" + "<a href='javascript:void(0);'> <p onclick='reporting(" + '"' + userId + '"' + ")'>신고</p> </a>" + "</div>"
     						+"<div class='replyContent'>" + list[i].cafeReplyContent + "</div>"
     						+"</div>"
     						+"<hr>"
     				}
-    				$("#replyDiv").html(str);
+    				if(list.length > count*4-4){
+    					str += "<button class='moreBtn' onclick='moreReply("+ count +")'>더보기</button>" //더보기 버튼
+    				}
+    				if(count == 1){ //count가 1이라면(처음 페이지 접속시) .html로 댓글 띄워줌
+    					$("#replyDiv").html(str);
+    				}else{ //아니면 .append로 댓글 이어 붙임 / .remove로 더보기 버튼도 삭제
+						$(".moreBtn").remove();
+    					$("#replyDiv").append(str);
+    				}
+    				if(checkBtn){ //더이상 보여줄 댓글이 없으면 더보기 버튼을 완전 삭제
+    					$(".moreBtn").remove();
+    				}
     			}
     		})
     	}
     
-		$(function(){
-			selectReplyList();
-		})
+		function moreReply(count){ //반복문 돌릴 count 처리
+			selectReplyList(count+1);
+		}
+		
+		var reportedId; //신고당한사람 아이디
+		function reporting(userId){ //신고 버튼을 누르면 모달창 띄움
+			if(<%=m == null%>){
+				alert("로그인 후 사용가능한 기능입니다.");
+			}else{
+	            $("#modal3").css({
+	                "top": (($(window).height()-$("#modal3").outerHeight())/2+$(window).scrollTop())+"px",
+	                "left": (($(window).width()-$("#modal3").outerWidth())/2+$(window).scrollLeft())+"px"
+	                //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+	             
+	             });
+	        	$("#modal3").fadeIn();
+	    		reportedId = userId;
+			}
+		}
+		
+		$("#close_btn3").click(function(){ //x버튼을 클릭하면 닫음
+    		$("#modal3").fadeOut();
+    	});
+		
+		function insertReport(){ //신고하기
+			$.ajax({
+				url : "insert.rp",
+				data : {
+					content : reportContent(),
+					category : reportCategory(),
+					userId : reportedId
+				},
+				type : "post",
+				success : function(msg){
+					alert(msg.substr(1, msg.length-2));
+					$("select[name=reportCategory]").val(''); //ajax로 했기 때문에 따로 초기화 해줌
+					$("#reportText").val(''); //위와 마찬가지
+					$("#modal3").hide();
+				}
+			});
+		}
+		
+		function reportCategory(){ //신고 사유
+			var reportCategory = $("select[name=reportCategory] option:selected").val();
+			return reportCategory;
+		}
+		
+		function reportContent(){ //신고 내용
+			var reportContent = $("#reportText").val();
+			console.log(reportContent);
+			return reportContent;
+		}
 		
 		function checkRating(){	//0점을 준 별점이 있는지 체크. 있으면 false 리턴
 			var arr = [];

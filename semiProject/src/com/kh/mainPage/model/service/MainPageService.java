@@ -135,4 +135,20 @@ public class MainPageService {
 		return result;
 	}
 
+	public int insertReport(String userId, String category, String content, String reportWriter) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MainPageDao().insertReport(conn, userId, category, content, reportWriter);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 }
