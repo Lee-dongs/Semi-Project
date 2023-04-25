@@ -230,7 +230,7 @@
     // 아이디 유효성검사
 	$('#enroll-form input[name=userId]').keyup(function(){
 		
-		var regExp = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/;
+		var regExp = /^[a-zA-z0-9*!@#$%^&]{8,15}$/;
 		var userId = $(this).val();
 		console.log(userId);
 		

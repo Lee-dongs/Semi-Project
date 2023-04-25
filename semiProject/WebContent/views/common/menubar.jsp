@@ -291,7 +291,7 @@
      <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
      <br>
      <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
+  	   <a href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>">마이페이지</a>
   	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
      </div>
     </div>
