@@ -1,9 +1,10 @@
+<%@page import="com.kh.manager.model.vo.Report"%>
 <%@page import="com.kh.common.model.vo.pageInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-    	ArrayList<Member> list = (ArrayList<Member>)request.getAttribute("list");
+    	ArrayList<Report> list = (ArrayList<Report>)request.getAttribute("list");
     	pageInfo pi = (pageInfo)request.getAttribute("pi");
     	
     %>
@@ -11,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원관리</title>
+<title>신고글관리</title>
     <style>
         .member-wrap *{
             box-sizing: border-box;
@@ -74,17 +75,17 @@
         <br><br>
 
         <div id="title">
-            회원목록
+            신고글 관리
         </div>
         <br><br>
 
       <div class="search-area">
-        <form action="searchMember.ma" method="get" id=search-form onsubmit="return checkBlank()">
-        <input type="hidden" name="currentPage" value="<%=pi.getCurrentPage()%>">
+        <form action="searchReport.ma" method="get" id=search-form onsubmit="return checkBlank()">
+         <input type="hidden" name="currentPage" value="<%=pi.getCurrentPage()%>">
             <div id="search-by-sth">
                 <select name="searchBy" id="search-by">
-                    <option value="userId">아이디</option>
-                    <option value="userName">이름</option>
+                    <option value="userId">신고된 아이디</option>
+                    <option value="category">신고사유</option>
                 </select>
             </div>
             <div id="search-text">
@@ -109,37 +110,31 @@
 
         <br>
 
-      <table class="member-list table-striped" align="center">
+      <table class="report-list table-striped" align="center">
             <thead>
                 <tr>
-                    <td width="80">아이디</td>
-                    <td width="80">이름</td>
-                    <td width="150">연락처</td>
-                    <td width="150">이메일</td>
-                    <td width="300">주소</td>
-                    <td width="80">생일</td>
-                    <td width="80">경고횟수</td>
-                    <td width="100">가입일</td>
-                    <td width="80">탈퇴처리</td>
+                    <td width="50">글번호</td>
+                    <td width="80">신고된 아이디</td>
+                    <td width="80">신고사유</td>
+                    <td width="150">상세사유</td>
+                    <td width="80">신고한 아이디</td>
+                    <td width="80">신고처리</td>
                 </tr>
             </thead>
             <tbody>
             <%if(list.isEmpty()){ %>
             	<tr>
-            		<td colspan="9">조회된 회원이 없습니다.</td>
+            		<td colspan="6">조회된 신고글이 없습니다.</td>
             	</tr>
             <%}else{ %>
-            	<%for(Member m : list){ %>
+            	<%for(Report r : list){ %>
 	            	<tr>
-	                    <td id="userIdtoDelete"><%=m.getUserId() %></td>
-	                    <td><%=m.getUserName() %></td>
-	                    <td><%=(m.getPhone()==null)?"정보없음":m.getPhone()%></td>
-	                    <td><%=(m.getEmail()==null)?"정보없음":m.getEmail()%></td>
-	                    <td><%=(m.getAddress()==null)?"정보없음":m.getAddress() %></td>
-	                    <td><%=(m.getBirth()==null)?"정보없음":m.getBirth() %></td>
-	                    <td><%=m.getReport() %></td>
-	                    <td><%=m.getEnrollDate() %></td>
-	                    <td><button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">탈퇴</button></td>
+	                    <td id="reportNo"><%=r.getReportNo() %></td>
+	                    <td id="userIdtoReport"><%=r.getUserId() %></td>
+                        <td><%=r.getCategory() %></td>
+                        <td><%=r.getReportContent() %></td>
+                        <td><%=r.getReportWriter() %></td>
+	                    <td><button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">신고처리</button></td>
 	                </tr>
             	<%} %>
             <%} %>
@@ -148,36 +143,38 @@
         <br>
         
         <script>
-        // 탈퇴 확인 메세지
+        // 신고 확인 메세지
         function confirmDelete(){
-        	var result = window.confirm("정말 탈퇴처리 하시겠습니까?");
+        	var result = window.confirm("정말 신고처리 하시겠습니까?");
         	
-        	if(result){ // 확인을 누르면
-        		var mno = $("#userIdtoDelete").text();
+        	if(result){ // 확인을 누르면 -> DB에서 MEMBER-REPORT랑 REPORT-STATUS 바꾸기
+        		var id = $("#userIdtoReport").text();
+        		var rno = $("#reportNo").text();
             	
-        		location.href = "<%=contextPath %>/delete.me?mno=" + mno;
+        		location.href = "<%=contextPath %>/report.ma?id=" + id + "&rno=" + rno; // 회원아이디랑 신고글번호
         	}
         };
         
         </script>
         
-       <!-- 페이징 -->
+  
+  		<!-- 페이징 -->      
         <div class="paging-area" align="center" >
 			<%if(pi.getCurrentPage()!= 1){ %>
-				<button onclick="location.href='<%=contextPath%>/memberManagement.ma?currentPage=<%=pi.getCurrentPage()-1%>'">이전</button>
+				<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()-1%>'">이전</button>
 			<%} %>
 			
 			<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++ ){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기  -->
 				<%if(i != pi.getCurrentPage()){ %>
-					<button onclick="location.href='<%=contextPath%>/memberManagement.ma?currentPage=<%=i%>';"><%=i %></button>
+					<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=i%>';"><%=i %></button>
 				<%}else{ %>
 					<button disabled><%=i %></button>
 				<%} %>
 			<%} %>
 			
 			<%if(pi.getCurrentPage() != pi.getMaxPage()){ %>
-				<button onclick="location.href='<%=contextPath%>/memberManagement.ma?currentPage=<%=pi.getCurrentPage()+1%>'">다음</button>
+				<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()+1%>'">다음</button>
 			<%} %>
 		</div>
     

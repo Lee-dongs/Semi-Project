@@ -170,6 +170,7 @@ public class MemberDao {
 		
 		return result;
 	}
+	// 한 페이지에 보여줄 회원 가져오는 메소드
 	public ArrayList<Member> selectMember(Connection conn, pageInfo pi) {
 		
 		ArrayList<Member> list = new ArrayList<>();
@@ -217,6 +218,7 @@ public class MemberDao {
 		
 		return list;
 	}
+	// 회원 몇 명인지 가져오는 메소드
 	public int selectListCount(Connection conn) {
 		
 		int listCount = 0;
@@ -335,6 +337,58 @@ public class MemberDao {
 		}
 		
 		return list;
+	}
+	// 마이페이지 아이디찾기 메소드
+	public Member findUserId(Connection conn, String userName, String userEmail) {
+		
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findUserId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userEmail);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next() && rset.getString("USER_NAME").equals(userName)) {
+				m = new Member(rset.getString("USER_ID"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return m;
+	}
+	// 비밀번호 찾기 - 랜덤으로 생성한 새로운 비밀번호로 변경 메소드
+	public int updatePwd(Connection conn, String userId, String newPwd) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updatePwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, newPwd);
+			pstmt.setString(2, userId);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

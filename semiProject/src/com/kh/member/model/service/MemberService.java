@@ -86,7 +86,7 @@ public class MemberService {
 		return result;
 		
 	}
-	// 회원 전체 조회 메소드
+	// 한 페이지에 보여줄 회원 조회 메소드
 	public ArrayList<Member> selectMember(pageInfo pi) {
 		
 		Connection conn = JDBCTemplate.getConnection();
@@ -125,6 +125,36 @@ public class MemberService {
 		
 		return list;
 
+	}
+	// 마이페이지 아이디찾기 메소드
+	public Member findUserId(String userName, String userEmail) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Member m = new Member();
+		
+		m = new MemberDao().findUserId(conn, userName, userEmail);
+		
+		JDBCTemplate.close(conn);
+		
+		return m;
+	}
+	// 비밀번호 찾기 - 랜덤으로 생성한 새로운 비밀번호로 변경 메소드
+	public int updatePwd(String userId, String newPwd) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().updatePwd(conn, userId, newPwd);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 	
 }
