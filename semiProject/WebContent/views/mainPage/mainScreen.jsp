@@ -10,6 +10,7 @@
             text-align: center;
             width : 1200px;
             margin : auto;
+	
         }
         #content>div:hover{
             color: gray;
@@ -18,8 +19,8 @@
         #content>div{
             margin-top: 50px;
             display: inline-block;
-            width: 300px;
-            height: 200px;
+            width: 350px;
+            height: 250px;
             box-sizing: border-box;
             margin : 20px;
         }
@@ -28,13 +29,18 @@
         	width : 100%;
         	height : 100%;
         }
+        
+        div{
+        	border : 1px solid white;
+        }
+        
 </style>
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
 	
 	<div id="content">
-            <div id="content_1"><img id="photo1" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
+            <div id="content_1"><img id="photo1" src="resources/images/영등포구.PNG" alt=""></div>
             <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_3"><img id="photo3" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_4"><img id="photo4" src="resources/images/브로콜리햄스터.jpg" alt=""></div>

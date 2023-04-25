@@ -10,6 +10,8 @@ public class CafeReply {
 	private Date createDate;//	CREATE_DATE	DATE
 	private String status;//	STATUS	VARCHAR2(1 BYTE)
 	
+	private String userId;
+	
 	public CafeReply() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -26,12 +28,21 @@ public class CafeReply {
 		this.status = status;
 	}
 	
-	public CafeReply(int cafeReplyNo, String cafeReplyWriter, String cafeReplyContent, Date createDate) {
+	public CafeReply(int cafeReplyNo, String userId, String cafeReplyWriter, String cafeReplyContent, Date createDate) {
 		super();
 		this.cafeReplyNo = cafeReplyNo;
+		this.userId = userId;
 		this.cafeReplyWriter = cafeReplyWriter;
 		this.cafeReplyContent = cafeReplyContent;
 		this.createDate = createDate;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public int getCafeReplyNo() {
