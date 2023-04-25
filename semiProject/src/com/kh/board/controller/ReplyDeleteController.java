@@ -32,6 +32,9 @@ public class ReplyDeleteController extends HttpServlet {
 		int rno = Integer.parseInt(request.getParameter("replyNo"));
 		
 		int result = new BoardService().deleteReply(rno);
+		
+		response.setContentType("json/application; charset=UTF-8");
+		response.getWriter().print(result);
 	}
 
 	/**

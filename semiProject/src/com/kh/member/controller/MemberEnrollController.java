@@ -45,14 +45,11 @@ public class MemberEnrollController extends HttpServlet {
 		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
-		String userPwdCheck = request.getParameter("userPwdCheck");
 		String userName = request.getParameter("userName");
 		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
+		String email = request.getParameter("userEmail");
 		String address = request.getParameter("address");
-		String birth = request.getParameter("birth-year") + "/"
-					+ request.getParameter("birth-month") + "/"
-					+ request.getParameter("birth-day");
+		String birth = request.getParameter("birth");
 		
 		Member m = new Member(userId, userPwd, userName, phone, email, address, birth);
 		

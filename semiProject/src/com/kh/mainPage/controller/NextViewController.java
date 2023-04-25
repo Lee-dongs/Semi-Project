@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.kh.mainPage.model.service.MainPageService;
 import com.kh.mainPage.model.vo.Cafe;
+import com.kh.mainPage.model.vo.CafeAttachment;
 
 /**
  * Servlet implementation class NextViewController
@@ -63,8 +65,15 @@ public class NextViewController extends HttpServlet {
 			});
 		}
 		
+		ArrayList<CafeAttachment> cfatList = new MainPageService().selectAttachmentList(list);
 		response.setContentType("json/application; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
+		List test = new ArrayList();
+		test.add(list);
+		test.add(cfatList);
+				
+		Gson gson = new Gson();
+		gson.toJson(test, response.getWriter());
+		
 	}
 
 	/**

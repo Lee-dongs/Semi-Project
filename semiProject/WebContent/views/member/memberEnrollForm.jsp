@@ -5,21 +5,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-   
-     <!-- 부트스트랩 CDN -->
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-	<!-- Popper JS -->
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        /*구글 웹 폰트 CDN*/
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
-
-        
         *{
             box-sizing: border-box;
             outline: none;
@@ -106,7 +92,7 @@
         <!-- 아이디  -->
         <div class="enroll">
             <b>아이디</b>
-            <span><input type="text" id="userId" name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
+            <span><input type="text" id=userId name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
             <button class="btn btn-primary" onclick="idCheck();" type="button">아이디 중복체크</button>
             <!--아이디 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkId"></div>
@@ -120,7 +106,7 @@
         </div> 
         <div class="enroll">
             <b>비밀번호 재확인</b>
-            <input type="password" id="userPwdCheck" name="userPwdCheck" required onchange="isSame()"
+            <input type="password" id="userPwdCheck" name="userPwdCheck" required 
             	placeholder="위의 비밀번호와 일치하는지 확인해주세요">
             <!--비밀번호 재확인 결과 프린트구역-->
             <div class="check-info" id="checkPwd2"></div>
@@ -134,36 +120,27 @@
         <div class="birth">
             <b>생년월일</b>
             <div>
-                <input type="number"  name="birth-year" placeholder="년(4자)">
-                <select name="birth-month" id="birth">
-                    <option value="월" disabled>월</option>
-                    <option value="1">1월</option>
-                    <option value="2">2월</option>
-                    <option value="3">3월</option>
-                    <option value="4">4월</option>
-                    <option value="5">5월</option>
-                    <option value="6">6월</option>
-                    <option value="7">7월</option>
-                    <option value="8">8월</option>
-                    <option value="9">9월</option>
-                    <option value="10">10월</option>
-                    <option value="11">11월</option>
-                    <option value="12">12월</option>
-                </select>
-                <input type="number" name="birth-day" placeholder="일" min="1" max="31">
+                <input type="date"  name="birth">
             </div>
         </div>
 
         <!--이메일 및 전화번호-->
         <div class="enroll">
             <b>이메일<small>(필수)</small></b>
-            <input type="email" name="email" placeholder="필수사항입니다." required>
+            <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요." required>
+            	<button type="button" class="btn btn-primary" id="emailChk">인증번호 보내기</button> <br>
+            <input type="text" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required>
+            	<button type="button" class="btn btn-primary" id="emailChk2">인증번호 입력하기</button>
+            <div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div>
+            <input type="hidden" id="emailDoubleChk">
+            
         </div>
+        
 
         <div class="phone">
-            <b>연락처<small>(필수)</small></b>
+            <b>연락처</b>
             <div>
-                <input type="tel" name="phone" placeholder="전화번호는 -포함하여 입력" required>
+                <input type="tel" name="phone" placeholder="전화번호는 -포함하여 입력">
             </div>
         </div><br>
         <div class="address">
@@ -211,28 +188,29 @@
     	});
     	
     };
+   
     // 비밀번호 일치 검사
-    function isSame(){
-    	var pwd1 = document.getElementById('userPwd').value;
-    	var pwd2 = document.getElementById('userPwdCheck').value;
+    $("#enroll-form input[name=userPwdCheck]").keyup(function(){
+    	var pwd1 = $('#enroll-form input[name=userPwd]').val();
+    	var pwd2 = $(this).val();
     	
     	if(pwd1 !="" && pwd2 !=""){ // 비밀번호 입력 둘 다 공백이 아닐 때
-    		if(pwd1 == pwd2){
-    			document.getElementById('checkPwd2').innerHTML = '비밀번호가 일치합니다.';
-    			document.getElementById('checkPwd2').styel.color='blue';
+    		if(pwd1 == pwd2){ // 비밀번호 일치하면
+    			$('#checkPwd2').html("비밀번호가 일치합니다.");
+    			$('#checkPwd2').css("color","green");
     		}else{
-    			document.getElementById('checkPwd2').innerHTML = '비밀번호가 일치하지 않습니다.';
+    			$('#checkPwd2').html("비밀번호가 일치하지 않습니다.");
+    			$('#checkPwd2').css("color","red");
     		}
-    		
     	}
-    };
+    	
+    });
     
     // 아이디 유효성검사
 	$('#enroll-form input[name=userId]').keyup(function(){
 		
 		var regExp = /^[a-zA-z0-9*!@#$%^&]{8,15}$/;
 		var userId = $(this).val();
-		console.log(userId);
 		
 		if(!regExp.test(userId)){ // 아이디가 정규식을 만족하지 못하면
 			$('#checkId').html("아이디 형식을 확인해주세요");
@@ -245,9 +223,8 @@
     // 비밀번호 유효성검사
 	$('#enroll-form input[name=userPwd]').keyup(function(){
 		
-		var regExp = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/;
+		var regExp = /^[a-zA-Z][a-zA-Z0-9]{8,15}$/;
 		var userPwd = $(this).val();
-		console.log(userPwd);
 		
 		if(!regExp.test(userPwd)){ // 아이디가 정규식을 만족하지 못하면
 			$('#checkPwd').html("비밀번호 형식을 확인해주세요");
@@ -258,6 +235,56 @@
 		}
 	});
     
+    // 이메일 인증 : 인증번호 입력하기
+    var code=""; // 전역변수로 선언
+    $("#emailChk").click(function(){ // 인증번호 보내기를 입력하면
+    	
+    	var userEmail = $("#userEmail").val();
+    	//console.log(userEmail);
+    	
+    	$.ajax({
+    		type : "GET",
+    		url : "emailCheck",    		
+    	    data: {
+    	        userEmail: userEmail // 전송할 데이터 (사용자 이메일)
+    	    },
+    		success : function(result){
+    			if(result == "error"){ // 이메일 전송이 되지 않았다면
+    				alert("이메일 주소가 올바르지 않습니다. 유효한 이메일 주소를 입력해주세요.");
+    				$("#userEmail").attr("autofucus", true);
+    				$("#successEmailChk").text("유효한 이메일 주소를 입력하세요.");
+    				$("#successEmailChk").css("color","red");
+    			}else{ // 이메일 전송이 되었다면
+    				alert("인증번호 발송이 완료되었습니다. 입력한 이메일에서 인증번호를 확인하세요.");
+    				$("#emailVerifyNo").attr("disabled", false);
+    				$("#successEmailChk").text("인증번호를 입력하고 이메일 인증을 눌러주세요.");
+    				$("#successEamilChk").css("color","green");
+    				code = result; // 매개변수로 받은 인증번호
+    			}
+    		},
+    	    error : function(){
+    	    	console.log("통신실패");
+    	    }
+    		
+    	});
+    });
+    
+    // 이메일 인증 : 인증번호 일치 확인하기
+    $("#emailChk2").click(function(){ // 인증번호 입력하기 버튼을 누르면
+    	
+    	if($("#emailVerifyNo").val() == code){ // 인증번호가 일치하면
+    		$("#successEmailChk").text("인증번호가 일치합니다.");
+    		$("#successEmailChk").css("color", "green");
+    		$("#emailDoubleChk").val("true");
+    		$("#emailVerifyNo").attr("disabled",true);
+    	}else{
+    		$("#successEmailChk").text("인증번호가 일치하지 않습니다. 다시입력하세요.");
+    		$("#successEmailChk").css("color", "red");    
+    		$("#emailDoubleChk").val("false");
+    		$("#emailVerifyNo").attr("autofocus",true);
+    		
+    	}
+    });
     </script>
     
     

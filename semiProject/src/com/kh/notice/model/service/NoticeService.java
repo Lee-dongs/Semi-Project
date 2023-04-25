@@ -11,10 +11,10 @@ public class NoticeService {
 	
 	public ArrayList<Notice> selectList() {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Notice> list = new NoticeDao().selectList();
+		//ArrayList<Notice> list = new NoticeDao().selectList();
 		
 		JDBCTemplate.close(conn);
-		return list;
+		return null;
 	}
 
 	public int insertNotice(Notice n) {

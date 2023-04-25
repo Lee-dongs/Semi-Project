@@ -31,7 +31,7 @@ public class NoticeDeleteConteroller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("nno"));
 		
-		System.out.println(noticeNo);
+		//System.out.println(noticeNo);
 		int result = new NoticeService().deleteNotice(noticeNo);
 		
 		if(result>0) {

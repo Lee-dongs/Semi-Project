@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="selectListCount">
+	SELECT COUNT(*) AS COUNT
+	FROM QUESTION
+	WHERE STATUS = 'Y'
+</entry>
+<entry key="selectList">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT Q.QUESTION_NO, Q.QUESTION_TITLE,M.USER_ID,Q.CONTENT, Q.MODIFY_DATE
+			   FROM QUESTION Q 
+			   JOIN MEMBER M ON (Q.QUESTION_WRITER = M.USER_NO)
+			   WHERE Q.STATUS = 'Y'
+			   ORDER BY Q.QUESTION_NO DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+</entry>
+<entry key="insertQuestion">
+	INSERT INTO QUESTION(QUESTION_NO,QUESTION_TITLE,CONTENT,QUESTION_WRITER)
+	VALUES(SEQ_QNO.NEXTVAL,?,?,?)
+</entry>
+
+<entry key="updateQuestion">
+	UPDATE QUESTION
+	SET QUESTION_TITLE=?,CONTENT=?
+	WHERE QUESTION_NO=?
+	AND STATUS= 'Y'
+	
+</entry>
+
+<entry key="seletQuestion">
+	SELECT Q.QUESTION_NO,Q.QUESTION_TITLE,M.USER_ID,Q.CONTENT,Q.MODIFY_DATE
+	FROM QUESTION Q
+	JOIN MEMBER M ON(QUESTION_WRITER = USER_NO)
+	WHERE QUESTION_NO = ?
+	AND Q.STATUS='Y'
+</entry>
+<entry key="questionReply">
+	INSERT INTO QUESTION_REPLY(REPLY_NO
+							  ,REF_BNO
+                              ,REPLY_WRITER
+							  ,REPLY_CONTENT)
+	VALUES(SEQ_QRNO.NEXTVAL,?,?,?)						
+</entry>
+
+<entry key="deleteQuestion">
+	UPDATE QUESTION
+	SET STATUS = 'N'
+	WHERE QUESTION_NO = ?
+	AND STATUS = 'Y'
+</entry>
+</properties>

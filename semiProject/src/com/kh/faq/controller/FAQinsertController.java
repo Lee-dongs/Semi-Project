@@ -55,7 +55,7 @@ public class FAQinsertController extends HttpServlet {
 		int result = new FAQService().insertFAQ(f);
 		
 		if(result>0) {
-			response.sendRedirect(request.getContextPath()+"/list.fo");
+			response.sendRedirect(request.getContextPath()+"/list.fo?currentPage=1");
 		}else {
 			request.setAttribute("errorMsg", "공지사항 작성 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

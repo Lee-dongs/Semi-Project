@@ -54,6 +54,20 @@ public class Cafe {
 		this.cafeName = cafeName;
 		this.address = address;
 	}
+	
+	
+
+	public Cafe(int cafeNo, String cafeName, String operationTime, String offDay, String phone, String address,
+			int count) {
+		super();
+		this.cafeNo = cafeNo;
+		this.cafeName = cafeName;
+		this.operationTime = operationTime;
+		this.offDay = offDay;
+		this.phone = phone;
+		this.address = address;
+		this.count = count;
+	}
 
 	public double getScore() {
 		return score;

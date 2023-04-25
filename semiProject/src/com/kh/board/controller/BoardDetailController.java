@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.board.model.service.BoardService;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Like;
+import com.kh.board.model.vo.unLike;
 
 /**
  * Servlet implementation class BoardDetailController
@@ -38,8 +40,12 @@ public class BoardDetailController extends HttpServlet {
 		if(result>0) {
 			Board b = new BoardService().selectBoard(bno);
 			Attachment at = new BoardService().selectAttachment(bno);
+			Like l = new BoardService().likeSelectList(bno);
+			unLike ul = new BoardService().selectUnLikeList(bno);
 			request.setAttribute("b", b);
 			request.setAttribute("at", at);
+			request.setAttribute("l", l);
+			request.setAttribute("ul", ul);
 			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
 		}
 	}
