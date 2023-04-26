@@ -165,6 +165,7 @@ public class MemberService {
 	
 	//댓글 있는 카페 요청글 조회 메소드
 	public ArrayList<CafeRequest> selectCafeRequestWith(int userNo) {
+		
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<CafeRequest> aList = new MemberDao().selectCafeRequestWith(conn,userNo);
 		JDBCTemplate.close(conn);
@@ -282,6 +283,16 @@ public class MemberService {
 		}
 		JDBCTemplate.close(conn);
 		return result;
+	}
+	// 이메일 중복 체크 메소드
+	public int checkEmail(String userEmail) {
+		Connection conn = JDBCTemplate.getConnection();
+
+		int count = new MemberDao().checkEmail(conn, userEmail);
+
+		JDBCTemplate.close(conn);
+
+		return count;
 	}
 	
 	

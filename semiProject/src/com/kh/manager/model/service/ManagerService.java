@@ -76,8 +76,8 @@ public class ManagerService {
 
 		if (searchBy.equals("userId")) { // 아이디로 신고글 검색
 			list = new ManagerDao().searchReportById(conn, keyword, pi);
-		} else { // 신고사유로 신고글 검색
-			list = new ManagerDao().searchReportByCategory(conn, keyword, pi);
+		} else { // 상세신고내용으로 신고글 검색
+			list = new ManagerDao().searchReportByContent(conn, keyword, pi);
 		}
 
 		JDBCTemplate.close(conn);
@@ -85,5 +85,4 @@ public class ManagerService {
 		return list;
 	}
 	
-
 }

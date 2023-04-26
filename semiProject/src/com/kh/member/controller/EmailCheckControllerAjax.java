@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.member.model.service.MemberService;
+
 /**
  * Servlet implementation class EmailCheckControllerAjax
  */
@@ -41,44 +43,52 @@ public class EmailCheckControllerAjax extends HttpServlet {
 		
 		String userEmail = request.getParameter("userEmail"); // 입력한 사용자 이메일주소
 		String verifyNo = UUID.randomUUID().toString(); // 인증번호 만들기
+		String result = ""; // 성공 실패 여부 보낼 매개변수
 		//System.out.println(userEmail);
 		
-		String host = "smtp.naver.com";
-		int port = 465;
-		String from = "yoojin930521@naver.com"; // 보내는 사람
-		String password = "kimlea93!";
-		String title = "5조에서 보내는 인증번호 입니다.";
-		String content = "[인증번호]" + verifyNo + " 입니다. 인증번호 확인란에 입력하세요.";
+		int count = new MemberService().checkEmail(userEmail); // 이메일 중복확인
 		
-		Properties prop = new Properties();
-		prop.put("mail.smtp.host", host);
-		prop.put("mail.smtp.port", port);
-		prop.put("mail.smtp.auth", "true");
-		prop.put("mail.smtp.ssl.enable","true");
-		prop.put("mail.smtp.ssl.trust", host);
-		
-		Authenticator auth = new SMTPAuthenticator("yoojin930521", password); // 내 아이디랑 비밀번호
-	    Session session = Session.getDefaultInstance(prop, auth);	    
-	    MimeMessage message = new MimeMessage(session);
-	    
-	    String result = ""; // 성공 실패 여부 보낼 매개변수
-	    
-        try {
-			message.setFrom(new InternetAddress(from));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail)); // 이메일 받는 사람
-			message.setSubject(title, "UTF-8"); // 메일 제목
-			message.setText(content, "UTF-8"); // 메일 내용
-			message.setSentDate(new Date()); // 메일 보낸 시간
+		if(count > 0) { // 이메일 중복
+			result = "error";
+		}else { // 없는 이메일이면 인증번호 보내기
 			
-			Transport.send(message); // 이메일 보내기
+			String host = "smtp.naver.com";
+			int port = 465;
+			String from = "yoojin930521@naver.com"; // 보내는 사람
+			String password = "kimlea93!";
+			String title = "5조에서 보내는 인증번호 입니다.";
+			String content = "[인증번호]" + verifyNo + " 입니다. 인증번호 확인란에 입력하세요.";
 			
-			result = verifyNo; // 성공하면 매개변수로 내가 만든 인증번호 보내기
+			Properties prop = new Properties();
+			prop.put("mail.smtp.host", host);
+			prop.put("mail.smtp.port", port);
+			prop.put("mail.smtp.auth", "true");
+			prop.put("mail.smtp.ssl.enable","true");
+			prop.put("mail.smtp.ssl.trust", host);
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			result = "error"; // 실패시 매개변수로 "error"메세지 보내기
-		} 
+			Authenticator auth = new SMTPAuthenticator("yoojin930521", password); // 내 아이디랑 비밀번호
+			Session session = Session.getDefaultInstance(prop, auth); 
+			MimeMessage message = new MimeMessage(session);
+			
+			
+			try {
+				message.setFrom(new InternetAddress(from));
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail)); // 이메일 받는 사람
+				message.setSubject(title, "UTF-8"); // 메일 제목
+				message.setText(content, "UTF-8"); // 메일 내용
+				message.setSentDate(new Date()); // 메일 보낸 시간
+				
+				Transport.send(message); // 이메일 보내기
+				
+				result = verifyNo; // 성공하면 매개변수로 내가 만든 인증번호 보내기
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				result = "error"; // 실패시 매개변수로 "error"메세지 보내기
+			} 
+			
+		}
 		
         response.getWriter().print(result); // 비동기방식이므로 getWriter()를 이용해 매개변수 보내기
 		

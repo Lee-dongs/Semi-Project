@@ -70,13 +70,13 @@
             text-align: center;
         }
         #header_1{
-            width: 15%;
+            width: 20%;
         }
         #header_2{
-            width: 70%;
+            width: 60%;
         }
         #header_3{
-            width: 15%;
+            width: 20%;
         }
         #login_form{
             margin-top: 50px;
@@ -187,7 +187,37 @@
             color: black;
             font-size: 13px;
         }
-      
+       /* ================ 회원정보카드 ================ */
+        .info-card{
+        width: 90%;
+        height: 60%;
+        border: 2px solid rgb(255, 208, 0);
+        border-radius: 5%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+	    }
+	    #info-table{
+	        padding: 10px 5px;
+	        width: 100%;
+	        height: 100%;
+	    }
+	    .info-wrap thead img{
+	        width: 11px;
+	        height: 11px;
+	    }
+	    #managerPage{
+	       vertical-align: bottom;
+	       padding-top: 30px;
+	    }
+	    #myPage{
+	        vertical-align: top;
+	        padding-top: 5px;
+	    }
     </style>
 </head>
 <body>
@@ -287,32 +317,90 @@
     </div>
     
     <%}else if(loginUser.getUserId().equals("admin")){ %>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-    	<a href="<%=contextPath%>/adminPage.ma">관리자 메인</a>
-  	  	<a href="<%=contextPath%>/myPage.me">마이페이지</a>
-  	  	<a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
-    </div>
     
+    <div class="info-wrap">
+        <div class="info-card">
+            <table id="info-table">
+                <thead>
+                    <tr>
+                        <td><img src="resources/images/user.png"><small>관리자</small></td>
+                        <td colspan="2" style="text-align: right;">
+                            <input type="button" class="logout" value="로그아웃&gt;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><h3 style="color: steelblue;">안녕하세요</h3><%=loginUser.getUserName() %>님</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" id="managerPage">
+                            <input type="button" class="managerPage" value="관리페이지&gt;"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" id="myPage">
+                            <input type="button" class="myPage" value="나의정보&gt;"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+     <script>
+    $(".myPage").click(function(){
+    	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
+    });
+    </script>
     
     <%}else{%>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>">마이페이지</a>
-  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
+    	 <div class="info-wrap">
+        <div class="info-card">
+            <table id="info-table">
+                <thead>
+                    <tr>
+                        <td><img src="https://png.pngtree.com/png-vector/20190411/ourmid/pngtree-vector-business-men-icon-png-image_925963.jpg"><small>개인회원</small></td>
+                        <td colspan="2" style="text-align: right;">
+                            <input type="button" class="logout" value="로그아웃&gt;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><h2 style="color: steelblue;">안녕하세요</h2>김유진님</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" id="managerPage">
+                            <input type="button" class="managerPage" value="관리페이지&gt;" style="display:none"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" id="myPage">
+                            <input type="button" class="myPage" value="나의정보&gt;"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
     </div>
-    
+    <script>
+    $(".myPage").click(function(){
+    	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
+    });
+    </script>
     <%} %>
         </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
         
-            </div><!-- 헤더 끝 -->
+    <script>
+    $(".logout").click(function(){
+    	location.href="<%=contextPath%>/logout.me";
+    });
+    $(".managerPage").click(function(){
+    	location.href="<%=contextPath%>/adminPage.ma";
+    });
+    
+    </script>
            
+        
+            </div><!-- 헤더 끝 -->
             
             <div id="menubar">
                 <ul id="navi">
@@ -333,12 +421,11 @@
 	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 	<script>
-	
 	Kakao.init('698ae24b3c91e63011b0fe6f4bee6fe4');
 	
-	console.log(Kakao.isInitialized());
+	//console.log(Kakao.isInitialized());
 	
-	// 로그인
+	// 카카오로그인
 	function kakaoLogin() {
 	    Kakao.Auth.login({
 	      success: function (response) {
