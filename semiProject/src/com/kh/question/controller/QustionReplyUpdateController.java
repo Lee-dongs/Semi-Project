@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.member.model.vo.Member;
 import com.kh.question.model.service.QuestionService;
-import com.kh.question.model.vo.Question_Reply;
 
 /**
- * Servlet implementation class QuestionListController
+ * Servlet implementation class QustionReplyUpdateController
  */
-@WebServlet("/insertRe.qo")
-public class QuestionReplyController extends HttpServlet {
+@WebServlet("/updateReply.qo")
+public class QustionReplyUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionReplyController() {
+    public QustionReplyUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,31 +29,20 @@ public class QuestionReplyController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
-		//System.out.println(questionNo);
-		
+		int replyNo = Integer.parseInt(request.getParameter("replyNo"));
 		String content = request.getParameter("content");
-		//System.out.println(content);
 		
-		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
-		int userNo = loginUser.getUserNo();
-		//System.out.println(userNo);
+		int result = new QuestionService().updateReply(replyNo,content);
 		
-		Question_Reply re = new Question_Reply();
-		re.setRefBno(questionNo);
-		re.setReplyContent(content);
-		re.setReplyWriter(String.valueOf(userNo));
-		
-		int result = new QuestionService().questionReply(re);
-		//System.out.println(result);
+		response.setContentType("json/application; charset=UTF-8");
 		response.getWriter().print(result);
 	}
 

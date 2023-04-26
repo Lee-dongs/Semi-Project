@@ -6,8 +6,9 @@
     pageEncoding="UTF-8"%>
     <%
     	ArrayList<FAQ> list = (ArrayList<FAQ>)request.getAttribute("list");
-    	ArrayList<Question> qlist =(ArrayList<Question>)session.getAttribute("qlist");
-    	pageInfo pi = (pageInfo)request.getAttribute("pi");    	    	
+    	ArrayList<Question> qlist =(ArrayList<Question>)request.getAttribute("qlist");
+    	pageInfo pi = (pageInfo)request.getAttribute("pi");    	
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -244,12 +245,13 @@
         	 <tr>
                   <th class="search_input" colspan="5">
                     	<form action="search.qo" method="get" id="search-area">
+                    	<input type="hidden" name="currentPage" value="<%=pi.getCurrentPage()%>">
                     		<select name="category" id="category">
                                 <option value="제목">제목</option>
                                 <option value="내용">내용</option>
                                 <option value="작성자">작성자</option>
                             </select>
-                            <input type="text" name="keyword" placeholder="검색" id="board_search">
+                            <input type="text" name="searchText" placeholder="검색어 입력" id="question_search">
                             <button>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -258,6 +260,9 @@
                         </form>
                   </th>
              </tr>
+             
+             
+            
              <%if(qlist.isEmpty()){ %>
                 <tr>
                 	<td>공지게시글이 없습니다.</td>
@@ -268,51 +273,16 @@
         	<tr class="questionTr1">
         		<td width="50" align="center" id="questionNo"><%=q.getQuestionNo() %></td>
         		<td width="400"><%=q.getQuestionTitle() %></td>
-        		<td align="center"><%=q.getModifyDate() %></td>
         		<td align="center"><%=q.getQuestionWriter() %></td> 
-        		<%if(loginUser !=null && loginUser.getUserId().equals(q.getQuestionWriter())) {%>
-        		<td width="100"><a href="<%=contextPath%>/update.qo?qqo=<%=q.getQuestionNo()%>"class="btn btn-warning">수정하기</a></td>               
-        		<%} %>
+        		<td align="center"><%=q.getModifyDate() %></td>
+        		
         	</tr>
-        	
-        	<tr id="tr3">
-        		 <td colspan="5" id="td2" align="center">
-        			<br>
-                	<div class="div1">
-                       	    <%=q.getContent() %>
-                	</div>
-                	<br>
-                	
-  
-        <%if(loginUser !=null && loginUser.getUserId().equals(q.getQuestionWriter())) {%>
-        	
-          <a href="<%=contextPath%>/delete.qo?qqo=<%=q.getQuestionNo() %>"class="btn btn-danger">삭제하기</a> 
-
-        <%} %>	                	            	
-                	<br>
-	                <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
-	                	<div id="tr4">
-	                	<br>
-		                	<div>
-		                		<textarea id="text-box" rows="5" cols="60"></textarea>                		
-		                	</div>
-		                	<div>
-		                		<button onclick="insertReply();" class="btn btn-info">답글달기</button>
-		                	</div>
-		                	<br>
-	                	</div>
-	                <%}else{ %>	                	
-	                	           
-	                <%} %>
-                	<br>
-                </td>
-                               
-             </tr>
-            
-                         
+             
              <%} %>
-            <%} %>
+            <%}%>
             
+            </tbody>
+            <tfoot>
             <tr align="center" class="paging-area" >                     
             <td align="center" colspan="4">
             	 <br><br>
@@ -331,13 +301,13 @@
 					<%} %>
 					
 					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-						<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+						<button onclick="location.href='<%=contextPath%>/list.fo?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
 					<%} %>
 			
 				
 			</td>
             </tr>
-        	</tbody>
+        	</tfoot>
         </table>
          <br><br><br>
     </div>
@@ -360,57 +330,17 @@
         });
         
         
-        $(".questionTr1").click(function(){
-             var $tr = $(this).next(); 
-             //console.log($(this).next());
-             if($tr.css("display") == "none"){
-            	 $(this).siblings("#tr3").slideUp();
-                 $tr.slideDown(0);
-                 
-             }else{
-                 $tr.slideUp(0);
-             }
-         });
+       
         $(".question-area>tbody>.questionTr1").click(function(){
         	//console.log($(this).children().eq(0).text());
         	var qqo =$(this).children().eq(0).text();
+        	location.href= '<%=contextPath%>/detail.qo?qqo='+qqo;
+        	
         })
  
     </script>
     
-    <script>
-    function insertReply(){
-		//댓글 삽입
-		//게시글 번호 필요
-		//성공시에는 댓글 리스트 조회함수 실행 후 
-		
-		$.ajax({
-			url:"insertRe.qo",
-			data : {
-				questionNNo:$(".question-area>tbody>.questionTr1").children().eq(0).text(),
-							
-				content: $("#text-box").val()
-			},
-			type : "post",
-			success : function(result){
-				
-				if(result>0){
-				console.log(result);
-				alert("댓글 작성 완료");
-				//selectReplyList();//댓글리스트 갱신
-				$("#text-box").val("");
-					
-				}
-				
-			},
-			error : function(){
-				console.log("댓글 작성 통신 실패");
-			}
-		})
-	}
-	
-
-    </script>
+   
     
 </body>
 </html>

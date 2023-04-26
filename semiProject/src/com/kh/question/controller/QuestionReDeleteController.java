@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.member.model.vo.Member;
 import com.kh.question.model.service.QuestionService;
-import com.kh.question.model.vo.Question_Reply;
 
 /**
- * Servlet implementation class QuestionListController
+ * Servlet implementation class QuestionReDeleteController
  */
-@WebServlet("/insertRe.qo")
-public class QuestionReplyController extends HttpServlet {
+@WebServlet("/deleteReply.qo")
+public class QuestionReDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionReplyController() {
+    public QuestionReDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,6 +29,15 @@ public class QuestionReplyController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int replyNo = Integer.parseInt(request.getParameter("replyNo"));
+		//System.out.println(replyNo);
+		
+		int result = new QuestionService().deleteReply(replyNo);
+		
+		response.setContentType("json/application; charset=UTF-8");
+		response.getWriter().print(result);
+		
+		
 		
 	}
 
@@ -38,25 +45,8 @@ public class QuestionReplyController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
-		//System.out.println(questionNo);
-		
-		String content = request.getParameter("content");
-		//System.out.println(content);
-		
-		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
-		int userNo = loginUser.getUserNo();
-		//System.out.println(userNo);
-		
-		Question_Reply re = new Question_Reply();
-		re.setRefBno(questionNo);
-		re.setReplyContent(content);
-		re.setReplyWriter(String.valueOf(userNo));
-		
-		int result = new QuestionService().questionReply(re);
-		//System.out.println(result);
-		response.getWriter().print(result);
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }
