@@ -250,9 +250,9 @@
     	    },
     		success : function(result){
     			if(result == "error"){ // 이메일 전송이 되지 않았다면
-    				alert("이메일 주소가 올바르지 않습니다. 유효한 이메일 주소를 입력해주세요.");
+    				alert("이미 사용중인 이메일입니다. 다른 이메일 주소를 입력해주세요.");
     				$("#userEmail").attr("autofucus", true);
-    				$("#successEmailChk").text("유효한 이메일 주소를 입력하세요.");
+    				$("#successEmailChk").text("이미 사용중인 이메일입니다. 다른 이메일 주소를 입력해주세요.");
     				$("#successEmailChk").css("color","red");
     			}else{ // 이메일 전송이 되었다면
     				alert("인증번호 발송이 완료되었습니다. 입력한 이메일에서 인증번호를 확인하세요.");

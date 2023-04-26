@@ -273,7 +273,15 @@
                         <tr>
                             <th>이메일:</th>
                             <td class="info"><span><%=loginUser.getEmail() %></span></td>
-                            <td class="update" style="display:none"><input name="email" type="text" value=<%=loginUser.getEmail() %>></td>
+                            <td class="update" style="display:none">
+                            <input name="email" type="text" id="userEmail" value=<%=loginUser.getEmail() %>>
+                            <input type="button" id="emailChk" value="인증번호 보내기"></td>
+                        </tr>
+                        <tr>
+                       		<th></th>
+                            <td class="update" style="display:none"><input type="text" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required>
+            				<input type="button" id="emailChk2" value="인증번호 입력하기">
+            				<div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div></td>
                         </tr>
                         <tr>
                             <th>번호:</th>
@@ -640,6 +648,57 @@
         	
         	
         });
+        
+        // 이메일 인증하기
+        
+        // 이메일 인증 : 인증번호 입력하기
+		    var code=""; // 전역변수로 선언
+		    $("#emailChk").click(function(){ // 인증번호 보내기를 클릭하면
+		    	
+		    	var userEmail = $("#userEmail").val();
+		    	//console.log(userEmail);
+		    	
+		    	$.ajax({
+		    		type : "GET",
+		    		url : "emailCheck",    		
+		    	    data: {
+		    	        userEmail: userEmail // 전송할 데이터 (사용자 이메일)
+		    	    },
+		    		success : function(result){
+		    			if(result == "error"){ // 이메일 전송이 되지 않았다면
+		    				alert("이미 사용중인 이메일입니다. 다른 이메일 주소를 입력해주세요.");
+		    				$("#userEmail").attr("autofucus", true);
+		    				$("#successEmailChk").text("이미 사용중인 이메일입니다. 다른 이메일 주소를 입력해주세요.");
+		    				$("#successEmailChk").css("color","red");
+		    			}else{ // 이메일 전송이 되었다면
+		    				alert("인증번호 발송이 완료되었습니다. 입력한 이메일에서 인증번호를 확인하세요.");
+		    				$("#emailVerifyNo").attr("disabled", false);
+		    				$("#successEmailChk").text("인증번호를 입력하고 이메일 인증을 눌러주세요.");
+		    				$("#successEamilChk").css("color","green");
+		    				code = result; // 매개변수로 받은 인증번호
+		    			}
+		    		},
+		    	    error : function(){
+		    	    	console.log("통신실패");
+		    	    }
+		    		
+		    	});
+		    });
+		    
+		    // 이메일 인증 : 인증번호 일치 확인하기
+		    $("#emailChk2").click(function(){ // 인증번호 입력하기 버튼을 누르면
+		    	
+		    	if($("#emailVerifyNo").val() == code){ // 인증번호가 일치하면
+		    		$("#successEmailChk").text("인증번호가 일치합니다.");
+		    		$("#successEmailChk").css("color", "green");
+		    		$("#emailVerifyNo").attr("disabled",true);
+		    	}else{
+		    		$("#successEmailChk").text("인증번호가 일치하지 않습니다. 다시입력하세요.");
+		    		$("#successEmailChk").css("color", "red");    
+		    		$("#emailVerifyNo").attr("autofocus",true);
+		    		
+		    	}
+		    });
         </script> 
         <br><br><br> 
 </body>

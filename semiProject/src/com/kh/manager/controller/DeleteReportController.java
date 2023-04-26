@@ -1,23 +1,26 @@
-package com.kh.member.controller;
+package com.kh.manager.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.manager.model.service.ManagerService;
+
 /**
- * Servlet implementation class LogoutController
+ * Servlet implementation class DeleteReportController
  */
-@WebServlet("/logout.me")
-public class LogoutController extends HttpServlet {
+@WebServlet("/deleteReport.ma")
+public class DeleteReportController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutController() {
+    public DeleteReportController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +30,18 @@ public class LogoutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getSession().removeAttribute("loginUser");
-		request.getSession().setAttribute("alertMsg", "성공적으로 로그아웃 되었습니다.");
+		int reportNo = Integer.parseInt(request.getParameter("rno"));
 		
-		response.sendRedirect(request.getContextPath()); // 로그인 회원 정보 삭제 후 메인으로
+		int result = new ManagerService().updateReport(reportNo);
+		
+		if(result > 0) {
+			request.getSession().setAttribute("alertMsg", "글을 삭제했습니다.");
+			response.sendRedirect(request.getHeader("Referer"));
+		}else {
+			request.setAttribute("errorMsg", "회원가입에 실패했습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+
 	}
 
 	/**

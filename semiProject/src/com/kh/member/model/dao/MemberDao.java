@@ -749,5 +749,29 @@ public class MemberDao {
 		
 		return result;
 	}
+	// 이메일 중복확인 메소드
+	public int checkEmail(Connection conn, String userEmail) {
+		
+		int count = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("checkEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userEmail);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

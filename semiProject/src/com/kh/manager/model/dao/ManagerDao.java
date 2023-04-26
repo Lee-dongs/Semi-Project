@@ -183,12 +183,12 @@ private Properties prop = new Properties();
 		return list;
 	}
 	// 신고사유로 신고글 조회
-	public ArrayList<Report> searchReportByCategory(Connection conn, String keyword, pageInfo pi) {
+	public ArrayList<Report> searchReportByContent(Connection conn, String keyword, pageInfo pi) {
 		
 		ArrayList<Report> list = new ArrayList<>();
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("searchReportByCategory");
+		String sql = prop.getProperty("searchReportByContent");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

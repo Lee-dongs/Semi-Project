@@ -85,11 +85,12 @@
             <div id="search-by-sth">
                 <select name="searchBy" id="search-by">
                     <option value="userId">신고된 아이디</option>
-                    <option value="category">신고사유</option>
+                    <option value="content" id="searchByContent">상세신고내용</option>
                 </select>
             </div>
             <div id="search-text">
-                <input type="search" name="keyword" id="keyword">
+                <input type="search" name="keyword" id="keyword" 
+                	value="<%=(request.getAttribute("keyword")==null)?"":request.getAttribute("keyword")%>">
             </div>
             <div id="search-btn">
                 <input type="submit" value="검색"></input>
@@ -99,12 +100,24 @@
       
      <script>
      
-     function checkBlank(){
-    	if($("#keyword").val().length == 0){
-    		alert("검색할 내용을 입력해주세요");
-    		return false;
-    	}
-     };
+  // 검색 값 유지하기
+  	$(function() {
+ 	    // 값 불러오기
+ 	    var savedSearchBy = "<%=request.getAttribute("searchBy")%>";
+ 	    
+ 	    // servlet에서 가져온 값 있으면 대입하기
+ 	    if (savedSearchBy=="content") {
+ 	      $("#searchByContent").attr("selected",true);
+ 	    }
+ 	  });
+  
+  // 빈칸 검색하지 못하게 하는 함수
+	     function checkBlank(){
+	    	if($("#keyword").val().length == 0){
+	    		alert("검색할 내용을 입력해주세요");
+	    		return false;
+	    	}
+	     };
      
      </script>
 
@@ -114,27 +127,29 @@
             <thead>
                 <tr>
                     <td width="50">글번호</td>
-                    <td width="80">신고된 아이디</td>
+                    <td width="100">신고된 아이디</td>
                     <td width="80">신고사유</td>
-                    <td width="150">상세사유</td>
-                    <td width="80">신고한 아이디</td>
+                    <td width="400">상세사유</td>
+                    <td width="100">신고한 아이디</td>
                     <td width="80">신고처리</td>
+                    <td width="80">글삭제</td>
                 </tr>
             </thead>
             <tbody>
             <%if(list.isEmpty()){ %>
             	<tr>
-            		<td colspan="6">조회된 신고글이 없습니다.</td>
+            		<td colspan="7">조회된 신고글이 없습니다.</td>
             	</tr>
             <%}else{ %>
             	<%for(Report r : list){ %>
 	            	<tr>
-	                    <td id="reportNo"><%=r.getReportNo() %></td>
-	                    <td id="userIdtoReport"><%=r.getUserId() %></td>
+	                    <td><%=r.getReportNo() %></td>
+	                    <td><%=r.getUserId() %></td>
                         <td><%=r.getCategory() %></td>
                         <td><%=r.getReportContent() %></td>
                         <td><%=r.getReportWriter() %></td>
 	                    <td><button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">신고처리</button></td>
+	                    <td><button type="button" class="btn btn-info btn-sm" onclick="deleteReport()">글삭제</button></td>
 	                </tr>
             	<%} %>
             <%} %>
@@ -148,10 +163,30 @@
         	var result = window.confirm("정말 신고처리 하시겠습니까?");
         	
         	if(result){ // 확인을 누르면 -> DB에서 MEMBER-REPORT랑 REPORT-STATUS 바꾸기
-        		var id = $("#userIdtoReport").text();
-        		var rno = $("#reportNo").text();
-            	
-        		location.href = "<%=contextPath %>/report.ma?id=" + id + "&rno=" + rno; // 회원아이디랑 신고글번호
+        		
+	        	$(".report-list>tbody>tr").click(function(){
+	           
+	            	var rno = $(this).children().eq(0).text();
+	            	var id = $(this).children().eq(1).text();
+	            	        		
+	            	location.href = "<%=contextPath %>/report.ma?id=" + id + "&rno=" + rno; // 회원아이디랑 신고글번호
+        		});
+        	}
+            
+        };
+        // 글 삭제 확인 메세지
+        function deleteReport(){
+        	var result = window.confirm("정말 삭제하시겠습니까?");
+        	
+        	if(result){
+        		$(".report-list>tbody>tr").click(function(){
+        			
+        			var rno = $(this).children().eq(0).text();
+        			console.log(rno);
+        			
+        			location.href = "<%=contextPath%>/deleteReport.ma?rno=" + rno; // 신고글번호
+        			
+        		});	
         	}
         };
         
