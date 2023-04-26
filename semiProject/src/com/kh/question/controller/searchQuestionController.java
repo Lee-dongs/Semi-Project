@@ -1,4 +1,4 @@
-package com.kh.faq.controller;
+package com.kh.question.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,24 +8,26 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.common.model.vo.pageInfo;
 import com.kh.faq.model.service.FAQService;
 import com.kh.faq.model.vo.FAQ;
+import com.kh.member.model.vo.Member;
 import com.kh.question.model.service.QuestionService;
 import com.kh.question.model.vo.Question;
 
 /**
- * Servlet implementation class FAQControllerTest
+ * Servlet implementation class searchQuestionController
  */
-@WebServlet("/list.fo")
-public class FAQuestionController extends HttpServlet {
+@WebServlet("/search.qo")
+public class searchQuestionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQuestionController() {
+    public searchQuestionController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,8 +36,6 @@ public class FAQuestionController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		int listCount; //현재 총 게시글 개수
 		int currentPage; //현재페이지
 		int pageLimit; // 페이지 하단에 보여질 페이징바의 페이지 최대개수
@@ -64,19 +64,22 @@ public class FAQuestionController extends HttpServlet {
 		}
 		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, questionLimit, maxPage, startPage, endPage);
-		ArrayList<FAQ> list = new FAQService().selecList();
 		
+		// 질문글 검색
+		String category = request.getParameter("category");
+		String searchText = request.getParameter("searchText");
+		
+		ArrayList<Question> qlist = new QuestionService().searchQuestion(category,searchText,pi);
+		request.setAttribute("qlist", qlist);
+		request.setAttribute("pi", pi);
+		
+		//자주묻는 질문
+		
+		ArrayList<FAQ> list = new FAQService().selecList();
 		request.setAttribute("list", list);
 		
-		ArrayList<Question> qlist = new QuestionService().selectList(pi);
-		
-		
-		
-		request.setAttribute("pi", pi);
-		request.setAttribute("qlist", qlist);
+		//보내기
 		request.getRequestDispatcher("views/faq/faquestionView.jsp").forward(request, response);
-		
-		
 	}
 
 	/**
