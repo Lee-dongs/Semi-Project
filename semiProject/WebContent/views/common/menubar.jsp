@@ -274,28 +274,39 @@
     
             <!-- Modal footer -->
             <div class="modal-footer">
-                <div id="resetPwd"><a href="">비밀번호 찾기</a></div>|
-                <div id="findUserId"><a href="">아이디 찾기</a></div>|
+                <div id="resetPwd"><a href="<%=contextPath%>/findUserInfo.me">비밀번호 찾기</a></div>|
+                <div id="findUserId"><a href="<%=contextPath%>/findUserInfo.me">아이디 찾기</a></div>|
                 <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
             
             </div>
             <br>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal()">Close</button>
             
         	</div>
         </div>
     </div>
     
-    <%}else{ %>
+    <%}else if(loginUser.getUserId().equals("admin")){ %>
     <div id="user-info">
      <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
      <br>
      <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me">마이페이지</a>
-  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
+    	<a href="<%=contextPath%>/adminPage.ma">관리자 메인</a>
+  	  	<a href="<%=contextPath%>/myPage.me">마이페이지</a>
+  	  	<a href="<%=contextPath%>/logout.me">로그아웃</a>
      </div>
     </div>
     
+    
+    <%}else{%>
+    <div id="user-info">
+     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
+     <br>
+     <div align="center">
+  	   <a href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>">마이페이지</a>
+  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
+     </div>
+    </div>
     
     <%} %>
         </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
@@ -356,7 +367,7 @@
 	        console.log(error)
 	      },
 	    })
-	  }
+	  };
 	//카카오로그아웃  
 	function kakaoLogout() {
 	    if (Kakao.Auth.getAccessToken()) {
@@ -371,7 +382,13 @@
 	      })
 	      Kakao.Auth.setAccessToken(undefined)
 	    }
-	  }  
+	  };  
+	
+	// 모달 닫기
+	function closeModal(){
+		var modal = document.getElementById("myModal");
+		modal.style.display = "none";
+	};
 	
 	</script>
 	

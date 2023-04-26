@@ -271,7 +271,8 @@ public class MainPageDao {
 				list.add(new CafeReply(rset.getInt(1),
 									   rset.getString(2),
 									   rset.getString(3),
-									   rset.getDate(4)));
+									   rset.getString(4),
+									   rset.getDate(5)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -329,6 +330,30 @@ public class MainPageDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
+		return result;
+	}
+
+	public int insertReport(Connection conn, String userId, String category, String content, String reportWriter) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertReport");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, category);
+			pstmt.setString(3, content);
+			pstmt.setString(4, reportWriter);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+	
 		return result;
 	}
 
