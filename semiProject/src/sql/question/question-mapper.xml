@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="selectListCount">
+	SELECT COUNT(*) AS COUNT
+	FROM QUESTION
+	WHERE STATUS = 'Y'
+</entry>
+<entry key="selectList">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT Q.QUESTION_NO, Q.QUESTION_TITLE,M.USER_ID, Q.MODIFY_DATE
+			   FROM QUESTION Q 
+			   JOIN MEMBER M ON (Q.QUESTION_WRITER = M.USER_NO)
+			   WHERE Q.STATUS = 'Y'
+			   ORDER BY Q.QUESTION_NO DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+</entry>
+<entry key="insertQuestion">
+	INSERT INTO QUESTION(QUESTION_NO,QUESTION_TITLE,CONTENT,QUESTION_WRITER)
+	VALUES(SEQ_QNO.NEXTVAL,?,?,?)
+</entry>
+
+<entry key="updateQuestion">
+	UPDATE QUESTION
+	SET QUESTION_TITLE=?,CONTENT=?
+	WHERE QUESTION_NO=?
+	AND STATUS= 'Y'
+	
+</entry>
+
+<entry key="seletQuestion">
+	SELECT Q.QUESTION_NO,Q.QUESTION_TITLE,M.USER_ID,Q.CONTENT,Q.MODIFY_DATE
+	FROM QUESTION Q
+	JOIN MEMBER M ON(QUESTION_WRITER = USER_NO)
+	WHERE QUESTION_NO = ?
+	AND Q.STATUS='Y'
+</entry>
+<entry key="questionReply">
+	INSERT INTO QUESTION_REPLY(REPLY_NO
+							  ,REF_BNO
+                              ,REPLY_WRITER
+							  ,REPLY_CONTENT)
+	VALUES(SEQ_QRNO.NEXTVAL,?,?,?)						
+</entry>
+
+<entry key="deleteQuestion">
+	UPDATE QUESTION
+	SET STATUS = 'N'
+	WHERE QUESTION_NO = ?
+	AND STATUS = 'Y'
+</entry>
+<entry key="selectReList">
+	SELECT REPLY_NO,REF_BNO,USER_ID,REPLY_CONTENT,TO_CHAR(CREATE_DATE,'YY/MM/DD HH:MI:SS') CREATE_DATE
+	FROM QUESTION_REPLY R
+	JOIN MEMBER M ON(USER_NO = REPLY_WRITER)
+	WHERE REF_BNO = ?
+	AND R.STATUS ='Y'
+	ORDER BY CREATE_DATE DESC
+</entry>
+
+<entry key="deleteReply">
+	UPDATE QUESTION_REPLY
+	SET STATUS = 'N'
+	WHERE REPLY_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="updateReply">
+	UPDATE QUESTION_REPLY
+	SET REPLY_CONTENT =?
+	WHERE REPLY_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="searchTitle">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT Q.QUESTION_NO, Q.QUESTION_TITLE,M.USER_ID, Q.MODIFY_DATE
+			   FROM QUESTION Q 
+			   JOIN MEMBER M ON (Q.QUESTION_WRITER = M.USER_NO)
+			   WHERE Q.STATUS = 'Y'
+			   AND Q.QUESTION_TITLE LIKE '%'||?||'%'
+			   ORDER BY Q.QUESTION_NO DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+</entry>
+<entry key="searchContent">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT Q.QUESTION_NO, Q.QUESTION_TITLE,M.USER_ID, Q.MODIFY_DATE
+			   FROM QUESTION Q 
+			   JOIN MEMBER M ON (Q.QUESTION_WRITER = M.USER_NO)
+			   WHERE Q.STATUS = 'Y'
+			   AND Q.CONTENT LIKE '%'||?||'%'
+			   ORDER BY Q.QUESTION_NO DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="searchWriter">
+	SELECT *
+	FROM (SELECT ROWNUM RNUM, A.*
+		  FROM(SELECT Q.QUESTION_NO, Q.QUESTION_TITLE,M.USER_ID, Q.MODIFY_DATE
+			   FROM QUESTION Q 
+			   JOIN MEMBER M ON (Q.QUESTION_WRITER = M.USER_NO)
+			   WHERE Q.STATUS = 'Y'
+			   AND M.USER_ID LIKE '%'||?||'%'
+			   ORDER BY Q.QUESTION_NO DESC) A)
+	WHERE RNUM BETWEEN ? AND ?
+</entry>
+</properties>

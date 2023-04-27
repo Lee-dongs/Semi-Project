@@ -66,6 +66,10 @@ public class SearchMemberController extends HttpServlet {
 		
 		ArrayList<Member> list = new MemberService().searchMember(pi, keyword, searchBy);
 		
+		// 댓글창에 검색어 남아있게 하기
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("searchBy", searchBy);
+		
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.getRequestDispatcher("views/manager/memberManagementPage.jsp").forward(request, response);

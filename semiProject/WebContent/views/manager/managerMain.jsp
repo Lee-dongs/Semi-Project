@@ -77,10 +77,10 @@
             location.href="<%=contextPath%>/cafeRequest.co";
         };
         function reportPage(){
-            location.href="<%=contextPath%>/report.ma";
+            location.href="<%=contextPath%>/reportManagement.ma?currentPage=1";
         };
         function questionPage(){
-            location.href="<%=contextPath%>/list.fo";
+            location.href="<%=contextPath%>/list.fo?currentPage=1";
         };
 
     </script>

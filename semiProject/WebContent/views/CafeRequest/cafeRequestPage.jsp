@@ -41,6 +41,9 @@
 	    padding-right: 10px;
 	    width: 100%;
 	}
+	table th {
+    text-align: center;
+	}
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c420b0d0354a87e72cc4af213423763f&libraries=services"></script>
 </head>
@@ -53,9 +56,9 @@
                 <div id="request">
                     <form action="<%=contextPath %>/insertRequest.co" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="userNo" value="1">
-                        <table width="100%">
+                        <table width="100%" id="request">
                             <tr>
-                                <th>카페명:</th>
+                                <th class="namee">카페명:</th>
                                 <td><input id="cafename" name="cafename" type="text" required style="width:82%"><button type="button" onclick="find();" style="height: 39px;">검색</button></td>
                             </tr>
                             <tr>

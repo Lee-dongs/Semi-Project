@@ -35,7 +35,7 @@ public class FAQDeleteConteroller extends HttpServlet {
 		
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "삭제되었습니다");
-			response.sendRedirect(request.getContextPath()+"/list.fo");
+			response.sendRedirect(request.getContextPath()+"/list.fo?currentPage=1");
 		}else {
 			request.setAttribute("errorMsg", "삭제 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

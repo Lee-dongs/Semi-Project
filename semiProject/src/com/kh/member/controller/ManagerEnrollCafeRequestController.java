@@ -1,23 +1,27 @@
-package com.kh.member;
+package com.kh.member.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.common.NaverBlogSearch;
+
 /**
- * Servlet implementation class LogoutController
+ * Servlet implementation class ManagerEnrollCafeRequestController
  */
-@WebServlet("/logout.me")
-public class LogoutController extends HttpServlet {
+@WebServlet("/ManagerEnrollCafeRequestController")
+public class ManagerEnrollCafeRequestController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutController() {
+    public ManagerEnrollCafeRequestController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +31,13 @@ public class LogoutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getSession().removeAttribute("loginUser");
-		request.getSession().setAttribute("alertMsg", "성공적으로 로그아웃 되었습니다.");
 		
-		response.sendRedirect(request.getContextPath()); // 로그인 회원 정보 삭제 후 메인으로
+		try {
+		    String searchQuery = "강아지"; 
+		    List<NaverBlogSearch.SearchResult> searchResults = NaverBlogSearch.search(searchQuery);
+		} catch (IOException e) {
+		    System.err.println("Error scraping search results: " + e.getMessage());
+		}
 	}
 
 	/**
