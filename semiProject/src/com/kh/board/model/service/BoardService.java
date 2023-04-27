@@ -8,6 +8,7 @@ import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Like;
 import com.kh.board.model.vo.Location;
+import com.kh.board.model.vo.ReReply;
 import com.kh.board.model.vo.Reply;
 import com.kh.board.model.vo.unLike;
 import com.kh.common.JDBCTemplate;
@@ -45,10 +46,12 @@ public class BoardService {
 		
 		int result = new BoardDao().insertBoard(conn,b);
 		
-		int result2 =1;
+		int result2 =0;
 		
 		if(at!=null) {
 			result2 = new BoardDao().insertAttachment(conn,at);
+		}else {
+			result2 = 1;
 		}
 		
 		if(result>0&&result2>0) {
@@ -90,7 +93,22 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		return at;
 	}
-
+	
+	public int selectByCategory(String keyword, String category) {
+		int listCount = 0;
+		
+		if(category.equals("제목")) {
+			listCount = new BoardDao().selectByTitle(conn,keyword);
+		}else if(category.equals("내용")) {
+			listCount = new BoardDao().selectByContent(conn,keyword);
+		}else if(category.equals("작성자")) {
+			listCount = new BoardDao().selectByWriter(conn,keyword);
+		}
+		
+		
+		JDBCTemplate.close(conn);
+		return listCount;
+	}
 	public ArrayList<Board> searchBoard(String keyword, String category, pageInfo pi) {
 		ArrayList<Board> list = new ArrayList<>();
 		
@@ -197,7 +215,7 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		return result*result2;
 	}
-
+	//like 테이블에 추가
 	public int insertLike(int bno, int uno) {
 		int result = new BoardDao().insertLike(conn,bno,uno);
 		
@@ -216,6 +234,7 @@ public class BoardService {
 		
 		return result*result2;
 	}
+	//like 테이블에 추가
 	public int insertUnLike(int bno, int uno) {
 		int result = new BoardDao().insertUnLike(conn,bno,uno);
 		
@@ -234,14 +253,14 @@ public class BoardService {
 		
 		return result*result2;
 	}
-
+	//detail뷰에서 사용
 	public Like likeSelectList(int bno) {
 		Like l = new BoardDao().likeSelectList(conn, bno);
 		
 		JDBCTemplate.close(conn);
 		return l;
 	}
-
+	//detail뷰에서 사용
 	public unLike selectUnLikeList(int bno) {
 		unLike ul = new BoardDao().unLikeSelectList(conn, bno);
 		
@@ -318,6 +337,48 @@ public class BoardService {
 				
 		}
 		return list;
+	}
+
+	public int insertReReply(int rno, int bno, String content, int uno) {
+		int result = new BoardDao().insertReReply(conn,bno,rno,content,uno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public ArrayList<ReReply> selectReReplyList(int rno) {
+		ArrayList<ReReply> list = new BoardDao().selectReReplyList(conn, rno);
+		
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	public int deleteReReply(int rrno, int rno) {
+		int result = new BoardDao().deleteReReply(conn,rrno,rno);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateReReply(int rno, int rrno, String content) {
+		int result = new BoardDao().updateReReply(conn, rno, rrno, content);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+		
 	}
 }
 

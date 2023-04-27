@@ -4,9 +4,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-	pageInfo pi = (pageInfo)request.getAttribute("pi");
 	
-	ArrayList<Board> list = (ArrayList)request.getAttribute("list");
+	
+	String keyword = (String)request.getAttribute("keyword");
+	
+	String category = (String)request.getAttribute("category");
+	
+	pageInfo pi = new pageInfo();
+	ArrayList<Board> list = new ArrayList<Board>();
+	
+	if(keyword !=null && category !=null){
+		list = (ArrayList)request.getAttribute("slist"); 
+		pi = (pageInfo)request.getAttribute("spi");
+	}else{
+		list = (ArrayList)request.getAttribute("list");
+		pi = (pageInfo)request.getAttribute("pi");
+	}
 	%>
 <!DOCTYPE html>
 <html>
@@ -49,13 +62,14 @@
     #title{
     	text-align: left;
     }
-    .btn{
+    #foot-btn{
     	font-size:10px;
         float: right;
         width: 12%;
         height: 10%;
         margin-top: 5px;
         margin-left: 10px;
+        font-size:16px;
     }
     tbody>tr:hover{
         background-color: rgb(243, 242, 242);
@@ -85,7 +99,7 @@
         margin-bottom: 6px;
     }
     #category{
-        margin-left: 510px;
+        margin-left: 590px;
         box-sizing: border-box;
     }
     #location{
@@ -99,12 +113,12 @@
         <br>
         <h2 align="center">자유 게시판</h2>
         <br>
-        <table class="list-area" >
+        <table class="list-area">
             <thead>
                 <tr>
-                    <th class="search_input" colspan="5">
+                    <th class="search_input" colspan="6">
                     	<form action="search.bo" method="get" id="search-area" onsubmit="return chkBlank();">
-                    	<input type="hidden" name="currentPage" value="<%=pi.getCurrentPage() %>">
+                    	<input type="hidden" name="currentPage" value="1">
                     		<select name="category" id="category">
                                 <option value="제목">제목</option>
                                 <option value="내용">내용</option>
@@ -125,12 +139,15 @@
                     <th width="70px">작성자</th>
                     <th width="100px">작성일</th>
                     <th width="70px">조회수</th>
+                    <%if(loginUser!=null && loginUser.getUserId().equals("admin")){ %>
+                    <th width="50px">글삭제</th>
+                    <%} %>
                 </tr>
             </thead>
             <tbody>
                 <%for(Board b : list){ %>
             	<%if(list.isEmpty()){ %>
-            		<tr><td colspan='5'>존재하는 게시글이 없습니다.</td></tr>
+            		<tr><td colspan='6'>존재하는 게시글이 없습니다.</td></tr>
             	<%}else{ %>
                 <tr>
                     <td id="boardNo"><%=b.getBoardNo() %></td>
@@ -138,25 +155,45 @@
                     <td id="userId"><%=b.getBoardWriter() %></td>
                     <td id="date"><%=b.getCreateDate() %></td>
                     <td id="count"><%=b.getCount() %></td>
+                	<%if(loginUser!=null &&loginUser.getUserId().equals("admin")){ %>
+                    <td><button class = "btn btn-danger">삭제</button></td>
+                    <%} %>
                 </tr>
             	<%} %>
             <%} %>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="7">
 	        	    <%if(loginUser !=null){ %>
-                    <button type="button" class="btn btn-info" onclick="enrollform();">글쓰기</button>
+                    <button type="button" id="foot-btn" class="btn btn-info" onclick="enrollform();">글쓰기</button>
     		        <%} %>
-                    <button type="button" class="btn btn-info" onclick="newerList();">최신순</button>
-                    <button type="button" class="btn btn-info" onclick="mostViewList();">조회순</button>
+                    <button type="button" id="foot-btn" class="btn btn-info" onclick="newerList();">최신순</button>
+                    <button type="button" id="foot-btn" class="btn btn-info" onclick="mostViewList();">조회순</button>
                     </td>
                 	
                 </tr>
             </tfoot>
         </table>
         <br><br>
-        <div align="center" class="pagin-area">
+        <%if(keyword!=null){ %>
+        <div align="center" class="paging-area">
+	        <%if(pi.getCurrentPage()!=1) {%>
+	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'"><</button>
+	        <%} %>
+	        <%for(int i=pi.getStartPage();i<=pi.getEndPage();i++){ %>
+	        	<%if(i!=pi.getCurrentPage()){ %>
+	        		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&category=<%=category%>&keyword=<%=keyword%>';"><%=i %></button>
+        	<%}else{ %>
+        		<button disabled><%=i %></button>
+        	<%} %>
+        <%} %>
+        <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
+        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">></button>
+        <%} %>
+        </div>
+        <%}else{ %>
+        <div align="center" class="paging-area">
 	        <%if(pi.getCurrentPage()!=1) {%>
 	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'"><</button>
 	        <%} %>
@@ -170,6 +207,7 @@
         <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
         	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">></button>
         <%} %>
+        <%} %>
         </div>
     </div>
     	<script>
@@ -180,7 +218,15 @@
     		$(".list-area>tbody>tr").click(function(){
     			var bno = $(this).children().eq(0).text();
     			
-    			location.href = "<%=contextPath%>/detail.bo?bno="+bno
+    			<%if(loginUser==null){%>
+    			var userId = null;
+    			<%}%>
+    			
+    			if(userId==null){
+    				alert("로그인 후 사용해주시길 바랍니다.")
+    			}else{
+	    			location.href = "<%=contextPath%>/detail.bo?bno="+bno
+    			}
     		});
     		function newerList(){
     			
