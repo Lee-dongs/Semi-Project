@@ -39,10 +39,12 @@ public class BoardSearchController extends HttpServlet {
 		int maxPage; // 가장 마지막페이지가 몇인지
 		int startPage; //페이지 하단에 보여질 페이지바의 시작수
 		int endPage; //페이지 하단에 보여질 페이징바의 끝수
+		String keyword = request.getParameter("keyword");
+		String category = request.getParameter("category");
 		
-		listCount = new BoardService().selectListCount();
+		listCount = new BoardService().selectByCategory(keyword, category);
 	
-		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		currentPage = 1;
 		
 		pageLimit = 5;
 		
@@ -58,15 +60,15 @@ public class BoardSearchController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+		pageInfo spi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		String keyword = request.getParameter("keyword");
-		String category = request.getParameter("category");
 		
-		ArrayList<Board> list = new BoardService().searchBoard(keyword, category, pi);
+		ArrayList<Board> slist = new BoardService().searchBoard(keyword, category, spi);
 		
-		request.setAttribute("list", list);
-		request.setAttribute("pi", pi);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("category", category);
+		request.setAttribute("slist", slist);
+		request.setAttribute("spi", spi);
 		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
 	}
 

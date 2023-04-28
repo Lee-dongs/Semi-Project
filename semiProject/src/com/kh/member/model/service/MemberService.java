@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.common.JDBCTemplate;
-import com.kh.common.model.vo.pageInfo;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Board;
 import com.kh.member.model.vo.BoardReply;
@@ -92,46 +91,7 @@ public class MemberService {
 		return result;
 		
 	}
-	// 한 페이지에 보여줄 회원 조회 메소드
-	public ArrayList<Member> selectMember(pageInfo pi) {
-		
-		Connection conn = JDBCTemplate.getConnection();
-		
-		ArrayList<Member> list = new MemberDao().selectMember(conn, pi);
-		
-		JDBCTemplate.close(conn);
-		
-		return list;
-	}
-	// 총 게시글 수 구하는 메소드
-	public int selectListCount() {
-		
-		Connection conn = JDBCTemplate.getConnection();
-		
-		int listCount = new MemberDao().selectListCount(conn);
-		
-		JDBCTemplate.close(conn);
-		
-		return listCount;
-	}
-	// 관리자 회원관리 페이지 - 회원 검색 메소드
-	public ArrayList<Member> searchMember(pageInfo pi, String keyword, String searchBy) {
-		
-		Connection conn = JDBCTemplate.getConnection();
-		
-		ArrayList<Member> list = new ArrayList<>();
-		
-		if(searchBy.equals("userId")) { // 아이디로 회원 검색
-			list = new MemberDao().searchMemberById(conn, keyword, pi);
-		}else { // 이름으로 회원 검색
-			list = new MemberDao().searchMemberByName(conn, keyword, pi);
-		}
-		
-		JDBCTemplate.close(conn);
-		
-		return list;
-
-	}
+	
 	// 마이페이지 아이디찾기 메소드
 	public Member findUserId(String userName, String userEmail) {
 		
@@ -165,6 +125,7 @@ public class MemberService {
 	
 	//댓글 있는 카페 요청글 조회 메소드
 	public ArrayList<CafeRequest> selectCafeRequestWith(int userNo) {
+		
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<CafeRequest> aList = new MemberDao().selectCafeRequestWith(conn,userNo);
 		JDBCTemplate.close(conn);
@@ -283,7 +244,17 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
-	
+	// 이메일 중복 체크 메소드
+	public int checkEmail(String userEmail) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		int count = new MemberDao().checkEmail(conn, userEmail);
+
+		JDBCTemplate.close(conn);
+
+		return count;
+	}
 	
 	
 }

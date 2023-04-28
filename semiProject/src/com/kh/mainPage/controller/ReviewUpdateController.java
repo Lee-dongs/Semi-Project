@@ -2,7 +2,6 @@ package com.kh.mainPage.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,16 +13,16 @@ import com.kh.mainPage.model.service.MainPageService;
 import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class CafeEvaluateController
+ * Servlet implementation class ReviewUpdateController
  */
-@WebServlet("/evaluate.cf")
-public class CafeEvaluateController extends HttpServlet {
+@WebServlet("/update.cfre")
+public class ReviewUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CafeEvaluateController() {
+    public ReviewUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,35 +41,16 @@ public class CafeEvaluateController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		int rating = Integer.parseInt(request.getParameter("rating"));
-		int rating2 = Integer.parseInt(request.getParameter("rating2"));
-		int rating3 = Integer.parseInt(request.getParameter("rating3"));
-		int rating4 = Integer.parseInt(request.getParameter("rating4"));
-		
-		int cafeNo = Integer.parseInt(request.getParameter("cafeNo"));
-		
-		Member m = (Member)request.getSession().getAttribute("loginUser");
-		
-		String add = (String)request.getParameter("add");
+		int cafeReplyNo = Integer.parseInt(request.getParameter("cafeReplyNo"));
 
+		String content = request.getParameter("reviewText");//수정할 리뷰(댓글)내용
 		
-		int userNo = m.getUserNo();
-
-		ArrayList<Integer> list = new ArrayList<>();
-		list.add(rating);
-		list.add(rating2);
-		list.add(rating3);
-		list.add(rating4);
+		int result = new MainPageService().updateReview(cafeReplyNo, content);
 		
-		int result = new MainPageService().insertScore(cafeNo, userNo, list);
-
 		if(result>0) {
-			request.getSession().setAttribute("alertMsg", "평가완료");
+			request.getSession().setAttribute("alertMsg", "리뷰를 수정했습니다.");
 			String before = request.getHeader("Referer");
 			response.sendRedirect(before);
-		}else {
-			request.getSession().setAttribute("alertMsg", "평가실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
 

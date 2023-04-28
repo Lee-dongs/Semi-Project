@@ -29,8 +29,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     
     <style>
-         /*구글 웹 폰트 CDN*/
+         /*웹 폰트 CDN*/
      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+     @font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         body{
         /*
             background-image: url('resources/images/사진.jpg');
@@ -72,13 +78,13 @@
             text-align: center;
         }
         #header_1{
-            width: 15%;
+            width: 20%;
         }
         #header_2{
-            width: 70%;
+            width: 60%;
         }
         #header_3{
-            width: 15%;
+            width: 20%;
         }
         #login_form{
             margin-top: 50px;
@@ -104,25 +110,28 @@
             margin-top: 2px;
         }  
         #navi a{
+        	font-family: 'SDSamliphopangche_Outline';
             text-decoration: none;
-            color: white;
-            
+            color: white;            
             font-size: 18px;
             font-weight: 800;
             width: 60%;
             height: 90%;
             display: block;
-            line-height: 40px;
+            line-height: 47px;
             border-style: solid;
             border-radius: 120px;
             background-color: #6DA292;
+
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
+
             color: white;
             font-size: 16px;
+
         }
         #navi>li>ul{
             list-style-type: none;
@@ -130,7 +139,9 @@
             display: none; 
         }
         #navi>li>ul a{
+
             font-size: 17px;
+
         }
         #navi>li>ul a:hover{
             font-size: 14px;
@@ -151,7 +162,6 @@
             position: relative;
         }
         #login-btn{
-           border: 1px solid red;
            width: 150px;
            height: 30px; 
            position: absolute;
@@ -190,7 +200,49 @@
             color: black;
             font-size: 13px;
         }
-      
+        #page-title{
+        font-size: 30px;
+        font-family: 'SDSamliphopangche_Outline';
+        color: #6DA292;
+        }
+        
+       /* ================ 회원정보카드 ================ */
+        .info-card{
+        width: 90%;
+        height: 60%;
+        border: 2px solid #6DA292;
+        border-radius: 5%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+	    }
+	    #info-table{
+	        padding: 10px 5px;
+	        width: 100%;
+	        height: 100%;
+	    }
+	    .info-wrap thead img{
+	        width: 11px;
+	        height: 11px;
+	    }
+	    .info-card #managerPage{
+	    	padding-bottom: 0px;
+	    	padding-top: 20px;   	
+	    }
+	    .info-card #logout{
+	    	padding-top: 5px;
+	    }
+	    #info-table button{
+	    	text-align: right;
+	    	
+	    }
+	    
+	   
+	    
     </style>
 </head>
 <body>
@@ -232,16 +284,18 @@
          <%if(loginUser == null){ %>
                     <!-- Button to Open the Modal -->
                   <div id="login-btn">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">로그인하기</button>
+            <button type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
+            
+            
                	</div>
                 <!-- The Modal -->
-            <div class="modal" id="myModal">
+            <div class="modal" id="login-modal">
             <div class="modal-dialog">
             <div class="modal-content">
   
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">우리사이트이름</h4>
+            <p class="modal-title" id="page-title">우리사이트이름</p>
             </div>
     
             <!-- Modal body -->
@@ -251,13 +305,13 @@
                         <thead>
                             <tr>
                                 <td>아이디</td>
-                                <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
+                                <td><input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
                         
                             </tr>
                             <tr><td height="20"> </td></tr>
                             <tr>
                                 <td>비밀번호</td>
-                                <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
+                                <td><input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
                         </thead>
@@ -293,33 +347,60 @@
         </div>
     </div>
     
-    <%}else if(loginUser.getUserId().equals("admin")){ %>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-    	<a href="<%=contextPath%>/adminPage.ma">관리자 메인</a>
-  	  	<a href="<%=contextPath%>/myPage.me">마이페이지</a>
-  	  	<a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
+    <%}else{%> <!-- 회원정보카드 -->
+    <div class="info-wrap">
+        <div class="info-card">
+            <table id="info-table">
+                <thead>
+                    <tr>
+                        <td id="showUserRank"><img src="resources/images/user.png"><small>개인회원</small></td>
+                        <td id="logout"colspan="2">
+                            <input type="button" class="logout btn btn-sm btn-outline-info" value="로그아웃&gt;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><h5 style="color: steelblue;">안녕하세요</h5><%=loginUser.getUserName() %>님</td>
+                    </tr>
+                    <tr>
+                        <td id="managerPage">
+                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" style="display:none"></td>
+                    </tr>
+                    <tr>
+                        <td id="myPage">
+                            <input type="button" class="myPage btn btn-sm btn-outline-info" value="나의정보&gt;"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
     </div>
+    <script>
+    $(".myPage").click(function(){
+    	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
+    });
     
-    
-    <%}else{%>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>">마이페이지</a>
-  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
-    </div>
-    
+    if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
+    	$("#managerPage-btn").css("display","block");
+    	$("#showUserRank").html("<img src='resources/images/user.png'><small>관리자계정</small>");
+    }
+    </script>
     <%} %>
         </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
         
-            </div><!-- 헤더 끝 -->
+    <script>
+    $(".logout").click(function(){
+    	location.href="<%=contextPath%>/logout.me";
+    });
+    $(".managerPage").click(function(){
+    	location.href="<%=contextPath%>/adminPage.ma";
+    });
+    
+    </script>
            
+        
+            </div><!-- 헤더 끝 -->
             
             <div id="menubar">
                 <ul id="navi">
@@ -340,12 +421,11 @@
 	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 	<script>
-	
 	Kakao.init('698ae24b3c91e63011b0fe6f4bee6fe4');
 	
-	console.log(Kakao.isInitialized());
+	//console.log(Kakao.isInitialized());
 	
-	// 로그인
+	// 카카오로그인
 	function kakaoLogin() {
 	    Kakao.Auth.login({
 	      success: function (response) {

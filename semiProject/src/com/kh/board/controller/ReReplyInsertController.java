@@ -1,27 +1,26 @@
-package com.kh.member.controller;
+package com.kh.board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.member.model.service.MemberService;
+import com.kh.board.model.service.BoardService;
 import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class ReReplyInsertController
  */
-@WebServlet("/login.me")
-public class LoginController extends HttpServlet {
+@WebServlet("/insertReReply.re")
+public class ReReplyInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public ReReplyInsertController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +37,17 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		request.setCharacterEncoding("UTF-8");
 		
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		// 메인페이지 pull한 뒤 키값 확인하기
-
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		int rno = Integer.parseInt(request.getParameter("replyNo"));
+		String content = request.getParameter("content");
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int uno = loginUser.getUserNo();
 		
-		Member loginUser = new MemberService().longinMember(userId, userPwd);
-
-		
-		if(loginUser == null) { // 로그인실패
-			request.getSession().setAttribute("alertMsg", "로그인 정보를 다시 확인해주세요");
-			response.sendRedirect(request.getHeader("Referer"));
-		}else {
-			request.getSession().setAttribute("loginUser", loginUser);
-			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");
-			if(userId.equals("admin")) {
-				request.getRequestDispatcher("views/manager/managerMain.jsp").forward(request, response);
-			}else {
-				response.sendRedirect(request.getHeader("Referer"));
-			}
-			
-		}
-		
-		
+		int result = new BoardService().insertReReply(bno,rno,content,uno);
+		response.setContentType("json/application; charset=UTF-8");
+		response.getWriter().print(result);
 		
 	}
 
