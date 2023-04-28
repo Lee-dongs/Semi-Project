@@ -1,4 +1,4 @@
-package com.kh.member;
+package com.kh.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

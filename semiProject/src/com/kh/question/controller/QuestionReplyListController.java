@@ -43,7 +43,7 @@ public class QuestionReplyListController extends HttpServlet {
 		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
 		
 		ArrayList<Question_Reply> list = new QuestionService().selectReList(questionNo);
-		System.out.println(list);
+		//System.out.println(list);
 		response.setContentType("json/application; charset=UTF-8");
 		new Gson().toJson(list,response.getWriter());
 		
