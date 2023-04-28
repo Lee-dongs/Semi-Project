@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.common.model.vo.pageInfo;
-import com.kh.member.model.service.MemberService;
+import com.kh.manager.model.service.ManagerService;
 import com.kh.member.model.vo.Member;
 
 /**
@@ -41,7 +41,10 @@ public class SearchMemberController extends HttpServlet {
 		int startPage; //페이지 하단에 보여질 페이지바의 시작수
 		int endPage; //페이지 하단에 보여질 페이징바의 끝수
 		
-		listCount = new MemberService().selectListCount();
+		String keyword = request.getParameter("keyword"); // 검색할 내용
+		String searchBy = request.getParameter("searchBy"); // 아이디로 검색 또는 이름으로 검색
+		
+		listCount = new ManagerService().searchMemberListCount(keyword, searchBy);
 	
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		
@@ -60,11 +63,10 @@ public class SearchMemberController extends HttpServlet {
 		}
 		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-	
-		String keyword = request.getParameter("keyword"); // 검색할 내용
-		String searchBy = request.getParameter("searchBy"); // 아이디로 검색 또는 이름으로 검색
+		//System.out.println(pi);
 		
-		ArrayList<Member> list = new MemberService().searchMember(pi, keyword, searchBy);
+		ArrayList<Member> list = new ManagerService().searchMember(pi, keyword, searchBy);
+		//System.out.println(list);
 		
 		// 댓글창에 검색어 남아있게 하기
 		request.setAttribute("keyword", keyword);

@@ -54,4 +54,70 @@ ORDER BY CREATE_DATE DESC) R)
 WHERE RNUM BETWEEN ? AND ?
 </entry>
 
+<entry key="countSearchMemberById">
+SELECT COUNT(*) "COUNT"
+FROM MEMBER
+WHERE USER_ID LIKE '%'||?||'%'
+AND STATUS='Y'
+</entry>
+
+<entry key="countSearchMemberByName">
+SELECT COUNT(*) "COUNT"
+FROM MEMBER
+WHERE USER_NAME LIKE '%'||?||'%'
+AND STATUS='Y'
+</entry>
+
+<entry key="countSearchReportById">
+SELECT COUNT(*) "COUNT"
+FROM REPORT
+WHERE USER_ID LIKE '%'||?||'%'
+AND STATUS='Y'
+</entry>
+
+<entry key="countSearchReportByContent">
+SELECT COUNT(*) "COUNT"
+FROM REPORT
+WHERE REPORT_CONTENT LIKE '%'||?||'%'
+AND STATUS='Y'
+</entry>
+
+<entry key="selectMember">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+FROM (SELECT *
+FROM MEMBER
+WHERE STATUS = 'Y'
+ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="searchMemberById">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+	FROM (SELECT *
+	FROM MEMBER
+	WHERE USER_ID LIKE '%'||?||'%'
+	AND STATUS = 'Y'
+	ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="searchMemberByName">
+SELECT *
+FROM (SELECT ROWNUM RNUM, M.*
+	FROM (SELECT *
+	FROM MEMBER
+	WHERE USER_NAME LIKE '%'||?||'%'
+	AND STATUS = 'Y'
+	ORDER BY REPORT DESC) M)
+WHERE RNUM BETWEEN ? AND ?
+</entry>
+
+<entry key="selectMemberListCount">
+SELECT COUNT(*) COUNT
+FROM MEMBER
+WHERE STATUS='Y'
+</entry>
+
 </properties>

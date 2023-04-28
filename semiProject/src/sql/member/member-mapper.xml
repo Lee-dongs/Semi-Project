@@ -155,44 +155,6 @@ VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
 		WHERE USER_NO = ?
 	</entry>
 
-<entry key="selectMember">
-SELECT *
-FROM (SELECT ROWNUM RNUM, M.*
-FROM (SELECT *
-FROM MEMBER
-WHERE STATUS = 'Y'
-ORDER BY REPORT DESC) M)
-WHERE RNUM BETWEEN ? AND ?
-</entry>
-
-<entry key="selectListCount">
-SELECT COUNT(*) COUNT
-FROM MEMBER
-WHERE STATUS='Y'
-</entry>
-
-<entry key="searchMemberById">
-SELECT *
-FROM (SELECT ROWNUM RNUM, M.*
-FROM (SELECT *
-FROM MEMBER
-WHERE USER_ID LIKE '%'||?||'%'
-AND STATUS = 'Y'
-ORDER BY REPORT DESC) M)
-WHERE RNUM BETWEEN ? AND ?
-</entry>
-
-<entry key="searchMemberByName">
-SELECT *
-FROM (SELECT ROWNUM RNUM, M.*
-FROM (SELECT *
-FROM MEMBER
-WHERE USER_NAME LIKE '%'||?||'%'
-AND STATUS = 'Y'
-ORDER BY REPORT DESC) M)
-WHERE RNUM BETWEEN ? AND ?
-</entry>
-
 <entry key="findUserId">
 SELECT USER_NAME, USER_ID
 FROM MEMBER
