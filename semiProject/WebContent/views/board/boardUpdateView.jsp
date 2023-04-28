@@ -10,17 +10,35 @@
     	Attachment at = (Attachment)request.getAttribute("at");
     	
     	ArrayList<Location> list = (ArrayList)request.getAttribute("list");
+    
     %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.tiny.cloud/1/omjcnn5e647lx0jwm8neb7k3o37nkkx0hrgiaxjo1oc1bnvd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+	tinymce.init({
+		selector:'textarea[name=content]',
+		width: 800,
+	    height: 300,
+		plugins: [
+			'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+			'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+			'media', 'table', 'emoticons', 'template', 'help','template'
+		],
+		toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media | forecolor backcolor emoticons'
+	});
+</script>
+
 <style>
     .wrap{
         width: 800px;
         height: 800px;
         margin: auto;
+        min-height:100%;
+        position :relative;
     }
  
     hr{
@@ -73,7 +91,7 @@
         width: 80px;
         margin-left: 10px;
     }
-    #btn-insert{
+    #btn{
         background-color: rgb(243, 197, 112);
         border: 0;
     }
@@ -106,7 +124,7 @@
     				});
             </script>    
                 <br>
-                <h2 align="center">게시글 작성</h3>
+                <h2 align="center">게시글 작성</h2>
             <br>
             <h4><input type="text" id="title-area" name ="title" value="<%=b.getTitle() %>" required></h4>
             <ul class="board-info">
@@ -122,7 +140,7 @@
             </ul>
             <hr>
             <div id="con-area">
-                 <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none" ><%=b.getContent() %></textarea>
+                 <textarea name="content" id="content-area" cols="30" rows="50" placeholder="내용을 입력하세요" style="resize: none"><%=b.getContent() %></textarea>
             </div>
             <hr>
             <div id="file-area">
@@ -131,24 +149,33 @@
                 <a href="<%=contextPath + at.getFilePath()%>/<%=at.getChangeName()%>" ><%=at.getOriginName() %></a>
                 <br><br>
                 <input type="hidden" name="fileNo" value="<%=at.getFileNo() %>">
-                <input type="hidden" name="changeName" value="<%=at.getChangeName() %>">
+                <input type="hidden" name="changeName" value="<%=at.getChangeName()%>">
                 <%} %>
                 <br><br>
                 <input type="file" name="reUp">
             </div>
             <hr>
             <div id="btn-area">
-                <button type="button" id="btn-insert" onclick ="enrollform();">글쓰기</button>
-                <button type="button" onclick ="listBoard();">목록</button>
+                <button type="button" id="btn" onclick ="enrollform();">글쓰기</button>
+                <button type="button" id="btn" onclick ="listBoard();">목록</button>
             </div>
             <br><br><br><br><br>
             <hr><br>   
             <div id="btn-area2">
-                <button type="submit">수정</button>
-                <button type="button" onclick="history.back();">뒤로가기</button>
+                <button type="submit" id="btn">수정</button>
+                <button type="button" id="btn" onclick="history.back();">뒤로가기</button>
             </div>
 		  </form>
      </div>
-	
+	<script>
+		function enrollform(){
+			location.href ="<%=contextPath%>/insert.bo"
+		};
+		function listBoard(){
+			location.href ="<%=contextPath%>/list.bo?currentPage=1&sort=1"	
+		}
+	</script>
+	<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

@@ -15,10 +15,11 @@
 <title>Insert title here</title>
 <style>
         .suel{
-           
             width: 1500px;
         	height: 850px;
         	margin: auto;
+        	min-height:100%;
+        	position :relative;
         }
         .suel>h2{
             border-style: solid white;
@@ -97,6 +98,7 @@
     		location.href= '<%=contextPath%>/detail.no?nno='+nno;
     	})
     </script>
-
+	<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>
