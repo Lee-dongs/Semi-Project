@@ -40,41 +40,22 @@
             display: block; /*위아래로 정렬*/
             margin-bottom: 5px;
         }
-        .enrollWrap input:not(input[type=radio]), .enrollWrap select{
-            border: 1px solid #c5c6bed0;
-            padding: 15px;
-            width: 100%;
-            margin-bottom: 5px;
-        }
-        .enrollWrap input[type="button"], .enrollWrap input[type="submit"]{
-            background-color: #eab935e6;
-            color: #fff;
-        }
-        .enrollWrap input:focus, .enrollWrap select:focus{
-            border: 1px solid #eab935e6;
-        }
-       
-       .birth div{
-        display: flex; /*옆으로 정렬*/
-        gap: 10px;
-       }
-       .gender div{
-        border: 1px solid #dadada;
-        padding: 15px 5px;
-        background-color: #fff;
-       }
-       .gender input{
-        margin: 10px;
-       }
-       #userPwd, #userPwdCheck{
-        background-color: #fff;
-       }
-
+        
        /*유효성 검사 글씨 스타일*/
        .check-info{
         font-size: 12px;
         font-weight: 400;
        }
+       
+       /*가입하기 버튼 스타일*/
+       #enroll-form #submit-btn{
+        background-color: #6DA292;
+        color: white;
+       }
+       #enroll-form #submit-btn:hover{
+        background-color: #537369;
+       }
+       
     </style>
         
     <title>회원가입</title>
@@ -84,53 +65,53 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
     <div class="enrollWrap"> 
-    <form action="<%=contextPath %>/enrollForm.me" id="enroll-form" method="post"> <!-- MemberEnrollController이동 -->
+    <form action="<%=contextPath %>/enrollForm.me" id="enroll-form" method="post" onsubmit="return checkAll()"> <!-- MemberEnrollController이동 -->
         <!--로고 이미지 넣을 곳-->
         <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToPSdcD8kql44nbuJGZ5mvMyLuJZZFUOQhXA&usqp=CAU">
 
         <!--회원가입-->
         <!-- 아이디  -->
         <div class="enroll">
-            <b>아이디</b>
-            <span><input type="text" id=userId name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
-            <button class="btn btn-primary" onclick="idCheck();" type="button">아이디 중복체크</button>
+            <b>*아이디</b>
+            <span><input type="text" class="form-control" id=userId name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
+            <button class="btn btn-sm btn-outline-warning" onclick="idCheck();" type="button">아이디 중복체크</button>
             <!--아이디 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkId"></div>
         </div>
         <div class="enroll">
-            <b>비밀번호</b>
-            <input type="password" id="userPwd" name="userPwd" required 
+            <b>*비밀번호</b>
+            <input type="password" class="form-control" id="userPwd" name="userPwd" required 
             	placeholder="영문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)로 총 8~15자로 입력하세요">
             <!--비밀번호 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkPwd"></div>
         </div> 
         <div class="enroll">
-            <b>비밀번호 재확인</b>
-            <input type="password" id="userPwdCheck" name="userPwdCheck" required 
+            <b>*비밀번호 재확인</b>
+            <input type="password" class="form-control" id="userPwdCheck" name="userPwdCheck" required 
             	placeholder="위의 비밀번호와 일치하는지 확인해주세요">
             <!--비밀번호 재확인 결과 프린트구역-->
             <div class="check-info" id="checkPwd2"></div>
         </div>
         <div class="enroll">
-            <b>이름</b>
-            <input type="text" name="userName" required>
+            <b>*이름</b>
+            <input type="text" class="form-control" name="userName" required>
         </div>
 
         <!--생년월일-->
         <div class="birth">
             <b>생년월일</b>
             <div>
-                <input type="date"  name="birth">
+                <input type="date" class="form-control" name="birth">
             </div>
         </div>
 
         <!--이메일 및 전화번호-->
         <div class="enroll">
-            <b>이메일<small>(필수)</small></b>
-            <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요." required>
-            	<button type="button" class="btn btn-primary" id="emailChk">인증번호 보내기</button> <br>
-            <input type="text" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required>
-            	<button type="button" class="btn btn-primary" id="emailChk2">인증번호 입력하기</button>
+            <b>*이메일</b>
+            <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요." required>
+            	<button type="button" class="btn btn-sm btn-outline-warning" id="emailChk">인증번호 보내기</button> <br><br>
+            <input type="text" class="form-control" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required>
+            	<button type="button" class="btn btn-sm btn-outline-warning" id="emailChk2">인증번호 입력하기</button>
             <div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div>
             <input type="hidden" id="emailDoubleChk">
             
@@ -140,7 +121,7 @@
         <div class="phone">
             <b>연락처</b>
             <div>
-                <input type="tel" name="phone" placeholder="전화번호는 -포함하여 입력">
+                <input type="tel" class="form-control" name="phone" placeholder="전화번호는 -포함하여 입력">
             </div>
         </div><br>
         <div class="address">
@@ -150,14 +131,34 @@
         	</div>
         </div>
         <br><br>
-
-        <input class="btn" type="submit" value="가입하기" disabled>
+        <!-- 필수입력사항 프린트구역 -->
+		<div class="check-info" id="checkAll"></div>
+        <input class="form-control btn" id="submit-btn" type="submit" value="가입하기"><br><br><br>
         <!-- 아이디 중복검사를 해야 버튼 눌림 -->
         
     </form>
 
 	</div>
     <script>
+    // 모든 필수입력사항 입력하면 submit가능
+    function checkAll(){
+    	if($("#userName") == "" && $("#userEmail").attr("readonly",false)
+    		&& $('#enroll-form input[name=userPwd]').attr("readonly",false)){
+	    		alert("필수입력사항을 모두 입력해주세요");
+	    		$("#checkAll").text("*표시는 필수입력사항입니다.");
+	    		$("#checkAll").css("color","red");
+	    		return false;
+    	}
+	     };
+    
+    $("#enroll-form input[type=submit]").removeAttr("disabled");
+    
+    // 아이디 중복검사 없이 비밀번호를 입력하려고 하면 alert
+	 $(".enroll>#userPwd").click(function(){
+		if (!$("#enroll-form input[name=userId]").prop("readonly")) {
+		 	window.alert("아이디 중복확인을 먼저 진행해주세요.");
+		}
+	  });
     
     // 아이디 중복검사
     function idCheck(){
@@ -174,7 +175,6 @@
     				$checkId.focus();
     			} else{
     				if(confirm("사용 가능한 아이디입니다. 사용하시겠습니까?")){
-    					$("#enroll-form input[type=submit]").removeAttr("disabled");
     					$checkId.attr("readonly", true); // 아이디값 변경 불가
     				}else{
     					$checkId.focus();
@@ -198,6 +198,7 @@
     		if(pwd1 == pwd2){ // 비밀번호 일치하면
     			$('#checkPwd2').html("비밀번호가 일치합니다.");
     			$('#checkPwd2').css("color","green");
+    			$('#enroll-form input[name=userPwd]').attr("readonly",true);//비밀번호값 변경 불가
     		}else{
     			$('#checkPwd2').html("비밀번호가 일치하지 않습니다.");
     			$('#checkPwd2').css("color","red");
@@ -209,7 +210,7 @@
     // 아이디 유효성검사
 	$('#enroll-form input[name=userId]').keyup(function(){
 		
-		var regExp = /^[a-zA-z0-9*!@#$%^&]{8,15}$/;
+		var regExp = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/;
 		var userId = $(this).val();
 		
 		if(!regExp.test(userId)){ // 아이디가 정규식을 만족하지 못하면
@@ -223,7 +224,7 @@
     // 비밀번호 유효성검사
 	$('#enroll-form input[name=userPwd]').keyup(function(){
 		
-		var regExp = /^[a-zA-Z][a-zA-Z0-9]{8,15}$/;
+		var regExp = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
 		var userPwd = $(this).val();
 		
 		if(!regExp.test(userPwd)){ // 아이디가 정규식을 만족하지 못하면
@@ -259,6 +260,8 @@
     				$("#emailVerifyNo").attr("disabled", false);
     				$("#successEmailChk").text("인증번호를 입력하고 이메일 인증을 눌러주세요.");
     				$("#successEamilChk").css("color","green");
+    				$("#userEmail").attr("readonly",true); // 이메일 변경불가
+    				
     				code = result; // 매개변수로 받은 인증번호
     			}
     		},

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.common.model.vo.pageInfo;
-import com.kh.member.model.service.MemberService;
+import com.kh.manager.model.service.ManagerService;
 import com.kh.member.model.vo.Member;
 
 /**
@@ -34,7 +34,7 @@ public class MemberManagmentController extends HttpServlet {
 		
 		// 페이징
 		
-		int listCount; //현재 총 게시글 개수
+		int listCount; //현재 총 회원 수
 		int currentPage; //현재페이지
 		int pageLimit; // 페이지 하단에 보여질 페이징바의 페이지 최대개수
 		int boardLimit; //한페이지에서 보여질 게시글 최대 개수
@@ -42,8 +42,7 @@ public class MemberManagmentController extends HttpServlet {
 		int startPage; //페이지 하단에 보여질 페이지바의 시작수
 		int endPage; //페이지 하단에 보여질 페이징바의 끝수
 		
-		listCount = new MemberService().selectListCount();
-		//System.out.println(listCount); 나옴
+		listCount = new ManagerService().selectMemberListCount(); // 총 회원 수
 	
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		
@@ -63,7 +62,7 @@ public class MemberManagmentController extends HttpServlet {
 		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		ArrayList<Member> list = new MemberService().selectMember(pi); // 회원정보 가져오기
+		ArrayList<Member> list = new ManagerService().selectMember(pi); // 한 페이지에 보여줄 회원정보 가져오기
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
