@@ -60,10 +60,12 @@
             box-sizing: border-box;
         }
         #header,#menubar{
-            border: 1px solid black;
+            //border: 1px solid black;
             width:100%;
         }
         #header{
+        	background-color: rgba(238, 231, 168, 0.565);
+        	
             height: 80%;
         }
         #menubar{
@@ -110,8 +112,8 @@
         #navi a{
         	font-family: 'SDSamliphopangche_Outline';
             text-decoration: none;
-            color: white;
-            font-size: 20px;
+            color: white;            
+            font-size: 18px;
             font-weight: 800;
             width: 60%;
             height: 90%;
@@ -119,14 +121,17 @@
             line-height: 47px;
             border-style: solid;
             border-radius: 120px;
-            background-color: #FF9D71;
+            background-color: #6DA292;
+
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
-            color: darkgray;
-            font-size: 25px;
+
+            color: white;
+            font-size: 16px;
+
         }
         #navi>li>ul{
             list-style-type: none;
@@ -134,10 +139,12 @@
             display: none; 
         }
         #navi>li>ul a{
-            font-size: 15px;
+
+            font-size: 17px;
+
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
+            font-size: 14px;
         }
         #navi>li>a:hover +ul {
             display: block;
@@ -268,7 +275,11 @@
     <div class="outer">
         <div id="header">
             <div id="header_1"></div>
-            <div id="header_2"></div>
+            <div id="header_2" >
+            <a href="http://localhost:8888/semiProject/">
+             <img alt="" src="resources/images/카공이미지.png" height="230" width="700">
+            </a>
+            </div>
             <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
          <%if(loginUser == null){ %>
                     <!-- Button to Open the Modal -->
@@ -465,6 +476,8 @@
 		var modal = document.getElementById("myModal");
 		modal.style.display = "none";
 	};
+	
+	
 	
 	</script>
 	

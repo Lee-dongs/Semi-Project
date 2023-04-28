@@ -131,7 +131,24 @@ public class QuestionService {
 				list = new QuestionDao().searchWriter(conn,searchText,pi);
 			}
 		}
+		JDBCTemplate.close(conn);
 		return list;
+	}
+
+	public int searchListCount(String category, String searchText) {
+		int listCount = 0;
+		Connection conn = JDBCTemplate.getConnection();
+		
+		if(category.equals("제목")) {
+			listCount = new QuestionDao().selectTitleCount(conn,searchText);
+		}else if(category.equals("내용")) {
+			listCount = new QuestionDao().selectContentCount(conn,searchText);
+		}else if(category.equals("작성자")) {
+			listCount = new QuestionDao().selectWriterCount(conn,searchText);
+			
+		}
+		JDBCTemplate.close(conn);	
+		return listCount;
 	}
 
 	

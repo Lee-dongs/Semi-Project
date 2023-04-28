@@ -36,6 +36,10 @@ public class searchQuestionController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 질문글 검색
+		String category = request.getParameter("category");
+		String searchText = request.getParameter("searchText");
+		
 		int listCount; //현재 총 게시글 개수
 		int currentPage; //현재페이지
 		int pageLimit; // 페이지 하단에 보여질 페이징바의 페이지 최대개수
@@ -44,7 +48,8 @@ public class searchQuestionController extends HttpServlet {
 		int startPage; //페이지 하단에 보여질 페이지바의 시작수
 		int endPage; //페이지 하단에 보여질 페이징바의 끝수
 		
-		listCount = new QuestionService().selectListCount();
+		listCount = new QuestionService().searchListCount(category,searchText);
+		//System.out.println(listCount);
 	
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		
@@ -63,15 +68,14 @@ public class searchQuestionController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, questionLimit, maxPage, startPage, endPage);
+		pageInfo spi = new pageInfo(listCount, currentPage, pageLimit, questionLimit, maxPage, startPage, endPage);
 		
-		// 질문글 검색
-		String category = request.getParameter("category");
-		String searchText = request.getParameter("searchText");
 		
-		ArrayList<Question> qlist = new QuestionService().searchQuestion(category,searchText,pi);
-		request.setAttribute("qlist", qlist);
-		request.setAttribute("pi", pi);
+		ArrayList<Question> qlist = new QuestionService().searchQuestion(category,searchText,spi);
+		request.setAttribute("category", category);
+		request.setAttribute("searchText", searchText);
+		request.setAttribute("slist", qlist);
+		request.setAttribute("spi", spi);
 		
 		//자주묻는 질문
 		

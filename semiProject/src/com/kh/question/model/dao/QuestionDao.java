@@ -365,6 +365,76 @@ public class QuestionDao {
 		return list;
 	}
 
+	public int selectTitleCount(Connection conn, String searchText) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectTitleCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
+	}
+
+	public int selectContentCount(Connection conn, String searchText) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectContentCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				listCount=rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
+	}
+
+	public int selectWriterCount(Connection conn, String searchText) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectWriterCount");		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
+	}
+
 	
 
 	

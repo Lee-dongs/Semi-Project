@@ -10,36 +10,56 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	 .outer{
-            color: black;
-            width: 1000px;
-            height: 500px;
-            margin: auto;
-            margin-top: 50px;
+	 .suel{
+            width: 1500px;
+        	height: 850px;
+        	margin: auto;
+        	
         }
-        .outer>h2{
+     .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(247, 195, 127);
-            width: 600px;
+            background-color: rgb(243, 199, 199);
+            width: 500px;
             margin:auto;
             text-align:center;
+            padding:10px;
         }
-        #question-table>table{border : 1px solid white;}
-        #question-table input,textarea{
-        	width : 100%;
-        	box-sizing:border-box;
-        }
-        #question-table{
+        
+        
+     #question-table{
         	width: 1000px;
+        	
+            height: 700px;
+                  
         }
-        table th{
+    .question-area{
+    	
+    	width:1050px;
+    	height: 740px;
+    	padding:10px;
+    	background-color: rgb(251, 217, 217); 
+    	border-radius: 30px;
+    }
+     #question-table>thead{
+        	padding: 20px; 
+        }
+     #question-table th{
 	   	 font-size: 20px;
-	   	  border-bottom: 1px solid black;
+	   	  border-bottom: 3px solid white;
+	   	  
 	   }
-	   table td{
+	 #question-table td{
 	   	font-size: 18px;
-	   	 border-bottom: 1px solid black;
+	   	 border-bottom: 3px solid white;
+	   	 
+	   }
+	   .reply-area{
+	   	 border: 5px dashed rgb(243, 199, 199);
+	   	 width: 1000px;	   	 	   	 
+	   }
+	   .reply-area>tbody{
+	   	height:200px;
 	   }
 	   
 	  
@@ -47,18 +67,20 @@
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-<div class="outer">
+<div class="suel" align="center">
 		<br>
 	<h2>고객문의 </h2>
 	<br>
+	<br>
+	<div class="question-area">
 		 <input type="hidden" name="qqo" value="<%=qq.getQuestionNo()%>">
-		      	<table align="center" id="question-table">
-                     <thead>                       
+		      	<table align="center" id="question-table">		      	
+                     <thead>                                           
                        <tr>                           
                          <th width="70">제목</th>
-                         <td width="350" colspan="3"><%=qq.getQuestionTitle() %></td>
-                        
+                         <td width="350" colspan="3"><%=qq.getQuestionTitle() %></td>                                               
                        </tr>
+                       
                        <tr>
                        	<th>작성자</th>
 				           <td width="200"><%=qq.getQuestionWriter() %></td>
@@ -70,29 +92,36 @@
                          	<th>내용</th>
                             <td colspan="3"><p style="height:500px"><%=qq.getContent() %></p></td>
                          </tr>
-                            
-                         <tr><td height="20"> </td></tr>
                          
                       </thead>
                       
-               </table>	 
+               </table>
+         </div>
+ </div>	 
                
                <br>
                <%if(loginUser !=null && loginUser.getUserId().equals(qq.getQuestionWriter())) {%>
         		<div align="center">
         			<a href="<%=contextPath%>/update.qo?qqo=<%=qq.getQuestionNo()%>"class="btn btn-warning">수정하기</a>
+        			
         		 	<a href="<%=contextPath%>/delete.qo?qqo=<%=qq.getQuestionNo() %>"class="btn btn-danger">삭제하기</a>
+        		 
         		 </div>
+        		<%} %>    		
+        		 <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
+        		<div align="center">
+        			<a href="<%=contextPath%>/delete.qo?qqo=<%=qq.getQuestionNo()%>"class="btn btn-danger">삭제하기</a>
+        		</div>
         		<%} %>
-        		<br>
+        		<br><br>
         		
         <div >
         	<table border="1" align="center" class="reply-area">
         		<thead>
         		<%if(loginUser != null&& loginUser.getUserId().equals("admin")){ %>
         			<tr> 
-        				<td>작성</td>      				
-        				<td><textarea id="text-box" rows="5" cols="70" style="resize:none" ></textarea></td>
+        				<td>답글 작성</td>      				
+        				<td><textarea id="text-box" rows="5" cols="90"  ></textarea></td>
         				<td><button onclick="insertReply();" >관리자댓글등록</button></td>
         			</tr>
         			<%}else{ %>
@@ -105,6 +134,7 @@
         	</table>
         	<br><br>
         </div>
+   
         	
         	 <script>
      /*댓글삽입*/
@@ -154,7 +184,7 @@
 				
 				for(var i=0; i<list.length; i++){
 					str+="<tr>"
-						+"<td>"+list[i].createDate+"</td>"
+						+"<td align='center'>"+list[i].createDate+"</td>"
 						+"<td width='75%'>"+list[i].replyContent+"</td>"
 						+"<td>"+list[i].replyWriter+"</td>"						
 						+"</tr>"
@@ -244,6 +274,6 @@
 	
     </script>
 	
-	</div>
+	
 </body>
 </html>
