@@ -1,7 +1,6 @@
-package com.kh.question.controller;
+package com.kh.mainPage.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.kh.question.model.service.QuestionService;
-import com.kh.question.model.vo.Question_Reply;
+import com.kh.mainPage.model.service.MainPageService;
 
 /**
- * Servlet implementation class QuestionReplyListController
+ * Servlet implementation class ReviewDeleteController
  */
-@WebServlet("/selectReList.qo")
-public class QuestionReplyListController extends HttpServlet {
+@WebServlet("/delete.cfre")
+public class ReviewDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionReplyListController() {
+    public ReviewDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,14 +37,20 @@ public class QuestionReplyListController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
+		request.setCharacterEncoding("UTF-8");
 		
-		ArrayList<Question_Reply> list = new QuestionService().selectReList(questionNo);
-		//System.out.println(list);
-		response.setContentType("json/application; charset=UTF-8");
-		new Gson().toJson(list,response.getWriter());
+		int cafeReplyNo = Integer.parseInt(request.getParameter("cafeReplyNo"));
 		
+		int result = new MainPageService().deleteReview(cafeReplyNo);
 		
+		if(result>0) {
+			request.getSession().setAttribute("alertMsg", "리뷰를 삭제했습니다.");
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
+		}else {
+			request.getSession().setAttribute("alertMsg", "리뷰 삭제 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
 	}
 
 }

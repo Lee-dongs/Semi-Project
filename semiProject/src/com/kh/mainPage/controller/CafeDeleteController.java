@@ -1,7 +1,7 @@
-package com.kh.question.controller;
+package com.kh.mainPage.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.kh.question.model.service.QuestionService;
-import com.kh.question.model.vo.Question_Reply;
+import com.kh.mainPage.model.service.MainPageService;
 
 /**
- * Servlet implementation class QuestionReplyListController
+ * Servlet implementation class CafeDeleteController
  */
-@WebServlet("/selectReList.qo")
-public class QuestionReplyListController extends HttpServlet {
+@WebServlet("/delete.cf")
+public class CafeDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionReplyListController() {
+    public CafeDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,14 +38,21 @@ public class QuestionReplyListController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
+		request.setCharacterEncoding("UTF-8");
 		
-		ArrayList<Question_Reply> list = new QuestionService().selectReList(questionNo);
-		//System.out.println(list);
-		response.setContentType("json/application; charset=UTF-8");
-		new Gson().toJson(list,response.getWriter());
+		String location = request.getParameter("location");
+		String add = request.getParameter("add");
+		String encodedLocation = URLEncoder.encode(location, "UTF-8");
 		
+		int result = new MainPageService().deleteCafe(add);
 		
+		if(result>0) {
+			request.getSession().setAttribute("alertMsg", "성공적으로 삭제했습니다");
+			response.sendRedirect(request.getContextPath() + "/ranking.cf?location=" + encodedLocation);
+		}else {
+			request.getSession().setAttribute("alertMsg", "삭제에 실패했습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp");
+		}
 	}
 
 }

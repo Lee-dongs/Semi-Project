@@ -1,7 +1,7 @@
-package com.kh.question.controller;
+package com.kh.mainPage.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.kh.question.model.service.QuestionService;
-import com.kh.question.model.vo.Question_Reply;
+import com.kh.mainPage.model.service.MainPageService;
+import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class QuestionReplyListController
+ * Servlet implementation class ReviewUpdateController
  */
-@WebServlet("/selectReList.qo")
-public class QuestionReplyListController extends HttpServlet {
+@WebServlet("/update.cfre")
+public class ReviewUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionReplyListController() {
+    public ReviewUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,14 +39,19 @@ public class QuestionReplyListController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
+		request.setCharacterEncoding("UTF-8");
 		
-		ArrayList<Question_Reply> list = new QuestionService().selectReList(questionNo);
-		//System.out.println(list);
-		response.setContentType("json/application; charset=UTF-8");
-		new Gson().toJson(list,response.getWriter());
+		int cafeReplyNo = Integer.parseInt(request.getParameter("cafeReplyNo"));
+
+		String content = request.getParameter("reviewText");//수정할 리뷰(댓글)내용
 		
+		int result = new MainPageService().updateReview(cafeReplyNo, content);
 		
+		if(result>0) {
+			request.getSession().setAttribute("alertMsg", "리뷰를 수정했습니다.");
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
+		}
 	}
 
 }

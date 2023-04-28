@@ -1,6 +1,6 @@
 <%@page import="com.kh.manager.model.vo.Report"%>
 <%@page import="com.kh.common.model.vo.pageInfo"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
@@ -13,19 +13,20 @@
 <head>
 <meta charset="UTF-8">
 <title>신고글관리</title>
+<script src="https://kit.fontawesome.com/8eb5905426.js" crossorigin="anonymous"></script>
     <style>
         .member-wrap *{
             box-sizing: border-box;
         }
         /*검색창 스타일*/
         .search-area{
-            width: 70%;
-            height: 8%;
+            width: 50%;
+            height: 5%;
             margin: auto;
         }
         .member-wrap{
-            width: 1000px;
-            height: 600px;
+            width: 1300px;
+            height: 800px;
             margin: auto;
             min-height:100%;
         	position :relative;
@@ -37,9 +38,39 @@
             width: 70%;
             height: 100%;
         }
+        
+        /*검색창 전체영역*/
+        .search-area{
+        	border: 3px solid #6DA292;
+        	border-radius: 20px;
+        	padding: 5px 6px;
+        	
+        }
+        /*검색어 입력공간*/
+        #search-text>input{
+        	border: none;
+        	&::-webkit-search-decoration,
+			&::-webkit-search-cancel-button,
+			&::-webkit-search-results-button,	/*기본css없애기*/
+			&::-webkit-search-results-decoration{
+			    display: none;}
+        }
+        #search-text>input:focus{
+        	outline: none;
+        }
+        /*검색버튼*/
+        #search-btn>input{
+        	border: none;
+        	background-color: white;
+        }
+        /*select박스*/
+        #search-by{
+        	border: none;
+        }
         #search-btn{
             width: 10%;
             height: 100%;
+            font-family: fontawesome;
         }
         #search-by-sth{
             width: 20%;
@@ -50,16 +81,21 @@
             height: 100%;
         }
         /*테이블스타일*/
-        thead td{
-            text-align: center;
+        .report-list{
+        	table-layout: fixed;
         }
-        
+        .report-list td{
+            text-align: center;
+            word-break: break-all;
+            height: auto;
+        }
         .member-wrap table td{
            text-align: center;
             
         }
        /* 제목스타일 */
        .member-wrap>#title{
+        width: 80%;
         text-align: center;
         margin: auto;
         padding: 10px;
@@ -69,6 +105,11 @@
         font-weight: 600;
         border-radius: 10px;
        }
+       /*페이징 구역*/
+      .paging-area{
+      	padding-bottom: 100px;
+      	padding-top: 20px;
+      }
     </style>
 </head>
 <body>
@@ -83,7 +124,7 @@
 
       <div class="search-area">
         <form action="searchReport.ma" method="get" id=search-form onsubmit="return checkBlank()">
-         <input type="hidden" name="currentPage" value="<%=pi.getCurrentPage()%>">
+         <input type="hidden" name="currentPage" value="1">
             <div id="search-by-sth">
                 <select name="searchBy" id="search-by">
                     <option value="userId">신고된 아이디</option>
@@ -95,7 +136,7 @@
                 	value="<%=(request.getAttribute("keyword")==null)?"":request.getAttribute("keyword")%>">
             </div>
             <div id="search-btn">
-                <input type="submit" value="검색"></input>
+                <input type="submit" value="&#xf002;"></input>
             </div>
         </form>
       </div>
@@ -128,13 +169,13 @@
       <table class="report-list table-striped" align="center">
             <thead>
                 <tr>
-                    <td width="50">글번호</td>
-                    <td width="100">신고된 아이디</td>
-                    <td width="80">신고사유</td>
-                    <td width="400">상세사유</td>
-                    <td width="100">신고한 아이디</td>
-                    <td width="80">신고처리</td>
-                    <td width="80">글삭제</td>
+                    <td width="5%">글번호</td>
+                    <td width="10%">신고된 아이디</td>
+                    <td width="10%">신고사유</td>
+                    <td width="50%">상세사유</td>
+                    <td width="10%">신고한 아이디</td>
+                    <td width="10%">신고처리</td>
+                    <td width="5%">글삭제</td>
                 </tr>
             </thead>
             <tbody>
@@ -148,7 +189,7 @@
 	                    <td><%=r.getReportNo() %></td>
 	                    <td><%=r.getUserId() %></td>
                         <td><%=r.getCategory() %></td>
-                        <td><%=r.getReportContent() %></td>
+                        <td style="text-align:left"><%=r.getReportContent() %></td>
                         <td><%=r.getReportWriter() %></td>
 	                    <td><button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">신고처리</button></td>
 	                    <td><button type="button" class="btn btn-info btn-sm" onclick="deleteReport()">글삭제</button></td>
@@ -184,7 +225,7 @@
         		$(".report-list>tbody>tr").click(function(){
         			
         			var rno = $(this).children().eq(0).text();
-        			console.log(rno);
+        			//console.log(rno);
         			
         			location.href = "<%=contextPath%>/deleteReport.ma?rno=" + rno; // 신고글번호
         			
@@ -195,25 +236,59 @@
         </script>
         
   
-  		<!-- 페이징 -->      
-        <div class="paging-area" align="center" >
+  		<!-- 페이징 -->
+  		
+  		<%if(request.getAttribute("keyword")==null){ %> <!-- 검색어가 없는 경우 -->
+  		      
+        <div class="paging-area text-center">
+        	<div class="btn-group btn-group-sm">
 			<%if(pi.getCurrentPage()!= 1){ %>
-				<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()-1%>'">이전</button>
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()-1%>'">이전</button>
 			<%} %>
 			
 			<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++ ){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기  -->
 				<%if(i != pi.getCurrentPage()){ %>
-					<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=i%>';"><%=i %></button>
+					<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=i%>';"><%=i %></button>
 				<%}else{ %>
-					<button disabled><%=i %></button>
+					<button class="btn btn-warning" disabled><%=i %></button>
 				<%} %>
 			<%} %>
 			
-			<%if(pi.getCurrentPage() != pi.getMaxPage()){ %>
-				<button onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()+1%>'">다음</button>
+			<%if((!list.isEmpty()) && pi.getCurrentPage() != pi.getMaxPage()){ %>
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=<%=pi.getCurrentPage()+1%>'">다음</button>
 			<%} %>
+			</div>
 		</div>
+		
+		<%}else{ %> <!-- 검색어가 있는 경우 -->
+		
+		<div class="paging-area text-center" >
+			<div class="btn-group btn-group-sm">
+			<%if(pi.getCurrentPage()!= 1){ %>
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchReport.ma?currentPage=<%=pi.getCurrentPage()-1%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">이전</button>
+			<%} %>
+			
+			<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++ ){ %>
+				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기  -->
+				<%if(i != pi.getCurrentPage()){ %>
+					<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchReport.ma?currentPage=<%=i%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>';"><%=i %></button>
+				<%}else{ %>
+					<button class="btn btn-warning" disabled><%=i %></button>
+				<%} %>
+			<%} %>
+			
+			<%if((!list.isEmpty()) && pi.getCurrentPage() != pi.getMaxPage()){ %><!-- 조회결과 없으면 다음버튼 안보이게 -->
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchReport.ma?currentPage=<%=pi.getCurrentPage()+1%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">다음</button>
+			<%} %>
+
+			<!-- 검색 초기화버튼 -->
+				<button class="btn btn-info" onclick="location.href='<%=contextPath%>/reportManagement.ma?currentPage=1'">전체보기</button>
+			</div>
+			
+		</div>
+		
+		<%} %>
     
     </div>
 <br><br><br><br>

@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.Map.Entry, java.util.Iterator, com.kh.mainPage.model.vo.Cafe,
-    java.util.ArrayList, com.kh.mainPage.model.vo.*, com.kh.member.model.vo.Member"%>
+    java.util.ArrayList, java.util.LinkedHashMap,
+    com.kh.mainPage.model.vo.*, com.kh.member.model.vo.Member"%>
     <%
-    	Iterator<Entry<String, Integer>> menu = (Iterator<Entry<String, Integer>>)request.getAttribute("menu");
+    	LinkedHashMap<String, Integer> menu = (LinkedHashMap<String, Integer>)request.getAttribute("menu");
     	Cafe cafe = (Cafe)request.getAttribute("cafe");
+    	String titleChangeName = (String)request.getAttribute("titleChangeName");
     	ArrayList<CafeAttachment> detailAtList = (ArrayList<CafeAttachment>)request.getAttribute("detailAtList");
+		int cafeFileNo = (int)request.getAttribute("cafeFileNo");
+    	String location = (String)request.getAttribute("location");
     	String add = (String)request.getAttribute("add");
     	String contextPath = request.getContextPath();
     	String alertMsg = (String)session.getAttribute("alertMsg");
+    	String time = cafe.getOperationTime().substring(0, 5);
+    	String time_1 = cafe.getOperationTime().substring(8, cafe.getOperationTime().length());
     	Member m = (Member)request.getSession().getAttribute("loginUser");
     %>
 <!DOCTYPE html>
@@ -16,7 +22,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=robvxzpemd"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1516a247c39406e5354d9d81cbbbcea4&libraries=services"></script>
     <title>Document</title>
         <!-- 부트스트랩 CDN -->
     <!-- Latest compiled and minified CSS -->
@@ -51,16 +57,17 @@
         }
 
         #detailHead div{
-            width: 25%;
+            width: 20%;
             height: 100%;
             float: left;
             box-sizing: border-box;     
         }
 
         #detailHead img{
-            height: 100%;
-            width: 100%;
+            height: 98%;
+            width: 98%;
             box-sizing: border-box;
+            margin-left : 2px;
         }
 
 
@@ -358,6 +365,10 @@
             width: 30%;
             height: 200px;
         }
+        
+        .userInfo>ul{
+        	float:right;
+        }
 
         .replyContent{
             height: auto;
@@ -384,6 +395,22 @@
 		
 		#modal3{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		}
+		
+		#modal4{ 
+		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		}
+		
+		#modal5{ 
+		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		}
+		
+		#modal6{ 
+		  position:absolute; width:100%; height:100%; top:0; left:0; display:none;
+		}
+		
+		#modal7{ 
+		  position:absolute; width:100%; height:100%; top:0; left:0; display:none;
 		}
 		
 		.m_head{
@@ -419,6 +446,28 @@
 		  line-height:23px;
 		}
 		
+		#modal5>.modal_content{
+			height:50px;
+		}
+		
+		#modal6>.modal_content1{
+			
+			width : 700px;
+			height : 650px;
+			border : 2px solid black;
+		    background:#fff; border-radius:10px;
+		    position:relative; top:50%; left:50%;
+		    margin-top:-300px; margin-left:-500px;
+		    text-align:center;
+		    box-sizing:border-box; padding:74px 0;
+		    line-height:23px;
+		}
+		
+		#modal7>.modal_content{		
+			height : 50px;
+			border : 2px solid black;
+		}
+		
 		.modal_content>form>div>div{
 			float:left;
 		}
@@ -426,6 +475,7 @@
             height: 50px;
             margin-bottom: 50px;
         }
+        
         .category{
             width: 100px;
             height: 100%;
@@ -472,7 +522,7 @@
             -webkit-text-fill-color: #fff58c;
             }
         	
-        	#reviewText, #reportText{
+        	.reviewText, #reportText{
         		margin-top : 30px;
         		resize : none;
         	}
@@ -493,15 +543,63 @@
         		width:100%;
         		color : red;
         	}
+        	      	
+        	#deleteDiv>form>button{
+        		margin-left : 35%;
+        	}
+        	
+        	#updateDiv>button{
+        		margin-left : 35%;
+        		
+        	}
+        	
+        	/*=========================================*/
+        	
+        	/*================댓글 수정 삭제===================*/
 			
+			#navi{
+				list-style-type: none;
+				margin : 0;
+				padding : 0;
+				width : 200px;
+			}
+			
+			#navi>li{
+				display : inline-block;
+            	height: 100%;
+            	text-align: center;
+            	display : inline-block;
+            	width: 40%;
+            	height: 100%;
+            	text-align: center;
+            	vertical-align: top;
+			}
+			
+			#navi>li>ul a{
+				text-decoration: none;
+            	color: red;
+            	font-size: 15px;
+            	font-weight: 800;
+            	
+            	
+            }
+            
+            #navi>li>ul{
+            	list-style-type: none;
+            	padding : 0; /*기본 설정 패딩 없애기*/
+            	display: none; /*1단계 : 안보이게 하기*/
+        	}
+
     </style>
 </head>
 <body>
+	<div>로고들어갈곳</div>
     <div id="detailHead">
         <div><img src="<%=detailAtList.get(0).getNewPath() %>"></div>       
         <div><img src="<%=detailAtList.get(1).getNewPath() %>"></div>
         <div><img src="<%=detailAtList.get(2).getNewPath() %>"></div>
         <div><img src="<%=detailAtList.get(3).getNewPath() %>"></div>
+        <div><img src="<%=detailAtList.get(4).getNewPath() %>"></div>
     </div>
 
     <div id="detailBody">
@@ -572,8 +670,9 @@
                 <div><%=cafe.getOffDay() %></div><br>
                 <div id="menu">
                     <div>
-                    	<%while(menu.hasNext()){ %>
-                    		<%Entry<String, Integer> menuEntry = menu.next(); %>
+                    	<%Iterator<Entry<String, Integer>> entry = menu.entrySet().iterator(); %>
+                    	<%while(entry.hasNext()){ %>
+                    		<%Entry<String, Integer> menuEntry = entry.next(); %>
                     		<div class="food">
                     			<%=menuEntry.getKey() %>
                     		</div>
@@ -585,6 +684,28 @@
                 </div>
             </div>
         </div>
+        <%if(m!=null && m.getUserId().equals("admin")) {%>
+        	<div id="updateDiv">
+	        	<button onclick="updateCafe()">게시글 수정하기</button>
+	        	<input type="hidden" name="location" value="<%=location %>">
+	        	<input type="hidden" name="add" value="<%=add %>">
+	        </div>
+	        <div id="deleteDiv">
+	        	<form action="<%=contextPath %>/delete.cf" method="post">
+	        		<button>게시글 삭제하기</button>
+	        		<input type="hidden" name="location" value="<%=location %>">
+	        		<input type="hidden" name="add" value="<%=add %>">
+	        	</form>
+	        </div>
+        <%} %>
+
+        <p style="margin-top:-12px">
+    		<em class="link">
+        		<a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+           
+        		</a>
+   			</em>
+		</p>
 			<div id="map"></div>
     </div>
 
@@ -674,13 +795,13 @@
 	  	</div>
 	</div>
 	
-	<form action="<%=contextPath %>/insert.cfre" method="post" onsubmit="return checkContent()">
+	<form action="<%=contextPath %>/insert.cfre" method="post">
 		<div id="modal2">
 			<div class="modal_content">
 			    <div class="m_head">
 	                <div class="close_btn" id="close_btn2">x</div>
 	                <div>
-	                	<textarea name="reviewText" rows="20" cols="40" id="reviewText" required></textarea>
+	                	<textarea name="reviewText" rows="20" cols="40" class="reviewText" required></textarea>
 	                </div>
 	                <input type="hidden" name="cafeNo" value="<%=cafe.getCafeNo() %>">
 					<input type="hidden" name="add" value="<%=add %>">
@@ -691,7 +812,7 @@
 		</div>	
 	</form>
 	
-	<div id="modal3">
+	<div id="modal3"> <!-- 신고창 모달 -->
 		<div class="modal_content">
 			<div class="m_head">
 				<div id=categoryList>
@@ -712,6 +833,187 @@
 	    	</div>
 		</div>
 	</div>
+	
+	<form action="<%=contextPath %>/update.cfre" method="post"> 
+		<div id="modal4"> <!-- 리뷰 수정창 모달 -->
+			<div class="modal_content">
+			    <div class="m_head">
+	                <div class="close_btn" id="close_btn4">x</div>
+	                <div>
+	                	<textarea name="reviewText" rows="20" cols="40" class="reviewText" required></textarea>
+	                </div>
+	                <input class="cafeReplyNo" type="hidden" name="cafeReplyNo" value="">
+	                <button type="submit" class="btn btn-success">확인</button>
+                	<button type="reset" class="btn btn-danger">초기화</button>
+	            </div>
+			</div>
+		</div>	
+	</form>
+	
+	<form action="<%=contextPath %>/delete.cfre" method="post"> 
+		<div id="modal5">
+			<div class="modal_content">
+			    <div class="m_head">
+	                <div class="close_btn" id="close_btn5">x</div>
+	                	정말로 삭제하시겠습니까?
+	                <input class="cafeReplyNo" type="hidden" name="cafeReplyNo" value="">
+	                <button type="submit" class="btn btn-success">삭제하기</button>
+	            </div>
+			</div>
+		</div>	
+	</form>
+
+	<form action="<%=contextPath %>/update.cf" method="post" enctype="multipart/form-data">  <!-- 카페 정보 수정 모달창 -->
+		<%Iterator<Entry<String, Integer>> entry1 = menu.entrySet().iterator(); %>
+		<%while(entry1.hasNext()){ %>
+			<%Entry<String, Integer> entryMenu1 = entry1.next(); %>
+			<input type="hidden" name="foodName" value="<%=entryMenu1.getKey()%>">
+			
+		<%} %>
+		<div id="modal6">
+			<div class="modal_content1">
+			    <div class="m_head">
+	                <div class="close_btn" id="close_btn6">x</div>
+	                <div id="registerform">
+	                	<input type="hidden", name="cafeNo" value="<%=cafe.getCafeNo()%>">
+				        <table class="d" border="1">
+				            <tr>
+				                <th>
+				                    카페명:
+				                </th>
+				                <td>
+				                    <input type="text" name="modifyName" id="modifyName" value="<%=cafe.getCafeName() %>" required style="width: 90%;">
+				                </td>
+				            </tr>
+				
+				            <tr>
+				                <th>
+				                    주소:
+				                </th>
+				                <td>
+				                    <input type="address" name="modifyAddress" id="modifyAddress" value="<%=cafe.getAddress() %>" required style="width: 90%;">
+				                </td>
+				            </tr>
+
+				            <tr>
+				                <th>
+				                    영업시간:
+				                </th>
+				                <td>
+				                    <input type="time" name="modifyTime" id="modifyTime" value="<%=time %>" style="width: 40%;"> -
+				                    <input type="time" name="modifyTime-1" id="modifyTime-1" value="<%=time_1 %>" style="width: 40%;">
+				                </td>
+				            </tr>
+				            <tr>
+				                <th>
+				                    휴무일:
+				                </th>
+				                <td>
+				                    <input type="text" name="modifyRest" id="modifyRest" value="<%=cafe.getOffDay() %>" required style="width: 90%;">
+				                </td>
+				            </tr>
+				            <tr>
+				                <th>
+				                    전화번호:
+				                </th>
+				                <td>
+				                    <input type="text" name="modifyPhone" id="modifyPhone" value="<%=cafe.getPhone() %>" required style="width: 90%;">
+				                </td>
+				            </tr>
+				            <tr>
+				                <th rowspan="5">
+				                    메뉴:<br> <a href="javascript:void(0);" onclick="manual()">V</a>
+				                </th>
+				                <%int count = 0; %>
+				                <%Iterator<Entry<String, Integer>> modifyEntry = menu.entrySet().iterator(); %>
+				                <%while(modifyEntry.hasNext()){ %>
+				                	<%Entry<String, Integer> entryMenu = modifyEntry.next(); %>
+				                	<%count++; %>
+				                	<td>
+					                    음식 : <input type="text" name="modifyFood" class="modifyFood" value="<%=entryMenu.getKey() %>" style="width: 30%;">
+					                    가격 : <input type="text" name="modifyPrice" class="modifyPrice" value="<%=entryMenu.getValue() %>" style="width: 30%;">
+					                </td>
+					            </tr>
+					            <tr>				                	
+				                <%} %>
+				                
+				                <%if(count < 5) {%>
+				                	<%for(int i = count; i<5; i++) {%>
+				                	<td>
+					                    음식 : <input type="text" name="modifyFood" class="modifyFood" style="width: 30%;">
+					                    가격 : <input type="text" name="modifyPrice" class="modifyPrice" style="width: 30%;">
+					                </td>
+					            </tr>
+					            <tr>				                		
+				                	<%} %>
+				                <%} %>
+
+				                <th>
+				                    대표이미지:
+				                </th>
+				                <td>
+				                    <input type="file" name="modifyDetailImg1" class="modifyTitleImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=cafeFileNo%>">
+				                    <input type="hidden" name="originFileName" value="<%=titleChangeName %>">
+				                </td>
+				            </tr>
+				            <tr>
+				                <th rowspan="5">
+				                    이미지:
+				                </th>
+				                <td>
+				                    1번 : <input type="file" name="modifyDetailImg2" class="modifyDetailImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=detailAtList.get(0).getCafeFileNo()%>">
+				                    <input type="hidden" name="originFileName" value="<%=detailAtList.get(0).getChangeName() %>">
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>
+				                    2번 : <input type="file" name="modifyDetailImg3" class="modifyDetailImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=detailAtList.get(1).getCafeFileNo()%>">
+				                    <input type="hidden" name="originFileName" value="<%=detailAtList.get(1).getChangeName() %>">
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>
+				                    3번 : <input type="file" name="modifyDetailImg4" class="modifyDetailImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=detailAtList.get(2).getCafeFileNo()%>">
+				                    <input type="hidden" name="originFileName" value="<%=detailAtList.get(2).getChangeName() %>">
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>
+				                    4번 : <input type="file" name="modifyDetailImg5" class="modifyDetailImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=detailAtList.get(3).getCafeFileNo()%>">
+				                    <input type="hidden" name="originFileName" value="<%=detailAtList.get(3).getChangeName() %>">
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>
+				                    5번 : <input type="file" name="modifyDetailImg6" class="modifyDetailImg">
+				                    <input type="hidden" name="cafeFileNo" value="<%=detailAtList.get(4).getCafeFileNo()%>">
+				                    <input type="hidden" name="originFileName" value="<%=detailAtList.get(4).getChangeName() %>">
+				                </td>
+				            </tr>				            
+				        </table>
+				    </div>
+	                <button type="submit" class="btn btn-success">수정하기</button>
+	            </div>
+			</div>
+		</div>	
+	</form>
+	
+
+	<div id="modal7">
+		<div class="modal_content">
+			<div class="m_head">
+	        	<div class="close_btn" id="close_btn7">x</div>
+	            1.음식 칸을 비워두면 메뉴에서 삭제됩니다. <br>
+	            2.가격을 비워두면 0원으로 표기됩니다.
+	    	</div>
+		</div>
+	</div>	
+
 	
     <script>
     	var msg = "<%=alertMsg%>";
@@ -789,10 +1091,17 @@
     						 "<div class='dd'>"
     						+"<div class='userInfo'>"
     						+list[i].cafeReplyWriter
+    						+"<ul id='navi'> <li><a href='javascript:void(0);' onclick='display(this)'>V</a>"
+    						+"<ul>"
+    						+"<li><a href='javascript:void(0);' onclick='updateReview(" + '"' + userId + '",' + "this" + ")'>수정하기</a></li>"
+    						+"<li><a href='javascript:void(0);' onclick='deleteReview(" + '"' + userId + '",' + "this" + ")'>삭제하기</a></li>"
+    						+"</ul>"
+    						+"</li></ul>"
     						+"</div>"
     						+"<div>"+list[i].createDate+"</div>" //javascript:void(0) : 하이퍼링크 사용안함              '"' + userId + '"' : string처리
     						+"<div class='report'>" + "<a href='javascript:void(0);'> <p onclick='reporting(" + '"' + userId + '"' + ")'>신고</p> </a>" + "</div>"
     						+"<div class='replyContent'>" + list[i].cafeReplyContent + "</div>"
+    						+"<input type='hidden' class='CRNO' name='cafeReplyNo' value=" + list[i].cafeReplyNo + ">"
     						+"</div>"
     						+"<hr>"
     				}
@@ -865,6 +1174,84 @@
 			return reportContent;
 		}
 		
+		function display(a){ // V누르면 수정하기 삭제하기 나옴
+			if($(a).next().css('display') == 'block'){
+				$(a).next().css('display', 'none');
+			}else{
+				$(a).next().css('display', 'block');
+			}
+			
+		}
+		
+		function updateReview(checkId, e){ //리뷰 수정창 열기 / 로그인한 아이디와 수정할 리뷰와의 정보가 같은지 체크
+			var userId = "";
+			<%if(m != null){%>
+				userId = "<%=m.getUserId()%>";
+			<%}%>
+			if(userId == checkId){
+	            $("#modal4").css({
+	                "top": (($(window).height()-$("#modal4").outerHeight())/2+$(window).scrollTop())+"px",
+	                "left": (($(window).width()-$("#modal4").outerWidth())/2+$(window).scrollLeft())+"px"	             	
+	             });
+	            $("#modal4").fadeIn();
+	            $(".cafeReplyNo").attr("value", $(e).parent().parent().parent().parent().parent().parent().find("input").val());
+			}else{
+				alert("자신이 작성한 리뷰에 대해서만 수정이 가능합니다.");
+			}
+
+		}
+		
+		$("#close_btn4").click(function(){ //x버튼을 클릭하면 닫음
+    		$("#modal4").fadeOut();
+    	});
+		
+		function deleteReview(checkId, e){ //리뷰 삭제창 열기 / 로그인한 아이디와 수정할 리뷰와의 정보가 같은지 체크
+			var userId = "";
+			<%if(m != null){%>
+				userId = "<%=m.getUserId()%>";
+			<%}%>
+			
+			if(userId == checkId){
+	            $("#modal5").css({
+	                "top": (($(window).height()-$("#modal5").outerHeight())/2+$(window).scrollTop())+"px",
+	                "left": (($(window).width()-$("#modal5").outerWidth())/2+$(window).scrollLeft())+"px"	             	
+	             });
+	            $("#modal5").fadeIn();
+	            $(".cafeReplyNo").attr("value", $(e).parent().parent().parent().parent().parent().parent().find("input").val());
+			}else{
+				alert("자신이 작성한 리뷰에 대해서만 삭제가 가능합니다.");
+			}
+
+		}
+		
+    	$("#close_btn5").click(function(){ //x버튼 클릭하면 모달창 닫음
+    		$("#modal5").fadeOut();
+    	});
+		
+		function updateCafe(){
+			$("#modal6").css({
+                "top": (($(window).height()-$("#modal6").outerHeight())/2+$(window).scrollTop())+"px",
+                "left": (($(window).width()-$("#modal6").outerWidth())/2+$(window).scrollLeft())+"px"	             	
+             });
+			$("#modal6").fadeIn();
+		}
+		
+		$("#close_btn6").click(function(){
+			$("#modal6").fadeOut();
+		});
+		
+		function manual(){
+			$("#modal7").css({
+                "top": (($(window).height()-$("#modal7").outerHeight())/2+$(window).scrollTop())+"px",
+                "left": (($(window).width()-$("#modal7").outerWidth())/2+$(window).scrollLeft())+"px"	             	
+             });
+			$("#modal7").fadeIn();
+		}
+		
+		$("#close_btn7").click(function(){
+			$("#modal7").fadeOut();
+		});
+		
 		function checkRating(){	//0점을 준 별점이 있는지 체크. 있으면 false 리턴
 			var arr = [];
 			arr[0] = $(".star-rating input[name=rating]:checked").val();
@@ -882,17 +1269,42 @@
 			return true;
 		}
 		
-		var mapOptions = {
-			    center: new naver.maps.LatLng(37.533879, 126.896824),
-			    zoom: 14
-			};
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
 
-		var map = new naver.maps.Map('map', mapOptions);
-		
-		var marker = new naver.maps.Marker({
-		    position: new naver.maps.LatLng(37.533879, 126.896824),
-		    map: map
-		});
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch('<%=add%>', function(result, status) {
+
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new kakao.maps.InfoWindow({
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;"><%=cafe.getCafeName()%></div>'
+	        });
+	        infowindow.open(map, marker);
+
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});    
 
     </script>
     <br><br><br><br><br><br><br>

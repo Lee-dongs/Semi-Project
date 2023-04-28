@@ -6,9 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.kh.common.JDBCTemplate;
@@ -70,7 +72,7 @@ public class MainPageDao {
 				pstmt.setInt(1, list.get(i).getCafeNo());
 				rset = pstmt.executeQuery();
 				if(rset.next()) {
-					list.get(i).setScore(rset.getDouble("SCORE"));
+					list.get(i).setScore(Math.round(rset.getDouble("SCORE") * 100)/100.0);
 				}
 			}
 		} catch (SQLException e) {
@@ -123,7 +125,8 @@ public class MainPageDao {
 				rset = pstmt.executeQuery();
 				if(rset.next()) {
 					cfatList.add(new CafeAttachment(rset.getInt(1),
-													rset.getString(2)));	
+													rset.getInt(2),
+													rset.getString(3)));	
 				}
 			}
 			
@@ -226,6 +229,29 @@ public class MainPageDao {
 		
 		return map;
 	}
+	
+	public String selectTitleChangeName(Connection conn, int cafeNo) {
+		String titleChangeName = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectTitleChangeName");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				titleChangeName = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return titleChangeName;
+	}
 
 	public ArrayList<CafeAttachment> selectDetailAtList(Connection conn, int cafeNo) {
 		ArrayList<CafeAttachment> detailAtList = new ArrayList<>();
@@ -242,7 +268,9 @@ public class MainPageDao {
 			
 			while(rset.next()) {
 				detailAtList.add(new CafeAttachment(rset.getInt(1),
-													rset.getString(2)));
+													rset.getInt(2),
+													rset.getString(3),
+													rset.getString(4)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -356,5 +384,170 @@ public class MainPageDao {
 	
 		return result;
 	}
+
+	public int increaseCount(Connection conn, String address) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("increaseCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, address);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+			
+		return result;
+	}
+
+	public int deleteCafe(Connection conn, String add) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteCafe");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, add);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateReview(Connection conn, int cafeReplyNo, String content) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, cafeReplyNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteReview(Connection conn, int cafeReplyNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cafeReplyNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int updateCafeAttachment(Connection conn, ArrayList<CafeAttachment> list) {
+		int result = 1;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateCafeAttachment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			for(int i=0; i<list.size(); i++) {
+				pstmt.setString(1, list.get(i).getOriginName());
+				pstmt.setString(2, list.get(i).getChangeName());
+				pstmt.setInt(3, list.get(i).getCafeFileNo());
+
+				result = result * pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+				
+		return result;
+	}
+
+	public int updateCafe(Connection conn, Cafe cafe) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateCafe");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cafe.getCafeName());
+			pstmt.setString(2, cafe.getOperationTime());
+			pstmt.setString(3, cafe.getOffDay());
+			pstmt.setString(4, cafe.getPhone());
+			pstmt.setString(5, cafe.getAddress());
+			pstmt.setInt(6, cafe.getCafeNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateMenu(Connection conn, int cafeNo, List<String> foodName, LinkedHashMap<String, Integer> map) {
+		int result = 1;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateMenu");
+		
+		int idx=0;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			Iterator<Entry<String, Integer>> menu = map.entrySet().iterator();
+			while(menu.hasNext()) {
+				Entry<String, Integer> menuEntry = menu.next();
+				pstmt.setString(1, foodName.get(idx));
+				pstmt.setString(2, menuEntry.getKey());
+				pstmt.setInt(3, cafeNo);
+				pstmt.setInt(4, menuEntry.getValue());
+				pstmt.setInt(5, menuEntry.getValue());
+				
+				idx++;
+				
+				result = result * pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+
 
 }

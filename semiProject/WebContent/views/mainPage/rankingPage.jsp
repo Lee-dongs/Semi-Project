@@ -248,7 +248,7 @@
     
     	$(".cafeImgDiv>img").click(function(){//이미지 클릭시 주소랑 같이 넘김
     		var address = $(this).next().val();
-    		location.href = "<%=contextPath%>/detail.cf?add="+address;
+    		location.href = "<%=contextPath%>/detail.cf?location="+"<%=location%>&&add="+address;
     	});
     	
     	$(function(){
