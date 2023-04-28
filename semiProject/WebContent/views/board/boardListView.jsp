@@ -10,8 +10,12 @@
 	
 	String category = (String)request.getAttribute("category");
 	
+	
+	int sort = (Integer)request.getAttribute("sort");
+		
 	pageInfo pi = new pageInfo();
 	ArrayList<Board> list = new ArrayList<Board>();
+	
 	
 	if(keyword !=null && category !=null){
 		list = (ArrayList)request.getAttribute("slist"); 
@@ -42,6 +46,8 @@
         width: 1000px;
         margin: auto;
         border-top: 1px solid black;
+        min-height:100%;
+        position :relative;
     }
     .list-area>thead>tr, .list-area>tbody>tr{
         text-align: center;
@@ -105,6 +111,14 @@
     #location{
         float: left;
     }
+    .list>h2{
+            border-style: solid white;
+            border-radius: 120px;
+            background-color: rgb(247, 195, 127);
+            width: 600px;
+            margin:auto;
+            text-align:center;
+        }
 
 </style>
 <body>
@@ -119,6 +133,7 @@
                     <th class="search_input" colspan="6">
                     	<form action="search.bo" method="get" id="search-area" onsubmit="return chkBlank();">
                     	<input type="hidden" name="currentPage" value="1">
+                    	<input type="hidden" name="sort" value="1">
                     		<select name="category" id="category">
                                 <option value="제목">제목</option>
                                 <option value="내용">내용</option>
@@ -145,11 +160,11 @@
                 </tr>
             </thead>
             <tbody>
-                <%for(Board b : list){ %>
             	<%if(list.isEmpty()){ %>
             		<tr><td colspan='6'>존재하는 게시글이 없습니다.</td></tr>
             	<%}else{ %>
                 <tr>
+                	<%for(Board b : list){ %>
                     <td id="boardNo"><%=b.getBoardNo() %></td>
                     <td id="title">[<%=b.getLocationCode() %>] <%=b.getTitle() %></td>
                     <td id="userId"><%=b.getBoardWriter() %></td>
@@ -166,61 +181,64 @@
                 <tr>
                     <td colspan="7">
 	        	    <%if(loginUser !=null){ %>
-                    <button type="button" id="foot-btn" class="btn btn-info" onclick="enrollform();">글쓰기</button>
+                    <button type="button" id="foot-btn" class="btn btn-warning" onclick="enrollform();">글쓰기</button>
     		        <%} %>
-                    <button type="button" id="foot-btn" class="btn btn-info" onclick="newerList();">최신순</button>
-                    <button type="button" id="foot-btn" class="btn btn-info" onclick="mostViewList();">조회순</button>
+					    <button type="button" id="foot-btn" class="btn btn-warning" onclick="newerList();">최신순</button>
+	                    <button type="button" id="foot-btn" class="btn btn-warning"  onclick="mostViewList();">조회순</button>
                     </td>
-                	
                 </tr>
             </tfoot>
         </table>
         <br><br>
         <%if(keyword!=null){ %>
-        <div align="center" class="paging-area">
+        <div class="paging-area text-center">
+        	<div class="btn-group">
 	        <%if(pi.getCurrentPage()!=1) {%>
-	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'"><</button>
+	        	<button onclick="location.href = '<%=contextPath%>/search.bo?currentPage=<%=pi.getCurrentPage()-1%>'" class="btn btn-warning">다음</button>
 	        <%} %>
 	        <%for(int i=pi.getStartPage();i<=pi.getEndPage();i++){ %>
 	        	<%if(i!=pi.getCurrentPage()){ %>
-	        		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&category=<%=category%>&keyword=<%=keyword%>';"><%=i %></button>
-        	<%}else{ %>
-        		<button disabled><%=i %></button>
-        	<%} %>
-        <%} %>
-        <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">></button>
-        <%} %>
-        </div>
-        <%}else{ %>
-        <div align="center" class="paging-area">
-	        <%if(pi.getCurrentPage()!=1) {%>
-	        	<button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'"><</button>
+	        		<button onclick="location.href='<%=contextPath%>/search.bo?currentPage=<%=i%>&category=<%=category%>&keyword=<%=keyword%>';" class="btn btn-warning"><%=i %></button>
+        		<%}else{ %>
+        		<button disabled class="btn btn-warning"><%=i %></button>
+        		<%} %>
 	        <%} %>
-	        <%for(int i=pi.getStartPage();i<=pi.getEndPage();i++){ %>
-	        	<%if(i!=pi.getCurrentPage()){ %>
-	        		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>';"><%=i %></button>
-        	<%}else{ %>
-        		<button disabled><%=i %></button>
+	        <%if(!list.isEmpty() && pi.getCurrentPage()!=pi.getMaxPage()){ %>
+	        	<button onclick="location.href='<%=contextPath%>/search.bo?currentPage=<%=pi.getCurrentPage()+1%>'" class="btn btn-warning">이전</button>
+	        <%} %>
+	    </div>
+	    </div>
+	    <%}else{ %>
+	    <div class="paging-area text-center">
+	    <div class="btn-group">
+		    <%if(pi.getCurrentPage()!=1) {%>
+		        <button onclick="location.href = '<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&sort=<%=sort%>'" class="btn btn-warning">이전</button>
+		    <%} %>
+		    <%for(int i=pi.getStartPage();i<=pi.getEndPage();i++){ %>
+		        <%if(i!=pi.getCurrentPage()){ %>
+		        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&sort=<%=sort%>';" class="btn btn-warning"><%=i %></button>
+	         	<%}else{ %>
+	        		<button disabled class="btn btn-warning"><%=i %></button>
+	        	<%} %>
+	        <%} %>
+	        <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
+	        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&sort=<%=sort%>'" class="btn btn-warning">다음</button>
+	      	  <%} %>
+	    </div>
+	    </div>
         	<%} %>
-        <%} %>
-        <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-        	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">></button>
-        <%} %>
-        <%} %>
-        </div>
     </div>
     	<script>
-    		function enrollform(){
-    		
-    			location.href ="<%=contextPath%>/insert.bo"
-    		};
-    		$(".list-area>tbody>tr").click(function(){
-    			var bno = $(this).children().eq(0).text();
-    			
-    			<%if(loginUser==null){%>
-    			var userId = null;
-    			<%}%>
+    	function enrollform(){
+			location.href ="<%=contextPath%>/insert.bo"
+		};
+		
+		$(".list-area>tbody>tr").click(function(){
+			var bno = $(this).children().eq(0).text();
+			
+			<%if(loginUser==null){%>
+			var userId = null;
+			<%}%>
     			
     			if(userId==null){
     				alert("로그인 후 사용해주시길 바랍니다.")
@@ -228,14 +246,14 @@
 	    			location.href = "<%=contextPath%>/detail.bo?bno="+bno
     			}
     		});
+		
     		function newerList(){
-    			
-    			location.href ="<%=contextPath%>/list.bo?currentPage="+<%=pi.getCurrentPage()%>
-    		};
-    		function mostViewList(){
-    			location.href = "<%=contextPath%>/mostview.bo?currentPage="+<%=pi.getCurrentPage()%>
+    			location.href ="<%=contextPath%>/list.bo?currentPage=1&sort=1"
     		};
     		
+    		function mostViewList(){
+    			location.href ="<%=contextPath%>/list.bo?currentPage=1&sort=2"
+    		};
     		function chkBlank(){
     			if($("#board_search").val().length==0){
     				alert("검색할 내용을 입력해주세요");
@@ -243,8 +261,8 @@
     			}
     			
     		};
-    		
     	</script>
-    
 </body>
+<br><br><br><br><br><br>
+<%@ include file="../common/footer.jsp" %>
 </html>

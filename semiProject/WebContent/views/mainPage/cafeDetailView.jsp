@@ -38,6 +38,8 @@
             background-repeat : no-repeat;
            object-fit : fill;    
         */
+        min-height:100%;
+        position :relative;
         }
         *{
             font-family: 'Noto Sans KR', sans-serif;
@@ -893,5 +895,7 @@
 		});
 
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

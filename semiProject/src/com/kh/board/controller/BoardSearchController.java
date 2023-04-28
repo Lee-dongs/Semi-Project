@@ -62,13 +62,14 @@ public class BoardSearchController extends HttpServlet {
 		
 		pageInfo spi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		
+		int sort = Integer.parseInt(request.getParameter("sort"));
 		ArrayList<Board> slist = new BoardService().searchBoard(keyword, category, spi);
 		
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("category", category);
 		request.setAttribute("slist", slist);
 		request.setAttribute("spi", spi);
+		request.setAttribute("sort", sort);
 		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
 	}
 

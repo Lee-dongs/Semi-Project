@@ -28,6 +28,8 @@
             margin: auto;
             padding: 0px 20px;
             margin-bottom: 40px;
+            min-height:100%;
+        	position :relative;
         }
         .logo{
             display: block;
@@ -345,7 +347,7 @@
     	}
     });
     </script>
-    
-    
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

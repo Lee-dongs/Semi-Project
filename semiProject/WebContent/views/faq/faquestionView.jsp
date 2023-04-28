@@ -22,6 +22,8 @@
             height: 500px;
             margin: auto;
             margin-top: 50px;
+            min-height:100%;
+        	position :relative;
         }
         .outer>h2{
             border-style: solid white;
@@ -339,8 +341,8 @@
         })
  
     </script>
-    
-   
-    
 </body>
+<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
+
 </html>

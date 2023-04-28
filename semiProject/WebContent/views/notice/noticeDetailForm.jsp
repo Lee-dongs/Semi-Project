@@ -17,6 +17,7 @@
             height: 500px;
             margin: auto;
             margin-top: 50px;
+            
         }
         .outer>h2{
             border-style: solid white;
@@ -73,6 +74,6 @@
 		<%} %>
 		<br><br><br><br><br>
 		</div>
-	
+		
 </body>
 </html>

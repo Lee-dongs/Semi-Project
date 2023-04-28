@@ -377,6 +377,7 @@
                     </tr>
 
                 </tbody>
+               
             </table>
 
         </div>
@@ -410,7 +411,7 @@
                             <li><a href="<%=contextPath%>/list.fo?currentPage=1">FAQ</a></li>
                         </ul>
                     </li>
-                    <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
+                    <li><a href="<%=contextPath%>/list.bo?currentPage=1&sort=1">자유게시판</a></li>
                     <li><a href="<%=contextPath%>/cafeRequest.co">카페등록요청</a></li>
                 </ul>
             </div>
@@ -478,16 +479,5 @@
 	};
 	
 	</script>
-	
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
