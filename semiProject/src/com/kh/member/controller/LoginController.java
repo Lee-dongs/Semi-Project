@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
 			if(userId.equals("admin")) {
 				request.getRequestDispatcher("views/manager/managerMain.jsp").forward(request, response);
 			}else {
-				response.sendRedirect(request.getContextPath());
+				response.sendRedirect(request.getHeader("Referer"));
 			}
 			
 		}

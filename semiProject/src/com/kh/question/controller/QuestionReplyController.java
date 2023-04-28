@@ -41,10 +41,13 @@ public class QuestionReplyController extends HttpServlet {
 		
 		int questionNo = Integer.parseInt(request.getParameter("questionNNo"));
 		//System.out.println(questionNo);
+		
 		String content = request.getParameter("content");
+		//System.out.println(content);
 		
 		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
 		int userNo = loginUser.getUserNo();
+		//System.out.println(userNo);
 		
 		Question_Reply re = new Question_Reply();
 		re.setRefBno(questionNo);

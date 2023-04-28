@@ -70,7 +70,7 @@ public class BoardInsertController extends HttpServlet {
 			b.setBoardWriter(boardWriter);
 			
 			
-			Attachment at = new Attachment();
+			Attachment at = null;
 			
 			if(mr.getOriginalFileName("upfile")!=null) {
 				at = new Attachment();

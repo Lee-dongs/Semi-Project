@@ -15,6 +15,18 @@ public Question() {
 	super();
 }
 
+public Question(int questionNo, String questionTitle, String questionWriter, Date modifyDate) {
+	super();
+	this.questionNo = questionNo;
+	this.questionTitle = questionTitle;
+	this.questionWriter = questionWriter;
+	this.modifyDate = modifyDate;
+}
+
+
+
+
+
 public Question(int questionNo, String questionTitle, String questionWriter, String content, Date modifyDate) {
 	super();
 	this.questionNo = questionNo;
@@ -23,9 +35,6 @@ public Question(int questionNo, String questionTitle, String questionWriter, Str
 	this.content = content;
 	this.modifyDate = modifyDate;
 }
-
-
-
 
 public Question(int questionNo, String questionTitle, String questionWriter, String content, int count, Date createDate,
 		Date modifyDate, String statud) {

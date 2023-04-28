@@ -72,7 +72,6 @@ public class QuestionDao {
 				list.add(new Question(rset.getInt("QUESTION_NO")
 						             ,rset.getString("QUESTION_TITLE")
 						             ,rset.getString("USER_ID")
-						             ,rset.getString("CONTENT")
 						             ,rset.getDate("MODIFY_DATE")));
 				
 			}
@@ -194,6 +193,176 @@ public class QuestionDao {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Question_Reply> selectReList(Connection conn, int questionNo) {
+		ArrayList<Question_Reply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, questionNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Question_Reply(rset.getInt("REPLY_NO")
+						                   ,rset.getInt("REF_BNO")
+						                   ,rset.getString("USER_ID")
+						                   ,rset.getString("REPLY_CONTENT")
+						                   ,rset.getString("CREATE_DATE")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+	public int deleteReply(Connection conn, int replyNo) {
+		int result =0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, replyNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateReply(Connection conn, int replyNo, String content) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, replyNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Question> searchTitle(Connection conn, String searchText, pageInfo pi) {
+		ArrayList<Question> list= new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("searchTitle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Question(rset.getInt("QUESTION_NO")
+			             ,rset.getString("QUESTION_TITLE")
+			             ,rset.getString("USER_ID")
+			             ,rset.getDate("MODIFY_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Question> searchContent(Connection conn, String searchText, pageInfo pi) {
+		ArrayList<Question> list= new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("searchContent");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Question(rset.getInt("QUESTION_NO")
+			             ,rset.getString("QUESTION_TITLE")
+			             ,rset.getString("USER_ID")
+			             ,rset.getDate("MODIFY_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Question> searchWriter(Connection conn, String searchText, pageInfo pi) {
+		ArrayList<Question> list= new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("searchWriter");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchText);
+			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow = (startRow + pi.getBoardLimit())-1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Question(rset.getInt("QUESTION_NO")
+			             ,rset.getString("QUESTION_TITLE")
+			             ,rset.getString("USER_ID")
+			             ,rset.getDate("MODIFY_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
 	}
 
 	
