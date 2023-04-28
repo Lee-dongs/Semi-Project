@@ -13,6 +13,7 @@
 <head>
 <meta charset="UTF-8">
 <title>신고글관리</title>
+<script src="https://kit.fontawesome.com/8eb5905426.js" crossorigin="anonymous"></script>
     <style>
         .member-wrap *{
             box-sizing: border-box;
@@ -20,7 +21,7 @@
         /*검색창 스타일*/
         .search-area{
             width: 50%;
-            height: 8%;
+            height: 5%;
             margin: auto;
         }
         .member-wrap{
@@ -35,9 +36,39 @@
             width: 70%;
             height: 100%;
         }
+        
+        /*검색창 전체영역*/
+        .search-area{
+        	border: 3px solid #6DA292;
+        	border-radius: 20px;
+        	padding: 5px 6px;
+        	
+        }
+        /*검색어 입력공간*/
+        #search-text>input{
+        	border: none;
+        	&::-webkit-search-decoration,
+			&::-webkit-search-cancel-button,
+			&::-webkit-search-results-button,	/*기본css없애기*/
+			&::-webkit-search-results-decoration{
+			    display: none;}
+        }
+        #search-text>input:focus{
+        	outline: none;
+        }
+        /*검색버튼*/
+        #search-btn>input{
+        	border: none;
+        	background-color: white;
+        }
+        /*select박스*/
+        #search-by{
+        	border: none;
+        }
         #search-btn{
             width: 10%;
             height: 100%;
+            font-family: fontawesome;
         }
         #search-by-sth{
             width: 20%;
@@ -103,7 +134,7 @@
                 	value="<%=(request.getAttribute("keyword")==null)?"":request.getAttribute("keyword")%>">
             </div>
             <div id="search-btn">
-                <input type="submit" value="검색"></input>
+                <input type="submit" value="&#xf002;"></input>
             </div>
         </form>
       </div>
