@@ -94,17 +94,19 @@
         	background-color: #DD614A;
         	border: none;
         }
+        .member-list>tbody>tr{
+        	height: 20px;
+        }
        /* 제목스타일 */
        .member-wrap>#title{
+      		font-family: 'SDSamliphopangche_Outline';
 	        width: 80%;
 	        text-align: center;
 	        margin: auto;
 	        padding: 10px;
-	        background-color: rgba(247, 222, 0, 0.781);
-	        color: white;
-	        font-size: 20px;
+	        color: black;
+	        font-size: 50px;
 	        font-weight: 600;
-	        border-radius: 10px;
        }
       /*페이징 구역*/
       .paging-area{
@@ -119,7 +121,7 @@
         <br><br>
 
         <div id="title">
-            회원목록
+            회원관리
         </div>
         <br><br>
 
@@ -165,7 +167,7 @@
      
      </script>
 
-        <br><br><br>
+        <br><br>
 
       <table class="member-list table-striped" align="center">
             <thead>
@@ -173,10 +175,10 @@
                     <td width="10%">아이디</td>
                     <td width="5%">이름</td>
                     <td width="10%">연락처</td>
-                    <td width="15%">이메일</td>
+                    <td width="17%">이메일</td>
                     <td width="30%">주소</td>
                     <td width="10%">생일</td>
-                    <td width="5%">경고횟수</td>
+                    <td width="3%">경고</td>
                     <td width="10%">가입일</td>
                     <td width="5%">탈퇴처리</td>
                 </tr>

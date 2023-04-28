@@ -50,12 +50,25 @@
        
        /*가입하기 버튼 스타일*/
        #enroll-form #submit-btn{
-        background-color: #6DA292;
+        background-color: #17a2b8;
         color: white;
        }
        #enroll-form #submit-btn:hover{
         background-color: #537369;
        }
+       #enroll-form #reset-btn{
+        background-color: #FF9D71;
+        color: white;
+       }
+       #enroll-form #reset-btn:hover{
+        background-color: #e36f3b;
+       }
+       /*주소창 스타일*/
+       #address-table, #id-table, #email-table, #emailCheck-table{
+        width: 100%;
+       }
+      
+      
        
     </style>
         
@@ -74,11 +87,19 @@
         <!-- 아이디  -->
         <div class="enroll">
             <b>*아이디</b>
-            <span><input type="text" class="form-control" id=userId name="userId" required placeholder="첫 글자는 영문자로 그리고 영문자, 숫자를 포함하여 총 4~12자로 입력하세요"></span>
-            <button class="btn btn-sm btn-outline-warning" onclick="idCheck();" type="button">아이디 중복체크</button>
-            <!--아이디 유효성 검사 결과 프린트구역-->
+            
+          <table id="id-table">
+        	<thead>
+                <tr>
+                    <td width="75%"><input type="text" class="form-control" id=userId name="userId" required placeholder="첫 글자는 영문자로, 영문자와 숫자를 포함하여 총 4~12자"></td>
+                    <td width="25%"><input class="form-control btn btn-sm btn-outline-info" type="button" onclick="idCheck();" value="아이디 중복체크"></td>
+                </tr>
+            </thead>
+         </table>
+          <!--아이디 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkId"></div>
         </div>
+       
         <div class="enroll">
             <b>*비밀번호</b>
             <input type="password" class="form-control" id="userPwd" name="userPwd" required 
@@ -109,14 +130,29 @@
         <!--이메일 및 전화번호-->
         <div class="enroll">
             <b>*이메일</b>
-            <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요." required>
-            	<button type="button" class="btn btn-sm btn-outline-warning" id="emailChk">인증번호 보내기</button> <br><br>
-            <input type="text" class="form-control" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required>
-            	<button type="button" class="btn btn-sm btn-outline-warning" id="emailChk2">인증번호 입력하기</button>
-            <div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div>
-            <input type="hidden" id="emailDoubleChk">
             
-        </div>
+	         <table id="email-table">
+	        	<thead>
+	                <tr>
+	                    <td width="75%"><input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요." required></td>
+	                    <td width="25%"><input class="form-control btn btn-sm btn-outline-info" type="button" id="emailChk" value="인증번호 보내기"></td>
+	                </tr>
+	            </thead>
+	         </table>
+	         <br>
+	         <table id="emailCheck-table">
+	        	<thead>
+	                <tr>
+	                    <td width="75%"><input type="text" class="form-control" id="emailVerifyNo" name="emailVerifyNo" placeholder="인증번호" disabled required></td>
+	                    <td width="25%"><input class="form-control btn btn-sm btn-outline-info" id="emailChk2" type="button" value="인증번호  입력하기"></td>
+	                </tr>
+	            </thead>
+	         </table>
+	         
+	         <div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div>
+	         <input type="hidden" id="emailDoubleChk">
+            
+    	</div>
         
 
         <div class="phone">
@@ -126,17 +162,18 @@
             </div>
         </div><br>
         <div class="address">
-        <table>
-        	<thead>
-                <tr>
-                    <td><input type="text" name="postCode" id="sample6_postcode" placeholder="우편번호" id="post_no"></td>
-                    <td><input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
-                </tr>
-            </thead>
-            </table>
-            <input type="text" name="address" id="sample6_address" placeholder="주소"><br>
-            <input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소">
-            <input type="text" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목">
+        	<b>주소</b>
+	        <table id="address-table">
+	        	<thead>
+	                <tr>
+	                    <td width="75%"><input class="form-control" type="text" name="postCode" id="sample6_postcode" placeholder="우편번호" id="post_no"></td>
+	                    <td width="25%"><input class="form-control btn btn-sm btn-outline-info" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
+	                </tr>
+	            </thead>
+	         </table><br>
+            <input type="text" class="form-control" name="address" id="sample6_address" placeholder="주소">
+            <input type="text" class="form-control" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소">
+            <input type="text" class="form-control" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목" style="display:none">
 
             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
             <script>
@@ -188,11 +225,13 @@
                     }).open();
                 }
             </script>	
-        </div>
+       </div>
         <br><br>
         <!-- 필수입력사항 프린트구역 -->
 		<div class="check-info" id="checkAll"></div>
-        <input class="form-control btn" id="submit-btn" type="submit" value="가입하기"><br><br><br>
+        <input class="form-control btn" id="submit-btn" type="submit" value="가입하기"><br><br>
+        <input class="form-control btn" id="reset-btn" type="reset" value="다시 입력하기">
+        <br><br>
         <!-- 아이디 중복검사를 해야 버튼 눌림 -->
         
     </form>
@@ -218,6 +257,13 @@
 		 	window.alert("아이디 중복확인을 먼저 진행해주세요.");
 		}
 	  });
+    
+    // 우편번호 검색 없이 주소 입력하려고 하면 alert
+    $("#sample6_address").click(function(){
+    	if($("#sample6_postcode").val()==""){
+    		window.alert("우편번호 검색을 먼저 진행해주세요.");
+    	}
+    });
     
     // 아이디 중복검사
     function idCheck(){

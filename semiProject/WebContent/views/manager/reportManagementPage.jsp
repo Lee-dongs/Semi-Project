@@ -89,19 +89,27 @@
         }
         .member-wrap table td{
            text-align: center;
-            
+        }
+        .report-list #delete-btn{
+        	background-color: #6DA292;
+        	border: none;
+        	color: white;
+        }
+        .report-list #report-btn{
+        	background-color: #DD614A;
+        	border: none;
+        	color: white;
         }
        /* 제목스타일 */
        .member-wrap>#title{
+        font-family: 'SDSamliphopangche_Outline';
         width: 80%;
         text-align: center;
         margin: auto;
         padding: 10px;
-        background-color: rgba(247, 222, 0, 0.781);
-        color: white;
-        font-size: 20px;
+        color: black;
+        font-size: 50px;
         font-weight: 600;
-        border-radius: 10px;
        }
        /*페이징 구역*/
       .paging-area{
@@ -162,7 +170,7 @@
      
      </script>
 
-        <br>
+        <br><br>
 
       <table class="report-list table-striped" align="center">
             <thead>
@@ -189,8 +197,8 @@
                         <td><%=r.getCategory() %></td>
                         <td style="text-align:left"><%=r.getReportContent() %></td>
                         <td><%=r.getReportWriter() %></td>
-	                    <td><button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">신고처리</button></td>
-	                    <td><button type="button" class="btn btn-info btn-sm" onclick="deleteReport()">글삭제</button></td>
+	                    <td><button type="button" id="report-btn" class="btn btn-sm" onclick="confirmReport()">신고처리</button></td>
+	                    <td><button type="button" id="delete-btn" class="btn btn-sm" onclick="deleteReport()">글삭제</button></td>
 	                </tr>
             	<%} %>
             <%} %>
@@ -200,7 +208,7 @@
         
         <script>
         // 신고 확인 메세지
-        function confirmDelete(){
+        function confirmReport(){
         	var result = window.confirm("정말 신고처리 하시겠습니까?");
         	
         	if(result){ // 확인을 누르면 -> DB에서 MEMBER-REPORT랑 REPORT-STATUS 바꾸기
