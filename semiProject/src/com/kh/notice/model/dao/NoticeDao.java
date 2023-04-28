@@ -18,13 +18,42 @@ public class NoticeDao {
 	Properties prop = new Properties();
 	public NoticeDao() {
 		
-		String filePath = NoticeDao.class.getResource("/sql/board/notice-mapper.xml").getPath();
+		String filePath = NoticeDao.class.getResource("/sql/notice/notice-mapper.xml").getPath();
 		
 		try {
 			prop.loadFromXML(new FileInputStream(filePath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+			
+		 public ArrayList<Notice> selectList(Connection conn) {
+			ArrayList<Notice> list = new ArrayList<>();
+			ResultSet rset = null;
+			Statement stmt = null;			
+			
+			String sql = prop.getProperty("selectList");
+			
+			try {
+				stmt = conn.createStatement();
+				rset = stmt.executeQuery(sql);
+				
+				while(rset.next()) {
+					list.add(new Notice(rset.getInt("NOTICE_NO")
+							           ,rset.getString("NOTICE_TITLE")						           
+							           ,rset.getString("USER_ID")
+							           ,rset.getInt("COUNT")
+							           ,rset.getDate("CREATE_DATE")));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(stmt);
+			}
+			return list;
 	}
 
 	public int insertNotice(Connection conn, Notice n) {
@@ -140,4 +169,5 @@ public class NoticeDao {
 		return result;
 	}
 
+	
 }
