@@ -10,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mainPage.model.service.MainPageService;
-import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class ReviewInsertController
+ * Servlet implementation class CafeDeleteController
  */
-@WebServlet("/insert.cfre")
-public class ReviewInsertController extends HttpServlet {
+@WebServlet("/delete.cf")
+public class CafeDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewInsertController() {
+    public CafeDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,24 +40,18 @@ public class ReviewInsertController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		int cafeNo = Integer.parseInt(request.getParameter("cafeNo")); //참조하는 카페 번호
+		String location = request.getParameter("location");
+		String add = request.getParameter("add");
+		String encodedLocation = URLEncoder.encode(location, "UTF-8");
 		
-		Member m = (Member)request.getSession().getAttribute("loginUser");
-		int userNo = m.getUserNo(); //댓글작성자
-		
-		String content = request.getParameter("reviewText");//리뷰(댓글)내용
-		
-		String add = request.getParameter("add"); //리다이렉트 할 주소 받아오기
-		
-		int result = new MainPageService().insertReview(cafeNo, userNo, content);
+		int result = new MainPageService().deleteCafe(add);
 		
 		if(result>0) {
-			request.getSession().setAttribute("alertMsg", "리뷰 작성 완료");
-			String before = request.getHeader("Referer");
-			response.sendRedirect(before);
+			request.getSession().setAttribute("alertMsg", "성공적으로 삭제했습니다");
+			response.sendRedirect(request.getContextPath() + "/ranking.cf?location=" + encodedLocation);
 		}else {
-			request.getSession().setAttribute("alertMsg", "리뷰 작성 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.getSession().setAttribute("alertMsg", "삭제에 실패했습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp");
 		}
 	}
 
