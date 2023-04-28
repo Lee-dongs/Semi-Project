@@ -49,13 +49,13 @@ public class ReviewInsertController extends HttpServlet {
 		String content = request.getParameter("reviewText");//리뷰(댓글)내용
 		
 		String add = request.getParameter("add"); //리다이렉트 할 주소 받아오기
-		String encodedParam = URLEncoder.encode(add, "UTF-8"); //인코딩 해주기
 		
 		int result = new MainPageService().insertReview(cafeNo, userNo, content);
 		
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "리뷰 작성 완료");
-			response.sendRedirect(request.getContextPath() + "/detail.cf?add="+encodedParam);
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
 		}else {
 			request.getSession().setAttribute("alertMsg", "리뷰 작성 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

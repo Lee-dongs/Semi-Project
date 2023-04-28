@@ -28,6 +28,8 @@
             width: 1300px;
             height: 800px;
             margin: auto;
+            min-height:100%;
+        	position :relative;
         }
         .search-area div{
             float: left;
@@ -298,7 +300,8 @@
     
     </div>
 <br><br><br><br>
-
+<br><br>
+    <%@ include file = "../common/footer.jsp" %>
 
 </body>
 </html>

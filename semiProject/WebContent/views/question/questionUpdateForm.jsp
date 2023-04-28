@@ -10,20 +10,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	 .outer{
-            color: black;
-            width: 1000px;
-            height: 500px;
-            margin: auto;
-            margin-top: 50px;
+	 
+        .suel{
+            width: 1500px;
+        	height: 850px;
+        	margin: auto;
+        	min-height:100%;
+        	position :relative;
+        	
         }
-        .outer>h2{
+     .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(247, 195, 127);
-            width: 600px;
+            background-color: rgb(243, 199, 199);
+            width: 500px;
             margin:auto;
             text-align:center;
+            padding:10px;
         }
         #question-table>table{border : 1px solid white;}
         #question-table input,textarea{
@@ -37,7 +40,7 @@
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-<div class="outer">
+<div class="seul">
 		<br>
 	<h2>고객문의 수정</h2>
 	<br>

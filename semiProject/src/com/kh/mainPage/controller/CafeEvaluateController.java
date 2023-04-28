@@ -55,7 +55,6 @@ public class CafeEvaluateController extends HttpServlet {
 
 		
 		int userNo = m.getUserNo();
-		String encodedParam = URLEncoder.encode(add, "UTF-8"); //받은 주소(add)를 인코딩 해줘야 리다이렉트가 정상적으로 작동된다.
 
 		ArrayList<Integer> list = new ArrayList<>();
 		list.add(rating);
@@ -67,7 +66,8 @@ public class CafeEvaluateController extends HttpServlet {
 
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "평가완료");
-			response.sendRedirect(request.getContextPath()+"/detail.cf?add="+encodedParam);
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
 		}else {
 			request.getSession().setAttribute("alertMsg", "평가실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

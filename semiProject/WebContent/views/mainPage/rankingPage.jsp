@@ -17,6 +17,7 @@
             height: 500px;
             margin: auto;
             position: relative;
+            min-height:100%;
         }
 
         #outer1>div{
@@ -247,7 +248,7 @@
     
     	$(".cafeImgDiv>img").click(function(){//이미지 클릭시 주소랑 같이 넘김
     		var address = $(this).next().val();
-    		location.href = "<%=contextPath%>/detail.cf?add="+address;
+    		location.href = "<%=contextPath%>/detail.cf?location="+"<%=location%>&&add="+address;
     	});
     	
     	$(function(){
@@ -408,6 +409,7 @@
     	}
 
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
-
 </html>
