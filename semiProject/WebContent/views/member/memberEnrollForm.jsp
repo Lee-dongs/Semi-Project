@@ -11,15 +11,12 @@
             box-sizing: border-box;
             outline: none;
         }
-        body{
+        .enrollWrap{
             font-family: 'Noto Sans KR', sans-serif;
             font-size: 14px;
             background-color: #fffcf6;
             line-height: 2;
             margin: 0;
-        }
-        a{
-            text-decoration: none; /*a태그로 이용약관 넣을지...*/
         }
         /*회원가입 구역*/
         .enrollWrap{
@@ -81,7 +78,7 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
     <div class="enrollWrap"> 
-    <form action="<%=contextPath %>/enrollForm.me" id="enroll-form" method="post" onsubmit="return checkAll()"> <!-- MemberEnrollController이동 -->
+    <form action="<%=contextPath %>/enrollForm.me" id="enroll-form" method="post" onsubmit="return checkAll()"  enctype="multipart/form-data"> <!-- MemberEnrollController이동 -->
         <!--로고 이미지 넣을 곳-->
         <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToPSdcD8kql44nbuJGZ5mvMyLuJZZFUOQhXA&usqp=CAU">
 
@@ -122,7 +119,7 @@
         </div>
 
         <!--생년월일-->
-        <div class="birth">
+        <div class="enroll">
             <b>생년월일</b>
             <div>
                 <input type="date" class="form-control" name="birth">
@@ -157,13 +154,15 @@
     	</div>
         
 
-        <div class="phone">
+        <div class="enroll">
             <b>연락처</b>
             <div>
                 <input type="tel" class="form-control" name="phone" placeholder="전화번호는 -포함하여 입력">
             </div>
         </div><br>
-        <div class="address">
+        
+        
+        <div class="enroll">
         	<b>주소</b>
 	        <table id="address-table">
 	        	<thead>
@@ -228,9 +227,19 @@
                 }
             </script>	
        </div>
+       
+       <div class="enroll">
+            <b>프로필 사진</b>
+            <div>
+                <input type="file" class="form-control" name="profile" placeholder="전화번호는 -포함하여 입력">
+            </div>
+        </div>
+        
+        
         <br><br>
-        <!-- 필수입력사항 프린트구역 -->
+        <!-- 필수입력사항 체크 결과 프린트구역 -->
 		<div class="check-info" id="checkAll"></div>
+		
         <input class="form-control btn" id="submit-btn" type="submit" value="가입하기"><br><br>
         <input class="form-control btn" id="reset-btn" type="reset" value="다시 입력하기">
         <br><br>
@@ -248,10 +257,10 @@
 	    		$("#checkAll").text("*표시는 필수입력사항입니다.");
 	    		$("#checkAll").css("color","red");
 	    		return false;
-    	}
+    	}    	
+    $("#enroll-form input[type=submit]").removeAttr("disabled");
 	     };
     
-    $("#enroll-form input[type=submit]").removeAttr("disabled");
     
     // 아이디 중복검사 없이 비밀번호를 입력하려고 하면 alert
 	 $(".enroll>#userPwd").click(function(){

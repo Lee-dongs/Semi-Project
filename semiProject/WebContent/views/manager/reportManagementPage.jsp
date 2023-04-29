@@ -176,7 +176,7 @@
 
       <table class="report-list table-striped" align="center">
             <thead>
-                <tr>
+                <tr height="40px">
                     <td width="5%">글번호</td>
                     <td width="10%">신고된 아이디</td>
                     <td width="10%">신고사유</td>
@@ -188,12 +188,12 @@
             </thead>
             <tbody>
             <%if(list.isEmpty()){ %>
-            	<tr>
+            	<tr height="40px">
             		<td colspan="7">조회된 신고글이 없습니다.</td>
             	</tr>
             <%}else{ %>
             	<%for(Report r : list){ %>
-	            	<tr>
+	            	<tr height="40px">
 	                    <td><%=r.getReportNo() %></td>
 	                    <td><%=r.getUserId() %></td>
                         <td><%=r.getCategory() %></td>

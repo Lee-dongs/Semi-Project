@@ -96,9 +96,6 @@
         	background-color: #DD614A;
         	border: none;
         }
-        .member-list>tbody>tr{
-        	height: 20px;
-        }
        /* 제목스타일 */
        .member-wrap>#title{
       		font-family: 'SDSamliphopangche_Outline';
@@ -173,7 +170,7 @@
 
       <table class="member-list table-striped" align="center">
             <thead>
-                <tr>
+                <tr height="40px">
                     <td width="10%">아이디</td>
                     <td width="5%">이름</td>
                     <td width="10%">연락처</td>
@@ -187,12 +184,12 @@
             </thead>
             <tbody>
             <%if(list.isEmpty()){ %>
-            	<tr>
+            	<tr height="20px">
             		<td colspan="9">조회된 회원이 없습니다.</td>
             	</tr>
             <%}else{ %>
             	<%for(Member m : list){ %>
-	            	<tr>
+	            	<tr height="40px">
 	                    <td><%=m.getUserId() %></td>
 	                    <td><%=m.getUserName() %></td>
 	                    <td><%=(m.getPhone()==null)?"정보없음":m.getPhone()%></td>

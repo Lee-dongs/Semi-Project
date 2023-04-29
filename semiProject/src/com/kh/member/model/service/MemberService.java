@@ -3,6 +3,7 @@ package com.kh.member.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.kh.board.model.vo.Attachment;
 import com.kh.common.JDBCTemplate;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Board;
@@ -17,19 +18,26 @@ public class MemberService {
 
 	
 	// 회원가입 메소드
-	public int insertMember(Member m) {
+	public int insertMember(Member m, Attachment at) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int result = new MemberDao().insertMember(conn, m);
+		// 첨부파일 있거나 없거나 회원가입실행
+		int result1 = new MemberDao().insertMember(conn, m);
 		
-		if(result > 0) {
+		// 첨부파일 있으면 프로필사진 등록 
+		int result2 = 1;
+		if(at != null) {
+			result2 = new MemberDao().insertAttachment(conn, at);
+		}
+		
+		if(result1 > 0 && result2 > 0) {
 			JDBCTemplate.commit(conn);
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
 		
-		return result;
+		return result1 * result2;
 	} 
 	// 로그인 메소드
 	public Member longinMember(String userId, String userPwd) {
@@ -41,6 +49,17 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 				
 		return m;
+	}
+	// 로그인시 프로필 사진 가져오는 메소드
+	public Attachment selectAttachment(String userId) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Attachment at = new MemberDao().selectAttachment(conn, userId);
+		
+		JDBCTemplate.close(conn);
+		
+		return at;
 	}
 	// 아이디 중복확인 메소드
 	public int checkId(String checkId) {
