@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String msg = (String)request.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,6 +101,11 @@
                 
             </div>
         </div>
+        <%}else{ %>
+        <script>
+	        var msg = "<%=msg%>";
+	    	alert(msg);
+        </script>
         <%} %>    
             <script>
                 var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -120,7 +128,8 @@
                        		var bounds = new kakao.maps.LatLngBounds();
                 
                         	for (var i=0; i<data.length; i++) {
-                            displayMarker(data[i]);    
+                            console.log(data[i]);
+                        	displayMarker(data[i]);    
                             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                         	}       
                 
@@ -140,7 +149,7 @@
                         infowindow.open(map, marker);
                         
                         document.getElementById("address").value = place.address_name;
-                        
+                        console.log(place.phone);
                         $.ajax({
 		                	url:"AddressCheck.bo",
 		                	data:{

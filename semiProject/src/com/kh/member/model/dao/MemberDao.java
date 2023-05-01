@@ -230,7 +230,7 @@ public class MemberDao {
 				cList.add(new CafeRequest(rset.getInt("REQUEST_NO"),
 						  				  rset.getString("CAFE_NAME"),
 						  			      rset.getString("CONTENT"),
-						  			      rset.getDate("C.CREATE_DATE")));
+						  			      rset.getDate("CREATE_DATE")));
 				requestNo = rset.getInt("REQUEST_NO");
 			}
 		} catch (SQLException e) {
@@ -459,8 +459,8 @@ public class MemberDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
 			pstmt.setInt(1, userId);
+			rset = pstmt.executeQuery();
 			int go = -1;
 			while(rset.next()) {
 				if(go==rset.getInt("REQUEST_NO")) {

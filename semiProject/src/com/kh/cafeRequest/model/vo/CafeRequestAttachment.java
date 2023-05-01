@@ -5,6 +5,7 @@ import java.util.Date;
 public class CafeRequestAttachment {
 	
 	private int fileNo;
+	private int requestNo;
 	private String originName;
 	private String changeName;
 	private String filePath;
@@ -13,6 +14,37 @@ public class CafeRequestAttachment {
 	
 	public CafeRequestAttachment() {
 		super();
+	}
+
+	public int getRequestNo() {
+		return requestNo;
+	}
+
+	public CafeRequestAttachment(int requestNo) {
+		super();
+		this.requestNo = requestNo;
+	}
+
+	public void setRequestNo(int requestNo) {
+		this.requestNo = requestNo;
+	}
+
+	public CafeRequestAttachment(int fileNo, int requestNo, String originName, String changeName, String filePath,
+			Date createDate, String status) {
+		super();
+		this.fileNo = fileNo;
+		this.requestNo = requestNo;
+		this.originName = originName;
+		this.changeName = changeName;
+		this.filePath = filePath;
+		this.createDate = createDate;
+		this.status = status;
+	}
+
+	public CafeRequestAttachment(String changeName, String filePath) {
+		super();
+		this.changeName = changeName;
+		this.filePath = filePath;
 	}
 
 	public CafeRequestAttachment(int fileNo, String originName, String changeName, String filePath, Date createDate,
@@ -76,9 +108,12 @@ public class CafeRequestAttachment {
 
 	@Override
 	public String toString() {
-		return "CafeRequestAttachment [fileNo=" + fileNo + ", originName=" + originName + ", changeName=" + changeName
-				+ ", filePath=" + filePath + ", createDate=" + createDate + ", status=" + status + "]";
+		return "CafeRequestAttachment [fileNo=" + fileNo + ", requestNo=" + requestNo + ", originName=" + originName
+				+ ", changeName=" + changeName + ", filePath=" + filePath + ", createDate=" + createDate + ", status="
+				+ status + "]";
 	}
+
+	
 	
 	
 	

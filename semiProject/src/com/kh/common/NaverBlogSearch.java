@@ -12,18 +12,18 @@ import org.jsoup.select.Elements;
 
 
 public class NaverBlogSearch {
-	public static List<SearchResult> search(String query) throws IOException {
+	public static ArrayList<SearchResult> search(String query) throws IOException {
         String url = "https://search.naver.com/search.naver?where=view&sm=tab_jum&query="+query;
         
         Document doc = Jsoup.connect(url).get();
         Elements items = doc.select("._svp_item>div>div>a");
 //        System.out.println(items);
-        List<SearchResult> searchResults = new ArrayList<>();
+        ArrayList<SearchResult> searchResults = new ArrayList<>();
         for (Element item : items) {
             SearchResult searchResult = new SearchResult();
             searchResult.setTitle(item.select("._cross_trigger").text());
             searchResult.setLink(item.select("._cross_trigger").attr("href"));
-            System.out.println(item.select("._cross_trigger").attr("href"));
+//            System.out.println(item.select("._cross_trigger").attr("href"));
             searchResults.add(searchResult);
         }
         return searchResults;
