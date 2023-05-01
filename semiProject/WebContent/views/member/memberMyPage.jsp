@@ -27,6 +27,8 @@
 	#outer2 {
 		width: 1200px;
 		margin: auto;
+		min-height:100%;
+        position :relative;
 	}
 	
 	#line {
@@ -35,7 +37,7 @@
 		height: 390px;
 	}
 	
-	#myPage {
+	#myPage1 {
 		width: 50%;
 		margin: auto;
 		margin-top: 150px;
@@ -49,7 +51,7 @@
 		height: 15%;
 	}
 	
-	#myPage>div {
+	#myPage1>div {
 		float: left;
 	}
 	
@@ -236,7 +238,7 @@
 	<%@include file="../common/menubar.jsp" %>
 	 <div id="outer2">
             <%if(loginUser!=null){ %>
-            <div id="myPage">
+            <div id="myPage1">
                 <div id="myTitle" align="center"><h1>마이페이지</h1></div>
                 <div id="information" align="center" style="margin-top:50px">
                 <form method="post" action="<%=contextPath %>/update.me">
@@ -283,6 +285,7 @@
             				<input type="button" id="emailChk2" value="인증번호 입력하기">
             				<div id="successEmailChk">이메일 입력 후 인증번호 보내기를 해주세요.</div></td>
                         </tr>
+                        <%if(!loginUser.getKakao().equals("Y")){ %>
                         <tr>
                             <th>번호:</th>
                             <td class="info"><span><%=loginUser.getPhone() %></span></td>
@@ -296,6 +299,7 @@
 							<input type="button"  onclick="sample5_execDaumPostcode()" value="검색하기"><br>
                             </td>
                         </tr>
+                        <%} %>
                     </table>
                     <div class="update" style="display:none; margin-top:30px;">
                     <button id="submit" type="submit">수정</button>
@@ -338,8 +342,8 @@
                         <label id="updateme">정보 수정</label>
                     </div>
                 </div>
-                <%} %>    
-            </div>
+            	</div>
+            <%} %>
         </div>
         
     	
@@ -400,6 +404,7 @@
 	                    <table class="a">
 	                        <tr>
 	                            <td width="150px">요청번호: <%=c.getRequestNo() %></td>
+	                            <td width="50px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,4C21.11,4 22,4.89 22,6V18C22,19.11 21.11,20 20,20H4C2.89,20 2,19.11 2,18V6C2,4.89 2.89,4 4,4H20M8.5,15V9H7.25V12.5L4.75,9H3.5V15H4.75V11.5L7.3,15H8.5M13.5,10.26V9H9.5V15H13.5V13.75H11V12.64H13.5V11.38H11V10.26H13.5M20.5,14V9H19.25V13.5H18.13V10H16.88V13.5H15.75V9H14.5V14A1,1 0 0,0 15.5,15H19.5A1,1 0 0,0 20.5,14Z" /></svg></td>
 	                            <td width="420px">
 	                            <%if(c.getContent().length()>30){ %>
 	                            <%String content = c.getContent().substring(0,30).concat("..."); %>
@@ -441,6 +446,7 @@
 	                    <table class="a">
 	                        <tr>
 	                            <td width="150px">제목: <%=q.getQuestionTitle() %></td>
+	                            <td width="50px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,4C21.11,4 22,4.89 22,6V18C22,19.11 21.11,20 20,20H4C2.89,20 2,19.11 2,18V6C2,4.89 2.89,4 4,4H20M8.5,15V9H7.25V12.5L4.75,9H3.5V15H4.75V11.5L7.3,15H8.5M13.5,10.26V9H9.5V15H13.5V13.75H11V12.64H13.5V11.38H11V10.26H13.5M20.5,14V9H19.25V13.5H18.13V10H16.88V13.5H15.75V9H14.5V14A1,1 0 0,0 15.5,15H19.5A1,1 0 0,0 20.5,14Z" /></svg></td>
 	                            <td width="420px">
 	                            <%if(q.getContent().length()>30){ %>
 	                            <%String content = q.getContent().substring(0,30).concat("..."); %>
@@ -700,6 +706,7 @@
 		    	}
 		    });
         </script> 
-        <br><br><br> 
+        <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

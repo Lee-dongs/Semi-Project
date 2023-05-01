@@ -23,14 +23,16 @@
 <style>
     .wrap{
         width: 800px;
-        height: 800px;
         margin: auto;
+       	min-height:100%;
+        position :relative;
     }
  
-    hr{
-        background-color: black;
+    .wrap hr{
+        background-color: white;
+        border : 0;
         width: 100%;
-        height: 2px;
+        height: 3px;
     }
     .board-info{
         margin: 0;
@@ -88,28 +90,29 @@
 		background-color: rgb(243, 197, 112);
     }
     #btn-area{
-        height: 10%;
+        height: 80px;
     }
     #btn-area > button{
         float: right;
-        height: 40px;
+        height: px;
         width: 80px;
         margin-left: 10px;
     }
-    #btn-insert{
+    #btn{
         background-color: rgb(243, 197, 112);
         border: 0;
+        height: 40px;
+        width: 80px;
     }
     #btn-area2{
         height: 10%;
         text-align: center;
+        padding-bottom : 20px;
     } 
     #btn-area2>button{
         margin-left: 10px;
     }
-    #file-area{
-        border: 1px solid;
-    }
+    
     #btn-like{
         width: 50px;
         height: 30px;
@@ -123,8 +126,19 @@
     #rereply-content{
     	width:100%
     }
- 
-    
+    .wrap>h2{
+            border-style: solid white;
+            border-radius: 120px;
+            background-color: rgb(247, 195, 127);
+            width: 600px;
+            margin:auto;
+            text-align:center;
+        }
+    .board-area{
+    	background-color: rgb(246, 218, 182);
+    	padding: 25px;
+    	border-radius:30px;
+    }
 </style>
 
 <body>
@@ -133,6 +147,7 @@
         <br>
         <h2 align="center">자유게시판</h2>
         <br>
+        <div class="board-area">
         <h4>[<%=b.getLocationCode()%>]<%=b.getTitle() %></h4>
             <ul class="board-info">
                 <li>글번호 <%=b.getBoardNo() %></li>
@@ -184,21 +199,22 @@
         <%} %>
         <hr>
         <div id="btn-area">
-            <button type="button" id="btn-insert" onclick ="enrollform();">글쓰기</button>
-            <button type="button" onclick ="listBoard();">목록</button>
+            <button type="button" id="btn" onclick ="enrollform();">글쓰기</button>
+            <button type="button" id="btn" onclick ="listBoard();">목록</button>
         </div> 
-        <hr>
         <br>
-        <%if(loginUser!=null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
+        <%if(loginUser!=null && (loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>
         <div id="btn-area2">
-            <button type="button" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
+            <button type="button" id="btn" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
             <%if(at!=null){ %>
-            <button type="button" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
+            <button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
         	<%}else{%>
-        	<button type="button" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
+        	<button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
         	<%} %>
         <%} %>
         </div>
+	    </div>
+	    <br><br>
         <div id="reply-area">
             <table class="reply">
             <thead>
@@ -222,9 +238,9 @@
             </table>
 	         <div class="replyList-area">
 	         </div>
-         
         </div>
     </div>
+    
     <script>
     	/*버튼 눌렀을때 페이지 이동할 주소*/
     	function enrollform(){
@@ -303,6 +319,7 @@
 						 + "<tfoot>"
 						 + "</tfoot>"
 						 + "</table>"
+						 
 						 selectReReplyList(list[i].replyNo);
 				}
 					$(".replyList-area").html(str)
@@ -455,7 +472,6 @@
 					},
 					success : function(list){
 						var str="";
-						console.log(list);
 						for(var i=0;i<list.length;i++){
 						str += "<tr>"
 							 + "<td rowspan='2'>↳</td>"
@@ -589,5 +605,7 @@
 			});
 		};
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

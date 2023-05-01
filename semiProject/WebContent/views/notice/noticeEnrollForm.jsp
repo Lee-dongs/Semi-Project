@@ -10,6 +10,8 @@
              width: 1100px;
         	height: 1000px;
         	margin: auto;
+        	min-height:100%;
+        	position :relative;
         	
         }
         .suel>h2{
@@ -76,6 +78,7 @@
 		</form>
 		<br><br><br><br>
 	</div>
-
+	<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

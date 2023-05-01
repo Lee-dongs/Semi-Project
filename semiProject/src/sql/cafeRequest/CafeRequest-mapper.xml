@@ -11,8 +11,59 @@
 		INSERT INTO CAFE_REQUEST (REQUEST_NO, REQUEST_WRITER,CAFE_NAME,OPERATION_TIME,ADDRESS,CONTENT)
 		VALUES(SEQ_CRNO.NEXTVAL,?,?,?,?,?)
 	</entry>
-	<entry key="insertCafeAttachment">
+	<entry key="insertCafeRequestAttachment">
 		INSERT INTO CAFE_REQUEST_ATTACHMENT (FILE_NO,REQUEST_NO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH)
 		VALUES(SEQ_CRANO.NEXTVAL,SEQ_CRNO.CURRVAL,?,?,?)
+	</entry>
+	<entry key="selectCafeRequest">
+		SELECT REQUEST_NO, USER_NAME, CAFE_NAME, OPERATION_TIME, C.ADDRESS, CONTENT, CREATE_DATE
+		FROM CAFE_REQUEST C
+		JOIN MEMBER M ON (REQUEST_WRITER = USER_NO)
+		AND C.STATUS = 'Y'
+		ORDER BY ADDRESS, C.CREATE_DATE DESC
+	</entry>
+	<entry key="selectCafeRequestAttachment">
+		SELECT CHANGE_NAME,FILE_PATH
+		FROM CAFE_REQUEST_ATTACHMENT
+		WHERE REQUEST_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="delectCafeRequestAttachment">
+		UPDATE CAFE_REQUEST_ATTACHMENT
+		SET STATUS = 'N'
+		WHERE REQUEST_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="selectRequestAttachmentNo">
+		SELECT REQUEST_NO
+		FROM CAFE_REQUEST_ATTACHMENT
+		WHERE STATUS = 'Y'
+	</entry>
+	<entry key="delectCafeRequest">
+		UPDATE CAFE_REQUEST
+		SET STATUS = 'N'
+		WHERE REQUEST_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="replyCafeRequest">
+		INSERT INTO CAFE_REQUEST_REPLY(REPLY_NO,REF_BNO,REPLY_WRITER,REPLY_CONTENT)
+		VALUES(SEQ_CRNO.NEXTVAL,?,?,?)
+	</entry>
+	<entry key="findCafeLocationCode">
+		SELECT LOCATION_CODE
+		FROM LOCATION
+		WHERE LOCATION_NAME = ?
+	</entry>
+	<entry key="insertCafe">
+		INSERT INTO CAFE_INFO (CAFE_NO, LOCATION_CODE, CAFE_NAME, OPERATION_TIME, OFF_DAY, PHONE, ADDRESS)
+		VALUES(SEQ_CNO.NEXTVAL, ?,?,?,?,?,?)
+	</entry>
+	<entry key="insertCafeMenu">
+		INSERT INTO CAFE_MENU
+		VALUES(SEQ_CNO.CURRVAL,?,?)
+	</entry>
+	<entry key="insertCafeAttachment">
+		INSERT INTO CAFE_ATTACHMENT(CAFE_FILE_NO,CAFE_REF_NO,TYPE,ORIGIN_NAME,CHANGE_NAME,FILE_PATH)
+		VALUES(SEQ_CANO.NEXTVAL,SEQ_CNO.CURRVAL,?,?,?,?)
 	</entry>
 </properties>

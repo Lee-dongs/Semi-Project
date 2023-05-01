@@ -31,10 +31,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <style>
-        .ssuel{
-            width: 1500px;
-        	height: 850px;
-        	margin: auto;
+
+        .outer{
+            color: black;
+            width: 1000px;
+            height: 500px;
+            margin: auto;
+            margin-top: 50px;
+            min-height:100%;
+        	position :relative;
         	
         }
         .ssuel>h2{
@@ -452,8 +457,8 @@
         
         
     </script>
-    
-   
-    
 </body>
+<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
+
 </html>

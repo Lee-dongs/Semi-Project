@@ -10,11 +10,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+       
         .suel{
             width: 1500px;
         	height: 850px;
         	margin: auto;
-        	
+        	min-height:100%;
+        	position :relative;
+
         }
         .suel>h2{
             border-style: solid white;
@@ -27,6 +30,7 @@
             }
             
         #notice-table input,textarea{
+
         	width : 100%;
         	border:1px solid white;
         }
@@ -46,7 +50,9 @@
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
+
 	<div class="suel">
+
 		<br>
 		<h2 >공지사항 작성</h2>
 		<br>

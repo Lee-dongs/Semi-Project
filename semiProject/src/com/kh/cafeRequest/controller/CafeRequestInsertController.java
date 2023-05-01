@@ -54,10 +54,10 @@ public class CafeRequestInsertController extends HttpServlet {
 			String cafeAddress = multiRequest.getParameter("address");
 			String operationTime = multiRequest.getParameter("operationTime");
 			String content = multiRequest.getParameter("content");
-			int userNo = Integer.parseInt(multiRequest.getParameter("userNo"));
+			String userNo = multiRequest.getParameter("userNo");
 
 			//데이터 넘어오는지 확인용
-			System.out.println(cafeName +" "+ cafeAddress+" "+operationTime+" "+content+" "+userNo);
+//			System.out.println(cafeName +" "+ cafeAddress+" "+operationTime+" "+content+" "+userNo);
 			
 			CafeRequest cafeRe = new CafeRequest();
 			cafeRe.setCafeName(cafeName);

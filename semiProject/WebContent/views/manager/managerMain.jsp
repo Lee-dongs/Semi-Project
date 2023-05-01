@@ -11,6 +11,8 @@
             width: 1000px;
             height: 600px;
             margin: auto;
+            min-height:100%;
+        	position :relative;
         }
         .admin-wrap *{
             box-sizing: border-box;
@@ -52,7 +54,7 @@
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZmpczK4t42nwpaOJUDQpSyZn4HSO43SMFQ&usqp=CAU" alt="Avatar" style="width:100%">
                             <div class="container">
                                 <h4><b>관리자</b></h4> 
-                                <p>EMAIL : yujin</p> 
+                                <p><%=loginUser.getEmail() %></p> 
                             </div>
                             </div>
                          </td>
@@ -74,7 +76,7 @@
             location.href="<%=contextPath%>/memberManagement.ma?currentPage=1";
         };
         function cafeRequestPage(){
-            location.href="<%=contextPath%>/cafeRequest.co";
+            location.href="<%=contextPath%>/cafeRequestAccept.co";
         };
         function reportPage(){
             location.href="<%=contextPath%>/reportManagement.ma?currentPage=1";
@@ -84,5 +86,7 @@
         };
 
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

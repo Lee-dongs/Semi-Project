@@ -10,7 +10,9 @@
             text-align: center;
             width : 1800px;
             margin : auto;
-           
+            min-height:100%;
+            position :relative;
+	
         }
         #content>div:hover{
             color: gray;
@@ -41,13 +43,14 @@
 	
 	<div id="content">
             <div id="content_1"><img id="photo1" src="resources/images/영등포구.PNG" alt=""></div>
-            <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt="마표구"></div>
+            <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_3"><img id="photo3" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_4"><img id="photo4" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_5"><img id="photo5" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_6"><img id="photo6" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
     </div>
     <br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
     
        
        <script>
@@ -73,5 +76,7 @@
         })
 
     </script>
+    
 </body>
+    
 </html>

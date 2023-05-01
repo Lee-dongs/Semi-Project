@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.kh.board.model.vo.Attachment;
 import com.kh.common.JDBCTemplate;
 import com.kh.member.model.vo.Board;
 import com.kh.member.model.vo.BoardReply;
@@ -51,6 +52,31 @@ public class MemberDao {
 			pstmt.setString(5, m.getEmail());
 			pstmt.setString(6, m.getAddress());
 			pstmt.setString(7, m.getBirth());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	// 프로필사진 등록 메소드
+	public int insertAttachment(Connection conn, Attachment at) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, at.getOriginName());
+			pstmt.setString(2, at.getChangeName());
+			pstmt.setString(3, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
 			
@@ -105,6 +131,40 @@ public class MemberDao {
 	
 		return m;
 	}
+
+	// 로그인시 프로필사진 가져오는 메소드
+	public Attachment selectAttachment(Connection conn, String userId) {
+
+		Attachment at = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("selectAttachment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment(rset.getInt("PROFILE_FILE_NO")
+						, rset.getString("ORIGIN_NAME")
+						, rset.getString("CHANGE_NAME")
+						, rset.getString("FILE_PATH")); 
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+
+		return at;
+	}
+
 	// 아이디 중복확인 메소드
 	public int checkId(Connection conn, String checkId) {
 		
@@ -229,7 +289,7 @@ public class MemberDao {
 				cList.add(new CafeRequest(rset.getInt("REQUEST_NO"),
 						  				  rset.getString("CAFE_NAME"),
 						  			      rset.getString("CONTENT"),
-						  			      rset.getDate("C.CREATE_DATE")));
+						  			      rset.getDate("CREATE_DATE")));
 				requestNo = rset.getInt("REQUEST_NO");
 			}
 		} catch (SQLException e) {
@@ -458,8 +518,8 @@ public class MemberDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
 			pstmt.setInt(1, userId);
+			rset = pstmt.executeQuery();
 			int go = -1;
 			while(rset.next()) {
 				if(go==rset.getInt("REQUEST_NO")) {

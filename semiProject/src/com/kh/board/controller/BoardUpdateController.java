@@ -43,7 +43,6 @@ public class BoardUpdateController extends HttpServlet {
 		ArrayList<Location> list = new BoardService().selectLocation();
 		Board b = new BoardService().selectBoard(bno);
 		Attachment at = new BoardService().selectAttachment(bno);
-			
 			request.setAttribute("list", list);
 			request.setAttribute("b", b);
 			request.setAttribute("at", at);
@@ -73,8 +72,9 @@ public class BoardUpdateController extends HttpServlet {
 			b.setTitle(title);
 			b.setContent(content);
 			
-			Attachment at = new Attachment();
+			Attachment at = null;
 			if(mr.getOriginalFileName("reUp")!=null) {
+				at= new Attachment();
 				at.setOriginName(mr.getOriginalFileName("reUp"));
 				at.setChangeName(mr.getFilesystemName("reUp"));
 				at.setFilePath("/resources/board_files");
@@ -86,13 +86,12 @@ public class BoardUpdateController extends HttpServlet {
 					at.setRefBno(bno);
 				}
 			}
+			
 			int result = new BoardService().updateBoard(b,at);
 			if(result>0) {
 				request.getSession().setAttribute("alertMsg", "게시글 수정되었습니다.");
 				response.sendRedirect(request.getContextPath()+"/detail.bo?bno="+bno);
 			}
 		}
-	
 	}
-
 }

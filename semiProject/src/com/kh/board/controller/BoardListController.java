@@ -62,9 +62,17 @@ public class BoardListController extends HttpServlet {
 		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		ArrayList<Board> list = new BoardService().selectList(pi);
+		ArrayList<Board> list = new ArrayList<Board>();
 		
+		int sort = Integer.parseInt(request.getParameter("sort"));
 		
+		if(sort==1) {
+			list = new BoardService().selectList(pi);
+		}else if(sort==2) {
+			list = new BoardService().mostViewList(pi);
+		}
+		
+		request.setAttribute("sort", sort);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);

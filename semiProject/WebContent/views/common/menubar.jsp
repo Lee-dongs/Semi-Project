@@ -1,3 +1,4 @@
+<%@page import="com.kh.board.model.vo.Attachment"%>
 <%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5,8 +6,10 @@
     	String contextPath = request.getContextPath();
     
     	Member loginUser = (Member)session.getAttribute("loginUser");
+    	Attachment profileAt = (Attachment)session.getAttribute("profileAt");
 
     	String alertMsg = (String)session.getAttribute("alertMsg");
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -47,7 +50,7 @@
         *{
             font-family: 'Noto Sans KR', sans-serif;
         }
-        .outer{
+        .menubar-outer{
 
         
             width: 100%;
@@ -89,7 +92,7 @@
         #login_form{
             margin-top: 50px;
         }
-        .modal-footer a{
+        #login-modal .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
@@ -122,16 +125,13 @@
             border-style: solid;
             border-radius: 120px;
             background-color: #6DA292;
-
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
-
             color: white;
             font-size: 16px;
-
         }
         #navi>li>ul{
             list-style-type: none;
@@ -139,9 +139,7 @@
             display: none; 
         }
         #navi>li>ul a{
-
             font-size: 17px;
-
         }
         #navi>li>ul a:hover{
             font-size: 14px;
@@ -152,16 +150,16 @@
         #navi>li>ul:hover{  
             display: block;
         }
-        .list{
-		width :70%;
-		margin :auto;
+        .menubar-outer .list{
+			width :70%;
+			margin :auto;
 		}
 
         /* ================ modal ================ */
         #header_3{
             position: relative;
         }
-        #login-btn{
+        #header_3 #login-btn{
            width: 150px;
            height: 30px; 
            position: absolute;
@@ -171,36 +169,36 @@
            left: 0;
            right: 0;
         }
-        #login-btn>button{
+        #header_3 #login-btn>button{
             width: 100%;
             height: 100%;
             line-height: 10px;
             color: white;
         }
-        .modal-title{
+        #header_3 .modal-title{
         font-weight: 600;
         color: rgb(220, 205, 35);
         margin: auto;
         }
-        #login-table{
+        #header_3 #login-table{
             margin: auto;
             height: 100%;
             width: 100%;
         }
-        #login-table input{
+        #header_3 #login-table input{
             height: 100%;
             width: 100%;
         }
-        #login-table>tbody button{
+        #header_3 #login-table>tbody button{
         	height: 100%;
         	width: 65%;
         }
-        .modal-footer a{
+        #header_3 .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
         }
-        #page-title{
+        #header_3 #page-title{
         font-size: 30px;
         font-family: 'SDSamliphopangche_Outline';
         color: #6DA292;
@@ -238,10 +236,8 @@
 	    }
 	    #info-table button{
 	    	text-align: right;
-	    	
 	    }
-	    
-	   
+	 
 	    
     </style>
 </head>
@@ -272,7 +268,7 @@
 -->
 
 
-    <div class="outer">
+    <div class="menubar-outer">
         <div id="header">
             <div id="header_1"></div>
             <div id="header_2" >
@@ -372,6 +368,7 @@
                     </tr>
 
                 </tbody>
+               
             </table>
 
         </div>
@@ -380,7 +377,7 @@
     $(".myPage").click(function(){
     	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
     });
-    
+    // 관리자계정이면 인포카드 내용 다르게 설정
     if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
     	$("#managerPage-btn").css("display","block");
     	$("#showUserRank").html("<img src='resources/images/user.png'><small>관리자계정</small>");
@@ -410,7 +407,7 @@
                             <li><a href="<%=contextPath%>/list.fo?currentPage=1">FAQ</a></li>
                         </ul>
                     </li>
-                    <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
+                    <li><a href="<%=contextPath%>/list.bo?currentPage=1&sort=1">자유게시판</a></li>
                     <li><a href="<%=contextPath%>/cafeRequest.co">카페등록요청</a></li>
                 </ul>
             </div>
@@ -480,16 +477,5 @@
 	
 	
 	</script>
-	
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
