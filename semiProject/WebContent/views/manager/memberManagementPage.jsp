@@ -98,15 +98,14 @@
         }
        /* 제목스타일 */
        .member-wrap>#title{
+      		font-family: 'SDSamliphopangche_Outline';
 	        width: 80%;
 	        text-align: center;
 	        margin: auto;
 	        padding: 10px;
-	        background-color: rgba(247, 222, 0, 0.781);
-	        color: white;
-	        font-size: 20px;
+	        color: black;
+	        font-size: 50px;
 	        font-weight: 600;
-	        border-radius: 10px;
        }
       /*페이징 구역*/
       .paging-area{
@@ -121,7 +120,7 @@
         <br><br>
 
         <div id="title">
-            회원목록
+            회원관리
         </div>
         <br><br>
 
@@ -167,30 +166,30 @@
      
      </script>
 
-        <br><br><br>
+        <br><br>
 
       <table class="member-list table-striped" align="center">
             <thead>
-                <tr>
+                <tr height="40px">
                     <td width="10%">아이디</td>
                     <td width="5%">이름</td>
                     <td width="10%">연락처</td>
-                    <td width="15%">이메일</td>
+                    <td width="17%">이메일</td>
                     <td width="30%">주소</td>
                     <td width="10%">생일</td>
-                    <td width="5%">경고횟수</td>
+                    <td width="3%">경고</td>
                     <td width="10%">가입일</td>
                     <td width="5%">탈퇴처리</td>
                 </tr>
             </thead>
             <tbody>
             <%if(list.isEmpty()){ %>
-            	<tr>
+            	<tr height="20px">
             		<td colspan="9">조회된 회원이 없습니다.</td>
             	</tr>
             <%}else{ %>
             	<%for(Member m : list){ %>
-	            	<tr>
+	            	<tr height="40px">
 	                    <td><%=m.getUserId() %></td>
 	                    <td><%=m.getUserName() %></td>
 	                    <td><%=(m.getPhone()==null)?"정보없음":m.getPhone()%></td>

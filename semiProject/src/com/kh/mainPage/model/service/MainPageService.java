@@ -113,11 +113,37 @@ public class MainPageService {
 		
 		return list;
 	}
+	
+	public int checkScore(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int checkId = new MainPageDao().checkScore(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return checkId;
+	}
 
 	public int insertScore(int cafeNo, int userNo, ArrayList<Integer> list) { //점수(별점) 삽입
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new MainPageDao().insertScore(conn, cafeNo, userNo, list);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	
+	public int updateScore(int cafeNo, int userNo, ArrayList<Integer> list) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MainPageDao().updateScore(conn, cafeNo, userNo, list);
 		
 		if(result>0) {
 			JDBCTemplate.commit(conn);
@@ -255,8 +281,5 @@ public class MainPageService {
 		
 		return result;
 	}
-
-
-
 
 }
