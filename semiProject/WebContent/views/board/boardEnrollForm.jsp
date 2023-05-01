@@ -103,8 +103,8 @@
             <tfoot>
                 <tr>
                     <td colspan="4" id="btn">
-                        <button type="submit">작성완료</button>
-                        <button type="reset" onclick ="history.back()">취소</button>
+                        <button type="submit" class="btn btn-warning">작성완료</button>
+                        <button type="reset" onclick ="history.back()" class="btn btn-warning">취소</button>
                     </td>
                 </tr>
             </tfoot>
