@@ -50,6 +50,22 @@
         *{
             font-family: 'Noto Sans KR', sans-serif;
         }
+        
+        /*===========로고 부분=============*/
+        #logo{
+        	height: auto;
+        }
+        
+        #logo>img{
+        	height : 80px;
+        }
+        
+        #logo>img:hover{
+        	cursor : pointer;
+        }
+        
+        
+        /*============로고 부분 끝===========*/
         #detailHead{
             width: 100%;
             height: 310px;
@@ -599,7 +615,7 @@
     </style>
 </head>
 <body>
-	<div>로고들어갈곳</div>
+	<div id="logo"><img src="resources/images/카페로고(임시).png"></div>
     <div id="detailHead">
         <div><img src="<%=detailAtList.get(0).getNewPath() %>"></div>       
         <div><img src="<%=detailAtList.get(1).getNewPath() %>"></div>
@@ -1031,6 +1047,10 @@
     		
     		<%session.removeAttribute("alertMsg");%>
     	}
+    	
+    	$("#logo>img").click(function(){
+    		location.href = '<%=contextPath%>';
+    	})
     
     	$("#scoreDiv").click(function(){ //별점주기 버튼 클릭시 모달창 띄움
     		if(<%=m == null%>){
