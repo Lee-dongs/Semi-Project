@@ -312,6 +312,31 @@ public class MainPageDao {
 		
 		return list;
 	}
+	
+	public int checkScore(Connection conn, int userNo) {
+		int checkId = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("checkScore");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				checkId = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return checkId;
+	}
 
 	public int insertScore(Connection conn, int cafeNo, int userNo, ArrayList<Integer> list) {
 		int result = 0;
@@ -335,6 +360,31 @@ public class MainPageDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
+		return result;
+	}
+	
+	public int updateScore(Connection conn, int cafeNo, int userNo, ArrayList<Integer> list) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateScore");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, list.get(0));
+			pstmt.setInt(2, list.get(1));
+			pstmt.setInt(3, list.get(2));
+			pstmt.setInt(4, list.get(3));
+			pstmt.setInt(5, cafeNo);
+			pstmt.setInt(6, userNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+				
 		return result;
 	}
 
@@ -547,7 +597,6 @@ public class MainPageDao {
 		
 		return result;
 	}
-
 
 
 }

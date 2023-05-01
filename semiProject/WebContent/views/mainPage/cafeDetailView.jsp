@@ -183,7 +183,7 @@
 
         #detail_title{
            margin-right: 10px;
-           width : 100px;
+           width : auto;
            font-weight : 900;
         }
 
@@ -208,8 +208,9 @@
         }
 
         #detail_count{
-            width: 20%;
+            width: auto;
             height: 100%;
+            padding-right : 17px;
         }
 
         #detail_count>div{
@@ -228,8 +229,9 @@
         }
 
         #detail_reviewCount{
-            width: 15%;
+            width: auto;
             height: 100%;
+            padding-right : 18px;
         }  
 
         #detail_reviewCount>div{
@@ -539,7 +541,11 @@
         	
         	.moreBtn{
         		width:100%;
-        		color : red;
+        		color : black;
+        		background-color : orange;
+        		border : 2px solid black;
+        		font-size : 18px;
+        		font-weight : 500;
         	}
         	      	
         	#deleteDiv>form>button{
@@ -1007,7 +1013,9 @@
 			<div class="m_head">
 	        	<div class="close_btn" id="close_btn7">x</div>
 	            1.음식 칸을 비워두면 메뉴에서 삭제됩니다. <br>
-	            2.가격을 비워두면 0원으로 표기됩니다.
+	            2.가격을 비워두면 0원으로 표기됩니다. <br>
+	            3.메뉴와 가격 표기 순서는 무작위입니다. <br>
+	            4.그러니 순서 상관없이 입력하세요.
 	    	</div>
 		</div>
 	</div>	
@@ -1069,7 +1077,6 @@
     				cafeNo : <%=cafe.getCafeNo()%>
     			},
     			type : "get",
-    			async : false,
     			success : function(list){
     				
     				var str="";
@@ -1209,7 +1216,7 @@
 				userId = "<%=m.getUserId()%>";
 			<%}%>
 			
-			if(userId == checkId){
+			if(userId == checkId || userId == "admin"){
 	            $("#modal5").css({
 	                "top": (($(window).height()-$("#modal5").outerHeight())/2+$(window).scrollTop())+"px",
 	                "left": (($(window).width()-$("#modal5").outerWidth())/2+$(window).scrollLeft())+"px"	             	
@@ -1232,6 +1239,8 @@
                 "left": (($(window).width()-$("#modal6").outerWidth())/2+$(window).scrollLeft())+"px"	             	
              });
 			$("#modal6").fadeIn();
+			$(".modifyFood").eq(0).attr("required", true);
+			$(".modifyPrice").eq(0).attr("required", true);
 		}
 		
 		$("#close_btn6").click(function(){
@@ -1303,6 +1312,7 @@
 	        map.setCenter(coords);
 	    } 
 	});    
+
 
     </script>
 </body>

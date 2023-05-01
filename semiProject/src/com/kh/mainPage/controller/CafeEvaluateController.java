@@ -62,10 +62,22 @@ public class CafeEvaluateController extends HttpServlet {
 		list.add(rating3);
 		list.add(rating4);
 		
-		int result = new MainPageService().insertScore(cafeNo, userNo, list);
+		int checkId = new MainPageService().checkScore(userNo);
+		
+		int result = 0;
+		String alertMsg = "";
+		if(checkId == 0) {
+			result = new MainPageService().insertScore(cafeNo, userNo, list);
+			alertMsg = "평가완료";
+		}else {
+			result = new MainPageService().updateScore(cafeNo, userNo, list);
+			alertMsg = "평가 수정 완료";
+		}
+
+
 
 		if(result>0) {
-			request.getSession().setAttribute("alertMsg", "평가완료");
+			request.getSession().setAttribute("alertMsg", alertMsg);
 			String before = request.getHeader("Referer");
 			response.sendRedirect(before);
 		}else {
