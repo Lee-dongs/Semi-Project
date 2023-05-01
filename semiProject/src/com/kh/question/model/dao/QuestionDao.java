@@ -72,7 +72,8 @@ public class QuestionDao {
 				list.add(new Question(rset.getInt("QUESTION_NO")
 						             ,rset.getString("QUESTION_TITLE")
 						             ,rset.getString("USER_ID")
-						             ,rset.getDate("MODIFY_DATE")));
+						             ,rset.getDate("MODIFY_DATE")
+						             ,rset.getString("STATUS")));
 				
 			}
 		} catch (SQLException e) {
@@ -284,7 +285,8 @@ public class QuestionDao {
 				list.add(new Question(rset.getInt("QUESTION_NO")
 			             ,rset.getString("QUESTION_TITLE")
 			             ,rset.getString("USER_ID")
-			             ,rset.getDate("MODIFY_DATE")));
+			             ,rset.getDate("MODIFY_DATE")
+			             ,rset.getString("STATUS")));
 			}
 			
 		} catch (SQLException e) {
@@ -318,7 +320,8 @@ public class QuestionDao {
 				list.add(new Question(rset.getInt("QUESTION_NO")
 			             ,rset.getString("QUESTION_TITLE")
 			             ,rset.getString("USER_ID")
-			             ,rset.getDate("MODIFY_DATE")));
+			             ,rset.getDate("MODIFY_DATE")
+			             ,rset.getString("STATUS")));
 			}
 			
 		} catch (SQLException e) {
@@ -352,7 +355,8 @@ public class QuestionDao {
 				list.add(new Question(rset.getInt("QUESTION_NO")
 			             ,rset.getString("QUESTION_TITLE")
 			             ,rset.getString("USER_ID")
-			             ,rset.getDate("MODIFY_DATE")));
+			             ,rset.getDate("MODIFY_DATE")
+			             ,rset.getString("STATUS")));
 			}
 			
 		} catch (SQLException e) {

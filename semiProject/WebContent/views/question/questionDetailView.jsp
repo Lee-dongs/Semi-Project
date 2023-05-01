@@ -19,7 +19,7 @@
      .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(243, 199, 199);
+            background-color: #7ea197;
             width: 500px;
             margin:auto;
             text-align:center;
@@ -38,7 +38,7 @@
     	width:1050px;
     	height: 740px;
     	padding:10px;
-    	background-color: rgb(251, 217, 217); 
+    	background-color: #d9e8e3; 
     	border-radius: 30px;
     }
      #question-table>thead{
@@ -55,7 +55,7 @@
 	   	 
 	   }
 	   .reply-area{
-	   	 border: 5px dashed rgb(243, 199, 199);
+	   	 border: 5px dashed #7ea197;
 	   	 width: 1000px;	   	 	   	 
 	   }
 	   .reply-area>tbody{

@@ -8,9 +8,9 @@
 <style>
 	#content{
             text-align: center;
-            width : 1200px;
+            width : 1800px;
             margin : auto;
-	
+           
         }
         #content>div:hover{
             color: gray;
@@ -19,10 +19,10 @@
         #content>div{
             margin-top: 50px;
             display: inline-block;
-            width: 350px;
-            height: 250px;
+            width: 400px;
+            height: 300px;
             box-sizing: border-box;
-            margin : 20px;
+            margin: 50px;
         }
         #content img{
         	box-sizing : border-box;
@@ -41,7 +41,7 @@
 	
 	<div id="content">
             <div id="content_1"><img id="photo1" src="resources/images/영등포구.PNG" alt=""></div>
-            <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
+            <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt="마표구"></div>
             <div id="content_3"><img id="photo3" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_4"><img id="photo4" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
             <div id="content_5"><img id="photo5" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
