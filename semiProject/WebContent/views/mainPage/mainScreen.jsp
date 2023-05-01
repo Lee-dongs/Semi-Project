@@ -8,7 +8,7 @@
 <style>
 	#content{
             text-align: center;
-            width : 1200px;
+            width : 1800px;
             margin : auto;
             min-height:100%;
             position :relative;
@@ -21,10 +21,10 @@
         #content>div{
             margin-top: 50px;
             display: inline-block;
-            width: 350px;
-            height: 250px;
+            width: 400px;
+            height: 300px;
             box-sizing: border-box;
-            margin : 20px;
+            margin: 50px;
         }
         #content img{
         	box-sizing : border-box;
