@@ -295,18 +295,20 @@ public class CafeRequestDao {
 	//카페 첨부파일 등록 메소드
 	public int insertCafeAttachment(Connection conn, ArrayList<CafeAttachment> acList) {
 		PreparedStatement pstmt = null;
-		int result = 0;
+		int result = 1;
 		String sql = prop.getProperty("insertCafeAttachment");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			for(CafeAttachment ca:acList) {
+				if(ca!=null) {
 //				TYPE,ORIGIN_NAME,CHANGE_NAME,FILE_PATH
-				pstmt.setInt(1,ca.getType());
-				pstmt.setString(2, ca.getOriginName());
-				pstmt.setString(3, ca.getChangeName());
-				pstmt.setString(4, ca.getFilePath());
-				result *= pstmt.executeUpdate();
+					pstmt.setInt(1,ca.getType());
+					pstmt.setString(2, ca.getOriginName());
+					pstmt.setString(3, ca.getChangeName());
+					pstmt.setString(4, ca.getFilePath());
+					result *= pstmt.executeUpdate();
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
