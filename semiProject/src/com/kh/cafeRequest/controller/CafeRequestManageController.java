@@ -43,10 +43,15 @@ public class CafeRequestManageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String no = request.getParameter("no2");
 		String content = request.getParameter("sorry");
-		String[] list = no.split(",");
 		ArrayList<Integer> requestNos = new ArrayList();
-		for(int i=0; i<list.length;i++) {
-			requestNos.add(Integer.parseInt(list[i]));
+		
+		if(no.contains(",")) {
+			String[] list = no.split(",");
+			for(int i=0; i<list.length;i++) {
+				requestNos.add(Integer.parseInt(list[i]));
+			}
+		}else{
+			requestNos.add(Integer.parseInt(no));
 		}
 		int result = 1;
 		//리쿼스트 답변
@@ -61,10 +66,14 @@ public class CafeRequestManageController extends HttpServlet {
 		//첨부파일 삭제
 		if(request.getParameter("no2-3")!="") {
 			String rno = request.getParameter("no2-3");
-			String[] aList = rno.split(",");
 			ArrayList<Integer> attachNos = new ArrayList();
-			for(int i=0; i<aList.length;i++) {
-				attachNos.add(Integer.parseInt(aList[i]));
+			if(rno.contains(",")) {
+				String[] aList = rno.split(",");
+				for(int i=0; i<aList.length;i++) {
+					attachNos.add(Integer.parseInt(aList[i]));
+				}
+			}else {
+				attachNos.add(Integer.parseInt(rno));
 			}
 			result *= new CafeRequestService().delectCafeRequestAttachment(attachNos);
 		}
@@ -111,11 +120,12 @@ public class CafeRequestManageController extends HttpServlet {
 				
 				
 				ArrayList<CafeMenu> cmList = new ArrayList<>();
-				
 				for(int i=0; i<4;i++) {
 					CafeMenu cm = new CafeMenu();
-					cm.setMenuName(request.getParameter("menu"+i));
-					cm.setCafePrice(Integer.parseInt(request.getParameter("price"+i)));
+					cm.setMenuName(multiRequest.getParameter("menu"+i));
+					if(multiRequest.getParameter("price"+i)!=null) {
+						cm.setCafePrice(Integer.parseInt(multiRequest.getParameter("price"+i)));
+					}
 					cmList.add(cm);
 				}
 				
@@ -148,12 +158,48 @@ public class CafeRequestManageController extends HttpServlet {
 			
 			if(result>0) {
 				String no = multiRequest.getParameter("requestnos");
-				String attachNos = multiRequest.getParameter("atnos");
 				String content = multiRequest.getParameter("content3");
-				request.setAttribute("no2", no);
-				request.setAttribute("no2-3", attachNos);
-				request.setAttribute("sorry", content);
-				doGet(request, response);
+				ArrayList<Integer> requestNos = new ArrayList();
+				if(no.contains(",")) {
+					String[] list = no.split(",");
+					for(int i=0; i<list.length;i++) {
+						requestNos.add(Integer.parseInt(list[i]));
+					}
+				}else{
+					requestNos.add(Integer.parseInt(no));
+				}
+				int result1 = 1;
+				//리쿼스트 답변
+				HttpSession session = request.getSession();
+				Member m = (Member)session.getAttribute("loginUser");
+				int writerNo = m.getUserNo();
+				result1 *= new CafeRequestService().replyCafeRequest(requestNos,content,writerNo);
+				
+				//리쿼스트 삭제
+				result1 *= new CafeRequestService().delectCafeRequest(requestNos);
+					
+				//첨부파일 삭제
+				if(multiRequest.getParameter("atnos")!=null) {
+					String attachnos = multiRequest.getParameter("atnos");
+					ArrayList<Integer> attachNos = new ArrayList();
+					if(attachnos.contains(",")) {
+						String[] aList = attachnos.split(",");
+						for(int i=0; i<aList.length;i++) {
+							attachNos.add(Integer.parseInt(aList[i]));
+						}
+					}else {
+						attachNos.add(Integer.parseInt(attachnos));
+					}
+					result *= new CafeRequestService().delectCafeRequestAttachment(attachNos);
+				}
+				
+				if(result>0) {
+					request.getSession().setAttribute("alertMsg", "요청글을 등록했습니다.");
+					response.sendRedirect(request.getContextPath()+"/cafeRequestAccept.co");
+				}else {
+					request.setAttribute("errorMsg", "요청글을 등록실패했습니다.");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
 			}else if(result==0){
 				for(CafeAttachment ca:acList) {
 					if(ca!=null) {
