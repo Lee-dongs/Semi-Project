@@ -26,6 +26,7 @@ public class CafeRequestPageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("alertMsg", "로그인이 필요합니다.");
 		request.getRequestDispatcher("views/CafeRequest/cafeRequestPage.jsp").forward(request, response);
 	}
 

@@ -73,9 +73,22 @@
 	AND C.STATUS = 'Y'
 </entry>
 
+<entry key="checkScore">
+	SELECT USER_NO
+	FROM SCORE
+	WHERE USER_NO = ?
+</entry>
+
 <entry key="insertScore">
 	INSERT INTO SCORE(CAFE_NO, USER_NO, TASTE, PRICE, VIBE, ACCESSIBILITY)
 	VALUES(?, ?, ?, ?, ?, ?)
+</entry>
+
+<entry key="updateScore">
+	UPDATE SCORE
+	SET TASTE = ?, PRICE = ?, VIBE = ?, ACCESSIBILITY = ?
+	WHERE CAFE_NO = ?
+	AND USER_NO = ?
 </entry>
 
 <entry key="insertReview">

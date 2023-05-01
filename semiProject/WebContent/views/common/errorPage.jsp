@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
     <%
-    	String errerMsg = (String)request.getAttribute("errerMsg");
+    	String errerMsg = (String)request.getAttribute("errorMsg");
     %>
 <!DOCTYPE html>
 <html>

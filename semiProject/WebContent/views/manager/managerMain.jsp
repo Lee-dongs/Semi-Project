@@ -76,7 +76,7 @@
             location.href="<%=contextPath%>/memberManagement.ma?currentPage=1";
         };
         function cafeRequestPage(){
-            location.href="<%=contextPath%>/cafeRequest.co";
+            location.href="<%=contextPath%>/cafeRequestAccept.co";
         };
         function reportPage(){
             location.href="<%=contextPath%>/reportManagement.ma?currentPage=1";

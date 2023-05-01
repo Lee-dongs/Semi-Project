@@ -124,16 +124,13 @@
             border-style: solid;
             border-radius: 120px;
             background-color: #6DA292;
-
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
-
             color: white;
             font-size: 16px;
-
         }
         #navi>li>ul{
             list-style-type: none;
@@ -141,9 +138,7 @@
             display: none; 
         }
         #navi>li>ul a{
-
             font-size: 17px;
-
         }
         #navi>li>ul a:hover{
             font-size: 14px;
@@ -155,8 +150,8 @@
             display: block;
         }
         .menubar-outer .list{
-		width :70%;
-		margin :auto;
+			width :70%;
+			margin :auto;
 		}
 
         /* ================ login-modal ================ */
