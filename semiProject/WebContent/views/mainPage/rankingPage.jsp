@@ -126,6 +126,10 @@
             width: 100%;
             height: 100%;
         }
+        
+        .cafeImgDiv>img:hover{
+        	cursor : pointer;
+        }
 
         /* ========== next btn ========== */
         #nextDiv>div{
