@@ -77,7 +77,7 @@
         margin-left: 10px;
         font-size:16px;
     }
-    tbody>tr:hover{
+    .list-area>tbody>tr:hover{
         background-color: rgb(243, 242, 242);
         cursor: pointer;
     }
@@ -119,7 +119,7 @@
             margin:auto;
             text-align:center;
         }
-
+	
 </style>
 <body>
 <%@ include file="../common/menubar.jsp" %>
