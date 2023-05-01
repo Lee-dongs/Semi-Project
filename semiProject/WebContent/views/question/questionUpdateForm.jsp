@@ -11,40 +11,53 @@
 <title>Insert title here</title>
 <style>
 	 
-        .suel{
+     .suel{
             width: 1500px;
         	height: 850px;
         	margin: auto;
         	min-height:100%;
         	position :relative;
         	
+
         }
      .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(243, 199, 199);
+             background-color: #7ea197;
+
             width: 500px;
             margin:auto;
             text-align:center;
             padding:10px;
         }
-        #question-table>table{border : 1px solid white;}
         #question-table input,textarea{
         	width : 100%;
-        	box-sizing:border-box;
+        	border:3px solid white;
         }
         #question-table{
         	width: 1000px;
+        	
+        }
+        .question-area{
+        	width:1050px;
+    	height: auto;
+    	padding:20px;
+    	background-color: #d9e8e3; 
+    	border-radius: 30px;
+    	margin:auto;
         }
 </style>
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-<div class="seul">
+
+<div class="suel">
+
 		<br>
 	<h2>고객문의 수정</h2>
 	<br>
 	<form action="<%=contextPath %>/update.qo" method="post" >
+		 <div class="question-area">
 		 <input type="hidden" name="qqo" value="<%=qq.getQuestionNo()%>">
 		      	<table align="center" id="question-table">
                      <thead>                       
@@ -53,7 +66,7 @@
                          <td><input type="text"  name="quTitle" value="<%=qq.getQuestionTitle() %>" required></td>
                         
                        </tr>
-                         <tr><td height="20"> </td></tr>
+                         <tr height="20"></tr>
                          <tr>
                          	<td>내용</td>
                             <td><textarea rows="10" cols="47" name="quContent"><%=qq.getContent() %></textarea></td>
@@ -69,6 +82,7 @@
                             
                      </tbody>
                </table>	 
+		 </div>
 	</form>
 	</div>
 </body>

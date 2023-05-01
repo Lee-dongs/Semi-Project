@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet {
 		// 메인페이지 pull한 뒤 키값 확인하기
 
 		
-		Member loginUser = new MemberService().longinMember(userId, userPwd);
+		Member loginUser = new MemberService().loginMember(userId, userPwd);
 
 		
 		if(loginUser == null) { // 로그인실패
@@ -56,16 +56,12 @@ public class LoginController extends HttpServlet {
 		}else {
 			// 로그인성공시 프로필사진 첨부파일 가져오기
 			Attachment at = new MemberService().selectAttachment(userId);
-			//System.out.println(at);
 			
 			request.getSession().setAttribute("profileAt", at);
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");
-			if(userId.equals("admin")) {
-				request.getRequestDispatcher("views/manager/managerMain.jsp").forward(request, response);
-			}else {
-				response.sendRedirect(request.getHeader("Referer"));
-			}
+			
+			response.sendRedirect(request.getHeader("Referer"));
 			
 		}
 		
