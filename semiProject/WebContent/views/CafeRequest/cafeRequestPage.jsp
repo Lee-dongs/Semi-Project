@@ -12,6 +12,9 @@
 	#outer2{
 	    width: 1200px;
 	    margin: auto;
+	    min-height:100%;
+        position :relative;
+	    
 	}
 	#requestbox{
 	    
@@ -177,13 +180,9 @@
 	                	});
                     });
                 };
-                	
-                
-	                
-                	
                 };
-                	
                 </script>
-            <br><br><br>
-</body>
+                <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
+	</body>
 </html>

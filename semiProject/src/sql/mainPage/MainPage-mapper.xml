@@ -24,7 +24,7 @@
 </entry>
 
 <entry key="selectAttachmentList">
-	SELECT CAFE_REF_NO, FILE_PATH||CHANGE_NAME "TITLEIMG"
+	SELECT CAFE_FILE_NO, CAFE_REF_NO, FILE_PATH||CHANGE_NAME "TITLEIMG"
 	FROM CAFE_ATTACHMENT
 	WHERE CAFE_REF_NO = ?
 	AND STATUS = 'Y'
@@ -50,10 +50,18 @@
 </entry>
 
 <entry key="selectDetailAtList">
-	SELECT CAFE_REF_NO, FILE_PATH||CHANGE_NAME "DETAILIMG"
+	SELECT CAFE_FILE_NO, CAFE_REF_NO, CHANGE_NAME, FILE_PATH||CHANGE_NAME "DETAILIMG"
 	FROM CAFE_ATTACHMENT
 	WHERE CAFE_REF_NO = ?
 	AND TYPE = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="selectTitleChangeName">
+	SELECT CHANGE_NAME
+	FROM CAFE_ATTACHMENT
+	WHERE CAFE_REF_NO = ?
+	AND TYPE = 1
 	AND STATUS = 'Y'
 </entry>
 
@@ -65,9 +73,22 @@
 	AND C.STATUS = 'Y'
 </entry>
 
+<entry key="checkScore">
+	SELECT USER_NO
+	FROM SCORE
+	WHERE USER_NO = ?
+</entry>
+
 <entry key="insertScore">
 	INSERT INTO SCORE(CAFE_NO, USER_NO, TASTE, PRICE, VIBE, ACCESSIBILITY)
 	VALUES(?, ?, ?, ?, ?, ?)
+</entry>
+
+<entry key="updateScore">
+	UPDATE SCORE
+	SET TASTE = ?, PRICE = ?, VIBE = ?, ACCESSIBILITY = ?
+	WHERE CAFE_NO = ?
+	AND USER_NO = ?
 </entry>
 
 <entry key="insertReview">
@@ -78,5 +99,67 @@
 <entry key="insertReport">
 	INSERT INTO REPORT(REPORT_NO, USER_ID, CATEGORY, REPORT_CONTENT, REPORT_WRITER)
 	VALUES(SEQ_RNO.NEXTVAL, ?, ?, ?, ?)
+</entry>
+
+<entry key="increaseCount">
+	UPDATE CAFE_INFO
+	SET COUNT = COUNT+1
+	WHERE ADDRESS = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="deleteCafe">
+	UPDATE CAFE_INFO
+	SET STATUS = 'N'
+	WHERE ADDRESS = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="updateReview">
+	UPDATE CAFE_REPLY
+	SET CAFE_REPLY_CONTENT = ?
+	WHERE CAFE_REPLY_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="deleteReview">
+	UPDATE CAFE_REPLY
+	SET STATUS = 'N'
+	WHERE CAFE_REPLY_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="updateCafeAttachment">
+	UPDATE CAFE_ATTACHMENT
+	SET ORIGIN_NAME = ?, CHANGE_NAME = ?
+	WHERE CAFE_FILE_NO = ?
+</entry>
+
+<entry key="updateCafe">
+	UPDATE CAFE_INFO
+	SET CAFE_NAME = ?, OPERATION_TIME = ?, OFF_DAY = ?, PHONE = ?, ADDRESS = ?
+	WHERE CAFE_NO = ?
+</entry>
+
+<entry key="updateMenu">
+	DECLARE
+	    FOOD_NAME VARCHAR2(30) := ?;
+	    CHANGE_NAME VARCHAR2(30) := ?;
+	BEGIN
+	    IF CHANGE_NAME IS NULL THEN
+	        DELETE
+	        FROM CAFE_MENU
+	        WHERE MENU_NAME = FOOD_NAME;
+	    ELSE
+	        IF FOOD_NAME IS NULL THEN
+	            INSERT INTO CAFE_MENU(CAFE_NO, MENU_NAME, CAFE_PRICE)
+	            VALUES(?, CHANGE_NAME , ?);
+	        ELSE
+	            UPDATE CAFE_MENU
+	            SET MENU_NAME = CHANGE_NAME, CAFE_PRICE = ?
+	            WHERE MENU_NAME = FOOD_NAME;
+	        END IF;    
+	    END IF;
+	END;
 </entry>
 </properties>

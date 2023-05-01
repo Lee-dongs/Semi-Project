@@ -156,6 +156,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+org.eclipse.jdt.core.prefs
+org.eclipse.wst.common.component
+org.eclipse.wst.common.project.facet.core.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,java,serverless
 /bin/

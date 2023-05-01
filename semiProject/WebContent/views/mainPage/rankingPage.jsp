@@ -12,11 +12,12 @@
 <title>Insert title here</title>
     <style>
         #outer1{
-            border: 1px solid black;
+            border: 2px solid orange;
             width: 1200px;
             height: 500px;
             margin: auto;
             position: relative;
+            min-height:100%;
         }
 
         #outer1>div{
@@ -112,7 +113,15 @@
             width: 100%;
             height: 30%;
         }
-
+        
+        .cafeInfoDiv>p{
+        	font-size : 20px;
+        	text-align : center;
+        	font-weight : 500;
+        	color : orange;
+        	-webkit-text-stroke: 0.5px black;
+        }
+        
         .cafeImgDiv>img{
             width: 100%;
             height: 100%;
@@ -154,23 +163,24 @@
 			-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
 			-webkit-text-stroke-width: 1.3px;
 			-webkit-text-stroke-color: #2b2a29;
+			margin-left: 50px;
 		}
  
-		.star-ratings-fill {
-		  color: #fff58c;
-		  padding: 0;
-		  position: absolute;
-		  z-index: 1;
-		  display: flex;
-		  top: 0;
-		  left: 0;
-		  overflow: hidden;
-		  -webkit-text-fill-color: gold;
+		.star-ratings-fill {			
+			color: #fff58c;
+			padding: 0;
+			position: absolute;
+			z-index: 1;
+			display: flex;
+			top: 0;
+			left: 0;
+			overflow: hidden;
+			-webkit-text-fill-color: gold;
 		}
 		 
 		.star-ratings-base {
-		  z-index: 0;
-		  padding: 0;
+			z-index: 0;
+			padding: 0;
 		}
     </style>
 </head>
@@ -201,20 +211,18 @@
 	                        	<%} %>
 	                            <input type="hidden" name="address" value="<%=list.get(i).getAddress() %>">
 	                        </div>
-	                        <div id="cafeInfoDiv">
-	                            	이름(임시) : <%=list.get(i).getCafeName() %> <br>
+	                        <div class="cafeInfoDiv">
+	                            	<p><%=list.get(i).getCafeName() %></p>
 	                            	
 	                            	<div class="star-ratings">
                                     	<div class="star-ratings-fill space-x-2 text-lg" 
-                                    	style="width:400px">
+                                    	style="width:400px;">
                                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                         </div>
                                         <div class="star-ratings-base space-x-2 text-lg">
                                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                         </div>
                                     </div>
-                                    <br>
-	                            	리뷰개수(임시) : <%=list.get(i).getReplyCount() %>
 	                        </div>
 	                    </div>
 	                </div>
@@ -222,13 +230,13 @@
             </div>
 			<div id="prevDiv">
 				<div>
-					<button onclick="prevPage()" disabled="true">prev</button>
+					<button onclick="prevPage()" disabled="true" class="btn btn-warning">prev</button>
 					<input class="currentPage" type="hidden" name="pageCount" value=1>
 				</div>
 			</div>
             <div id="nextDiv"> <!--다음 버튼 위치할 div-->
                 <div>
-                    <button onclick="nextPage()">next</button>
+                    <button onclick="nextPage()" class="btn btn-warning">next</button>
                     <input class="currentPage" type="hidden" name="pageCount" value=1>
                 </div>
             </div>
@@ -247,7 +255,7 @@
     
     	$(".cafeImgDiv>img").click(function(){//이미지 클릭시 주소랑 같이 넘김
     		var address = $(this).next().val();
-    		location.href = "<%=contextPath%>/detail.cf?add="+address;
+    		location.href = "<%=contextPath%>/detail.cf?location="+"<%=location%>&&add="+address;
     	});
     	
     	$(function(){
@@ -304,9 +312,8 @@
       						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
       						  +"</div>"
       						  +"<div class='cafeInfoDiv'>"
-      						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
-      						  +"평점(임시) : " + score() + "<br>"
-      						  +"리뷰개수(임시) : " + list[0][i].replyCount
+      						  +"<p>" + list[0][i].cafeName + "</p>"
+      						  +score() + "<br>"
       						  +"</div>"
       						  +"</div>"
       						  +"</div>"
@@ -362,10 +369,9 @@
     						  +"<img src='"+newPath+"'>"
     						  +"<input type='hidden' name='address' value='"+list[0][i].address+"'>"
     						  +"</div>"
-    						  +"<div id='cafeInfoDiv'>"
-    						  +"이름(임시) : " + list[0][i].cafeName + "<br>"
-    						  +"(평점)" + score() + "<br>"
-    						  +"리뷰개수(임시) : " + list[0][i].replyCount
+    						  +"<div class='cafeInfoDiv'>"
+      						  +"<p>" + list[0][i].cafeName + "</p>"
+    						  +score() + "<br>"
     						  +"</div>"
     						  +"</div>"
     						  +"</div>"
@@ -408,6 +414,7 @@
     	}
 
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
-
 </html>

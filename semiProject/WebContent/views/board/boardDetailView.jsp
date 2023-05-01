@@ -23,8 +23,9 @@
 <style>
     .wrap{
         width: 800px;
-        height: 800px;
         margin: auto;
+       	min-height:100%;
+        position :relative;
     }
  
     hr{
@@ -57,13 +58,6 @@
         width: 80px;
         margin-left: 10px;
     }
-    
-    #reply-area{
-        width: 40%;
-        height: 30%;
-        margin-left: 150px;
-    	
-    }
     #reply-input{
         width: 100%;
         height: 100px;
@@ -80,13 +74,13 @@
     #byte{
         margin-left: 360px;
     }
-    .reply{
+     .reply,.replyList-area>table, #reply-area{
     	margin:auto;
         width: 600px;
     	border-bottom: 1px solid black;
         
     }
-    .reply button{
+    .reply button, .replyList-area button{
         text-decoration: none;
         margin-left: 5px;
         color: black;
@@ -95,28 +89,29 @@
 		background-color: rgb(243, 197, 112);
     }
     #btn-area{
-        height: 10%;
+        height: 80px;
     }
     #btn-area > button{
         float: right;
-        height: 40px;
+        height: px;
         width: 80px;
         margin-left: 10px;
     }
-    #btn-insert{
+    #btn{
         background-color: rgb(243, 197, 112);
         border: 0;
+        height: 40px;
+        width: 80px;
     }
     #btn-area2{
         height: 10%;
         text-align: center;
+        padding-bottom : 20px;
     } 
     #btn-area2>button{
         margin-left: 10px;
     }
-    #file-area{
-        border: 1px solid;
-    }
+    
     #btn-like{
         width: 50px;
         height: 30px;
@@ -127,6 +122,17 @@
     	width:30px;
     	height:30px;
     }
+    #rereply-content{
+    	width:100%
+    }
+    .wrap>h2{
+            border-style: solid white;
+            border-radius: 120px;
+            background-color: rgb(247, 195, 127);
+            width: 600px;
+            margin:auto;
+            text-align:center;
+        }
  
     
 </style>
@@ -135,7 +141,7 @@
 	<%@ include file="../common/menubar.jsp" %>
     <div class="wrap">
         <br>
-        <h2 align="center">자유게시판</h3>
+        <h2 align="center">자유게시판</h2>
         <br>
         <h4>[<%=b.getLocationCode()%>]<%=b.getTitle() %></h4>
             <ul class="board-info">
@@ -188,18 +194,17 @@
         <%} %>
         <hr>
         <div id="btn-area">
-            <button type="button" id="btn-insert" onclick ="enrollform();">글쓰기</button>
-            <button type="button" onclick ="listBoard();">목록</button>
+            <button type="button" id="btn" onclick ="enrollform();">글쓰기</button>
+            <button type="button" id="btn" onclick ="listBoard();">목록</button>
         </div> 
-        <hr>
         <br>
         <%if(loginUser!=null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
         <div id="btn-area2">
-            <button type="button" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
+            <button type="button" id="btn" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
             <%if(at!=null){ %>
-            <button type="button" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
+            <button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
         	<%}else{%>
-        	<button type="button" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
+        	<button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
         	<%} %>
         <%} %>
         </div>
@@ -223,12 +228,12 @@
                 </tr>
                 <%} %>
             </thead>
-            <tbody>
-                
-            </tbody>
-            </table> 
+            </table>
+	         <div class="replyList-area">
+	         </div>
         </div>
     </div>
+    
     <script>
     	/*버튼 눌렀을때 페이지 이동할 주소*/
     	function enrollform(){
@@ -258,6 +263,11 @@
 		};
 		/*댓글리스트 불러오기*/
 		function selectReplyList(){
+			<%if(loginUser==null){%>
+			var userId = null;
+			<%}else{%>
+			var userId = '<%=loginUser.getUserId()%>';
+			<%}%>
 			$.ajax({
 				url	: "selectReplyList.bo",
 				data : {
@@ -266,13 +276,17 @@
 				success : function(list){
 					var str = "";
 					for(var i=0;i<list.length;i++){
-					str += "<tr>"
-						 + "<td width='15%'>" + list[i].replyWriter+"</td>"
-						 + "<td	width='60%' id='content'>"+list[i].content+"</td>"
-						 + "<td>"+list[i].createDate+"</td>"
+					str += "<table class ='replyList"+list[i].replyNo+"'>"
+					     + "<body>"
+					     + "<tr>"
+						 + "<td rowspan='2' width='10%' id='replyNo'>" +list[i].replyNo+ "</td>"
+						 + "<td>"+ list[i].replyWriter+"&nbsp;&nbsp;&nbsp;"+list[i].createDate+"</td>"
 						 + "</tr>"
-						 + "<%if(loginUser!=null && (loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>"
-						 + "<tr>"
+					     + "<tr>"
+						 + "<td	width='90%'>"+list[i].content+"</td>"
+						 + "</tr>"
+						 if(userId ==list[i].replyWriter){
+					str += "<tr>"
 						 + "<td colspan='3'>"
 						 + '<button onclick = "deleteReply('+list[i].replyNo+');">'
 						 + '삭제'
@@ -280,18 +294,37 @@
 						 + '<button onclick = "updateReplyForm('+list[i].replyNo+',\''+list[i].createDate+'\''+',\''+list[i].replyWriter+'\''+',\''+list[i].content+'\');">'
 						 + '수정'
 						 + '</button>'
+						 + '<button onclick = "reReply('+list[i].replyNo+');">'
+						 + '작성'
+						 + '</button>'
 						 + "</td>"
-						 + "<%}%>"
 						 + "</tr>"
+						 }else if(userId =='admin'){
+					str += "<tr>"
+						 + "<td colspan ='3'>"
+						 + '<button onclick = "deleteReply('+list[i].replyNo+');">'
+						 + '삭제'
+					 	 + '</button>'
+					 	 + '</td>'
+					 	 + '</tr>'
+						 }
+					str += "</body>"
+						 + "<tfoot>"
+						 + "</tfoot>"
+						 + "</table>"
+						
+						
 						 
+						 selectReReplyList(list[i].replyNo);
 				}
-					$(".reply tbody").html(str)
+					$(".replyList-area").html(str)
 				}
 			});
 		};
 		$(function(){
 			selectReplyList();
 		});
+		
 		
 		/*글자 입력시 바이트수 체크*/
 		function chkByte(obj, maxByte){
@@ -327,7 +360,7 @@
 		     {
 		        document.getElementById('byte').innerText = rbyte;
 		     }
-		}
+		};
 		/*댓글 삭제*/
 			function deleteReply(replyNo){
 				
@@ -341,29 +374,34 @@
 						selectReplyList();
 					}
 				});
-			}
+			};
 		/*댓글 수정*/
 			function updateReplyForm(replyNo,createDate, replyWriter, content){
 			var updateReply = "";
-			 updateReply += "<tr>"
+			updateReply += "<tbody>"
+			 			 + "<tr>"
 						 + "<td width='15%'>" +replyWriter+"</td>"
 						 + "<td	width='60%'><textarea style='resize: none;' cols='40' rows='3' id='content' >"+content+"</textarea></td>"
 						 + "<td>"+createDate+"</td>"
 						 + "</tr>"
 						 + "<tr>"
 						 + "<td colspan='3'>"
-						 + '<button onclick = "deleteReply();">'
+						 + '<button onclick = "deleteReply('+replyNo+');">'
 						 + '삭제'
+						 + '</button>'
+						 + '<button onclick = "selectReplyList();">'
+						 + '취소'
 						 + '</button>'
 						 + '<button onclick = "updateReply('+replyNo+')">'
 						 + '수정'
 						 + '</button>'
 						 + "</td>"
 						 + "</tr>"
-						 $(".reply tbody").html(updateReply)	 
-		}	
+						 + "</tbody>"
+						 $(".replyList"+replyNo).html(updateReply)
+		};
 			
-			function updateReply(replyNo,newContent){
+			function updateReply(replyNo){
 				var newContent = $("#content").val();
 			$.ajax({
 				url:"update.re",
@@ -377,9 +415,151 @@
 					selectReplyList();
 				}
 			});
-		}
+		};
+		/*대댓글 입력폼 & 입력*/
+			function reReply(replyNo){
+				var str ="";
+				str += "<tr>"
+					 + "<td	width='60%' colspan='4'><textarea style='resize: none;' cols='40' rows='3' id='rereply-content' ></textarea></td>"
+					 + "</tr>"
+					 + "<tr>"
+					 + "<td colspan='4'>"
+					 + '<button onclick = "selectReplyList();">'
+					 + '취소'
+					 + '</button>'
+					 + '<button onclick = "insertReReply('+replyNo+');">'
+					 + '등록'
+					 + '</button>'
+					 + "</td>"
+					 + "</tr>"
+					
+					 $(".replyList"+replyNo).children("tfoot").html(str);
+					 
+			};
+			function insertReReply(replyNo){
+				bno = <%=b.getBoardNo()%>
+				$.ajax({
+					url :"insertReReply.re",
+					type : "post",
+					data :{
+						bno : bno,
+						replyNo : replyNo,
+						content : $("#rereply-content").val()
+					},
+					success: function(result){
+						if(result>0){
+							selectReReplyList(replyNo);
+						}
+					}
+				});
+			};
+			//대댓글 리스트
+			function selectReReplyList(replyNo){
+				<%if(loginUser==null){%>
+				var userId = null;
+				<%}else{%>
+				var userId = '<%=loginUser.getUserId()%>';
+				<%}%>
+				$.ajax({
+					url : "selectReReply.re",
+					data :{
+						replyNo : replyNo
+					},
+					success : function(list){
+						var str="";
+						console.log(str);
+						for(var i=0;i<list.length;i++){
+						str += "<tr>"
+							 + "<td rowspan='2'>↳</td>"
+							 + "<td>"+ list[i].reReplyWriter+"&nbsp;&nbsp;&nbsp;"+list[i].createDate+"</td>"
+							 + "</tr>"
+						     + "<tr>"
+							 + "<td	width='90%' id='content'>"+list[i].content+"</td>"
+							 + "</tr>"
+							 if(userId==list[i].reReplyWriter){
+						str	+= "<tr>"
+							 + "<td colspan='3'>"
+							 + '<button onclick = "deleteReReply('+list[i].reReplyNo+','+list[i].refRno+');">'
+							 + '삭제'
+							 + '</button>'
+							 + '<button onclick = "updateReReplyForm('+list[i].reReplyNo+','+list[i].refRno+',\''+list[i].createDate+'\''+',\''+list[i].reReplyWriter+'\''+',\''+list[i].content+'\');">'
+							 + '수정'
+							 + '</button>'
+							 + "</td>"
+							 + "</tr>"
+							 }else if(userId =='admin'){
+						str	+= "<tr>"
+							+ "<td colspan='3'>"
+							+ '<button onclick = "deleteReReply('+list[i].reReplyNo+','+list[i].refRno+');">'
+							+ '삭제'
+							+ '</button>'
+							+ "</td>"
+							+ "</tr>"
+								 
+							 }
+								}
+						
+							$(".replyList"+replyNo).children("tfoot").html(str);
+							}
+						});
+					}
+			/*대댓글 삭제*/
+			function deleteReReply(reReplyNo,refRno){
+				$.ajax({
+					url : "deleteReReply.re",
+					data :{
+						reReplyNo : reReplyNo,
+						replyNo : refRno
+					},
+					success : function(result){
+						alert("댓글이 삭제 되었습니다.");
+						selectReplyList();
+					}
+				});
+			}
+		 /*대댓글 수정폼*/
+		 function updateReReplyForm(reReplyNo,refRno,createDate,reReplyWriter,content){
+		 	var str ="";
+		 	str += "<tr>"
+				 + "<td width='15%'>" +reReplyWriter+"</td>"
+				 + "<td	width='60%'><textarea style='resize: none;' cols='40' rows='3' id='reReplycontent' >"+content+"</textarea></td>"
+				 + "<td>"+createDate+"</td>"
+				 + "</tr>"
+				 + "<tr>"
+				 + "<td colspan='3'>"
+				 + '<button onclick = "deleteReReply('+reReplyNo+','+refRno+');">'
+				 + '삭제'
+				 + '</button>'
+				 + '<button onclick = "selectReplyList();">'
+				 + '취소'
+				 + '</button>'
+				 + '<button onclick = "updateReReply('+reReplyNo+','+refRno+')">'
+				 + '수정'
+				 + '</button>'
+				 + "</td>"
+				 + "</tr>"
+				
+				 $(".replyList"+refRno).children("tfoot").html(str);
+		 }
+		 
+		 function updateReReply(reReplyNo,refRno) {
+			 var newReReplyContent = $("#reReplycontent").val();
+		 		$.ajax({
+		 			url : "updateReReply.re",
+		 			type : "post",
+		 			data : {
+		 				rno : refRno,
+		 				reReplyNo : reReplyNo,
+		 				content : newReReplyContent
+		 			},
+		 			success :function(result){
+						alert("댓글이 수정되었습니다.")
+						selectReplyList();
+		 			}
+		 		});
+		 	};
+		 
 		/*좋아요 기능*/
-		
 		function like(){
 			$.ajax({
 				url:"like.bo",
@@ -398,7 +578,7 @@
 					
 					}
 				});
-			}
+			};
 			
 		/*싫어요 기능*/
 		function unlike(){
@@ -419,8 +599,9 @@
 					
 				}
 			});
-		}
-		
+		};
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

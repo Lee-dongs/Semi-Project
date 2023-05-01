@@ -1,3 +1,4 @@
+<%@page import="com.kh.board.model.vo.Attachment"%>
 <%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5,8 +6,10 @@
     	String contextPath = request.getContextPath();
     
     	Member loginUser = (Member)session.getAttribute("loginUser");
+    	Attachment profileAt = (Attachment)session.getAttribute("profileAt");
 
     	String alertMsg = (String)session.getAttribute("alertMsg");
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -29,8 +32,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     
     <style>
-         /*구글 웹 폰트 CDN*/
+         /*웹 폰트 CDN*/
      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+     @font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         body{
         /*
             background-image: url('resources/images/사진.jpg');
@@ -41,7 +50,7 @@
         *{
             font-family: 'Noto Sans KR', sans-serif;
         }
-        .outer{
+        .menubar-outer{
 
         
             width: 100%;
@@ -54,10 +63,12 @@
             box-sizing: border-box;
         }
         #header,#menubar{
-            border: 1px solid black;
+            //border: 1px solid black;
             width:100%;
         }
         #header{
+        	background-color: rgba(238, 231, 168, 0.565);
+        	
             height: 80%;
         }
         #menubar{
@@ -70,18 +81,18 @@
             text-align: center;
         }
         #header_1{
-            width: 15%;
+            width: 20%;
         }
         #header_2{
-            width: 70%;
+            width: 60%;
         }
         #header_3{
-            width: 15%;
+            width: 20%;
         }
         #login_form{
             margin-top: 50px;
         }
-        .modal-footer a{
+        #login-modal .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
@@ -102,24 +113,28 @@
             margin-top: 2px;
         }  
         #navi a{
+        	font-family: 'SDSamliphopangche_Outline';
             text-decoration: none;
-            color: white;
-            font-size: 15px;
+            color: white;            
+            font-size: 18px;
             font-weight: 800;
             width: 60%;
             height: 90%;
             display: block;
-            line-height: 40px;
+            line-height: 47px;
             border-style: solid;
             border-radius: 120px;
-            background-color: rgb(223, 223, 30);
+            background-color: #6DA292;
+
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
-            color: darkgray;
+
+            color: white;
             font-size: 16px;
+
         }
         #navi>li>ul{
             list-style-type: none;
@@ -127,10 +142,12 @@
             display: none; 
         }
         #navi>li>ul a{
-            font-size: 12px;
+
+            font-size: 17px;
+
         }
         #navi>li>ul a:hover{
-            font-size: 13px;
+            font-size: 14px;
         }
         #navi>li>a:hover +ul {
             display: block;
@@ -138,7 +155,7 @@
         #navi>li>ul:hover{  
             display: block;
         }
-        .list{
+        .menubar-outer .list{
 		width :70%;
 		margin :auto;
 		}
@@ -147,8 +164,7 @@
         #header_3{
             position: relative;
         }
-        #login-btn{
-           border: 1px solid red;
+        #header_3 #login-btn{
            width: 150px;
            height: 30px; 
            position: absolute;
@@ -158,36 +174,76 @@
            left: 0;
            right: 0;
         }
-        #login-btn>button{
+        #header_3 #login-btn>button{
             width: 100%;
             height: 100%;
             line-height: 10px;
             color: white;
         }
-        .modal-title{
+        #header_3 .modal-title{
         font-weight: 600;
         color: rgb(220, 205, 35);
         margin: auto;
         }
-        #login-table{
+        #header_3 #login-table{
             margin: auto;
             height: 100%;
             width: 100%;
         }
-        #login-table input{
+        #header_3 #login-table input{
             height: 100%;
             width: 100%;
         }
-        #login-table>tbody button{
+        #header_3 #login-table>tbody button{
         	height: 100%;
         	width: 65%;
         }
-        .modal-footer a{
+        #header_3 .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
         }
-      
+        #header_3 #page-title{
+        font-size: 30px;
+        font-family: 'SDSamliphopangche_Outline';
+        color: #6DA292;
+        }
+        
+       /* ================ 회원정보카드 ================ */
+        .info-card{
+        width: 90%;
+        height: 60%;
+        border: 2px solid #6DA292;
+        border-radius: 5%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+	    }
+	    #info-table{
+	        padding: 10px 5px;
+	        width: 100%;
+	        height: 100%;
+	    }
+	    .info-wrap thead img{
+	        width: 11px;
+	        height: 11px;
+	    }
+	    .info-card #managerPage{
+	    	padding-bottom: 0px;
+	    	padding-top: 20px;   	
+	    }
+	    .info-card #logout{
+	    	padding-top: 5px;
+	    }
+	    #info-table button{
+	    	text-align: right;
+	    }
+	 
+	    
     </style>
 </head>
 <body>
@@ -217,24 +273,30 @@
 -->
 
 
-    <div class="outer">
+    <div class="menubar-outer">
         <div id="header">
             <div id="header_1"></div>
-            <div id="header_2"></div>
+            <div id="header_2" >
+            <a href="http://localhost:8888/semiProject/">
+             <img alt="" src="resources/images/카공이미지.png" height="230" width="700">
+            </a>
+            </div>
             <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
          <%if(loginUser == null){ %>
                     <!-- Button to Open the Modal -->
                   <div id="login-btn">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">로그인하기</button>
+            <button type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
+            
+            
                	</div>
                 <!-- The Modal -->
-            <div class="modal" id="myModal">
+            <div class="modal" id="login-modal">
             <div class="modal-dialog">
             <div class="modal-content">
   
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">우리사이트이름</h4>
+            <p class="modal-title" id="page-title">우리사이트이름</p>
             </div>
     
             <!-- Modal body -->
@@ -244,13 +306,13 @@
                         <thead>
                             <tr>
                                 <td>아이디</td>
-                                <td><input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
+                                <td><input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요" required></td>
                         
                             </tr>
                             <tr><td height="20"> </td></tr>
                             <tr>
                                 <td>비밀번호</td>
-                                <td><input type="password" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
+                                <td><input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호를 입력하세요" required></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
                         </thead>
@@ -286,33 +348,61 @@
         </div>
     </div>
     
-    <%}else if(loginUser.getUserId().equals("admin")){ %>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-    	<a href="<%=contextPath%>/adminPage.ma">관리자 메인</a>
-  	  	<a href="<%=contextPath%>/myPage.me">마이페이지</a>
-  	  	<a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
+    <%}else{%> <!-- 회원정보카드 -->
+    <div class="info-wrap">
+        <div class="info-card">
+            <table id="info-table">
+                <thead>
+                    <tr>
+                        <td id="showUserRank"><img src="resources/images/user.png"><small>개인회원</small></td>
+                        <td id="logout"colspan="2">
+                            <input type="button" class="logout btn btn-sm btn-outline-info" value="로그아웃&gt;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><h5 style="color: steelblue;">안녕하세요</h5><%=loginUser.getUserName() %>님</td>
+                    </tr>
+                    <tr>
+                        <td id="managerPage">
+                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" style="display:none"></td>
+                    </tr>
+                    <tr>
+                        <td id="myPage">
+                            <input type="button" class="myPage btn btn-sm btn-outline-info" value="나의정보&gt;"></td>
+                    </tr>
+
+                </tbody>
+               
+            </table>
+
+        </div>
     </div>
-    
-    
-    <%}else{%>
-    <div id="user-info">
-     <b><%=loginUser.getUserName() %>님</b> 환영합니다. <br>
-     <br>
-     <div align="center">
-  	   <a href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>">마이페이지</a>
-  	   <a href="<%=contextPath%>/logout.me">로그아웃</a>
-     </div>
-    </div>
-    
+    <script>
+    $(".myPage").click(function(){
+    	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
+    });
+    // 관리자계정이면 인포카드 내용 다르게 설정
+    if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
+    	$("#managerPage-btn").css("display","block");
+    	$("#showUserRank").html("<img src='resources/images/user.png'><small>관리자계정</small>");
+    }
+    </script>
     <%} %>
         </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
         
-            </div><!-- 헤더 끝 -->
+    <script>
+    $(".logout").click(function(){
+    	location.href="<%=contextPath%>/logout.me";
+    });
+    $(".managerPage").click(function(){
+    	location.href="<%=contextPath%>/adminPage.ma";
+    });
+    
+    </script>
            
+        
+            </div><!-- 헤더 끝 -->
             
             <div id="menubar">
                 <ul id="navi">
@@ -322,7 +412,7 @@
                             <li><a href="<%=contextPath%>/list.fo?currentPage=1">FAQ</a></li>
                         </ul>
                     </li>
-                    <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a></li>
+                    <li><a href="<%=contextPath%>/list.bo?currentPage=1&sort=1">자유게시판</a></li>
                     <li><a href="<%=contextPath%>/cafeRequest.co">카페등록요청</a></li>
                 </ul>
             </div>
@@ -333,12 +423,11 @@
 	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 	<script>
-	
 	Kakao.init('698ae24b3c91e63011b0fe6f4bee6fe4');
 	
-	console.log(Kakao.isInitialized());
+	//console.log(Kakao.isInitialized());
 	
-	// 로그인
+	// 카카오로그인
 	function kakaoLogin() {
 	    Kakao.Auth.login({
 	      success: function (response) {
@@ -390,17 +479,8 @@
 		modal.style.display = "none";
 	};
 	
-	</script>
 	
-
-
-
-
-
-
-
-
-
-
+	
+	</script>
 </body>
 </html>

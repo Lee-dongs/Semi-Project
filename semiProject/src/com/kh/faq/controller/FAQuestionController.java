@@ -58,6 +58,7 @@ public class FAQuestionController extends HttpServlet {
 		
 		endPage = startPage+pageLimit -1;
 		
+	
 		if(endPage>maxPage) {
 			endPage = maxPage;
 		}
@@ -72,7 +73,7 @@ public class FAQuestionController extends HttpServlet {
 		
 		
 		request.setAttribute("pi", pi);
-		request.getSession().setAttribute("qlist", qlist);
+		request.setAttribute("qlist", qlist);
 		request.getRequestDispatcher("views/faq/faquestionView.jsp").forward(request, response);
 		
 		

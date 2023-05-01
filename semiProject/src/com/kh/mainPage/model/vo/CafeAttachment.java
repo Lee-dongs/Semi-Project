@@ -38,6 +38,21 @@ public class CafeAttachment {
 		this.cafeRefNo = cafeRefNo;
 		this.newPath = newPath;
 	}
+	
+	public CafeAttachment(int cafeFileNo, int cafeRefNo, String newPath) {
+		super();
+		this.cafeFileNo = cafeFileNo;
+		this.cafeRefNo = cafeRefNo;
+		this.newPath = newPath;
+	}
+	
+	public CafeAttachment(int cafeFileNo, int cafeRefNo, String changeName, String newPath) {
+		super();
+		this.cafeFileNo = cafeFileNo;
+		this.cafeRefNo = cafeRefNo;
+		this.changeName = changeName;
+		this.newPath = newPath;
+	}
 
 	public String getNewPath() {
 		return newPath;

@@ -10,12 +10,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.kh.board.model.vo.Attachment;
 import com.kh.common.JDBCTemplate;
 import com.kh.member.model.vo.Board;
 import com.kh.member.model.vo.BoardReply;
 import com.kh.member.model.vo.CafeRequest;
 import com.kh.member.model.vo.CafeRequestReply;
-import com.kh.common.model.vo.pageInfo;
 import com.kh.member.model.vo.Member;
 import com.kh.member.model.vo.Question;
 import com.kh.member.model.vo.QuestionReply;
@@ -52,6 +52,31 @@ public class MemberDao {
 			pstmt.setString(5, m.getEmail());
 			pstmt.setString(6, m.getAddress());
 			pstmt.setString(7, m.getBirth());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	// 프로필사진 등록 메소드
+	public int insertAttachment(Connection conn, Attachment at) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, at.getOriginName());
+			pstmt.setString(2, at.getChangeName());
+			pstmt.setString(3, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
 			
@@ -106,6 +131,40 @@ public class MemberDao {
 	
 		return m;
 	}
+
+	// 로그인시 프로필사진 가져오는 메소드
+	public Attachment selectAttachment(Connection conn, String userId) {
+
+		Attachment at = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("selectAttachment");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment(rset.getInt("PROFILE_FILE_NO")
+						, rset.getString("ORIGIN_NAME")
+						, rset.getString("CHANGE_NAME")
+						, rset.getString("FILE_PATH")); 
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+
+		return at;
+	}
+
 	// 아이디 중복확인 메소드
 	public int checkId(Connection conn, String checkId) {
 		
@@ -529,54 +588,7 @@ public class MemberDao {
 		}
 		return result;
 	}
-	// 한 페이지에 보여줄 회원 가져오는 메소드
-	public ArrayList<Member> selectMember(Connection conn, pageInfo pi) {
-		
-		ArrayList<Member> list = new ArrayList<>();
-			
-		ResultSet rset = null;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("selectMember");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-			int endRow = (startRow + pi.getBoardLimit()) - 1;
-			
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Member(rset.getInt("USER_NO")
-						, rset.getString("USER_ID")
-						, rset.getString("USER_PWD")
-						, rset.getString("USER_NAME")
-						, rset.getString("PHONE")
-						, rset.getString("EMAIL")
-						, rset.getString("ADDRESS")
-						, rset.getString("BIRTH")
-						, rset.getInt("REPORT")
-						, rset.getDate("ENROLL_DATE")
-						, rset.getDate("MODIFY_DATE")
-						, rset.getString("STATUS")
-						, rset.getString("KAKAO")));
-				
-			}
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		return list;
-	}
+	
 	// 회원 몇 명인지 가져오는 메소드
 	public int selectListCount(Connection conn) {
 		
@@ -605,98 +617,7 @@ public class MemberDao {
 	
 		return listCount;
 	}
-	// 아이디로 회원 검색하는 메소드
-	public ArrayList<Member> searchMemberById(Connection conn, String keyword, pageInfo pi) {
-		
-		ArrayList<Member> list = new ArrayList<>();
-		ResultSet rset = null;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("searchMemberById");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-			int endRow = (startRow + pi.getBoardLimit()) - 1;
-			
-			pstmt.setString(1, keyword);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Member(rset.getInt("USER_NO")
-						, rset.getString("USER_ID")
-						, rset.getString("USER_PWD")
-						, rset.getString("USER_NAME")
-						, rset.getString("PHONE")
-						, rset.getString("EMAIL")
-						, rset.getString("ADDRESS")
-						, rset.getString("BIRTH")
-						, rset.getInt("REPORT")
-						, rset.getDate("ENROLL_DATE")
-						, rset.getDate("MODIFY_DATE")
-						, rset.getString("STATUS")
-						, rset.getString("KAKAO")));
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		return list;
-	}
-	// 이름으로 회원 검색하는 메소드
-	public ArrayList<Member> searchMemberByName(Connection conn, String keyword, pageInfo pi) {
-		
-		ArrayList<Member> list = new ArrayList<>();
-		ResultSet rset = null;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("searchMemberByName");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-			int endRow = (startRow + pi.getBoardLimit()) - 1;
-			
-			pstmt.setString(1, keyword);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Member(rset.getInt("USER_NO")
-						, rset.getString("USER_ID")
-						, rset.getString("USER_PWD")
-						, rset.getString("USER_NAME")
-						, rset.getString("PHONE")
-						, rset.getString("EMAIL")
-						, rset.getString("ADDRESS")
-						, rset.getString("BIRTH")
-						, rset.getInt("REPORT")
-						, rset.getDate("ENROLL_DATE")
-						, rset.getDate("MODIFY_DATE")
-						, rset.getString("STATUS")
-						, rset.getString("KAKAO")));
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		return list;
-	}
+	
 	// 마이페이지 아이디찾기 메소드
 	public Member findUserId(Connection conn, String userName, String userEmail) {
 		
@@ -749,5 +670,30 @@ public class MemberDao {
 		
 		return result;
 	}
+	// 이메일 중복확인 메소드
+	public int checkEmail(Connection conn, String userEmail) {
+		
+		int count = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("checkEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userEmail);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 
 }

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.common.model.vo.pageInfo;
 import com.kh.manager.model.service.ManagerService;
 import com.kh.manager.model.vo.Report;
-import com.kh.member.model.service.MemberService;
 
 /**
  * Servlet implementation class SearchReportController
@@ -42,8 +41,11 @@ public class SearchReportController extends HttpServlet {
 		int maxPage; // 가장 마지막페이지가 몇인지
 		int startPage; //페이지 하단에 보여질 페이지바의 시작수
 		int endPage; //페이지 하단에 보여질 페이징바의 끝수
+	
+		String keyword = request.getParameter("keyword"); // 검색할 내용
+		String searchBy = request.getParameter("searchBy"); // '아이디'또는 '상세신고내용'로 검색
 		
-		listCount = new MemberService().selectListCount();
+		listCount = new ManagerService().searchReportListCount(keyword, searchBy);
 	
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		
@@ -62,14 +64,17 @@ public class SearchReportController extends HttpServlet {
 		}
 		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+		//System.out.println(pi);
 	
-		String keyword = request.getParameter("keyword"); // 검색할 내용
-		String searchBy = request.getParameter("searchBy"); // '아이디'또는 '신고사유'로 검색
 		// 검색 카테고리가 '아이디'일 경우 member테이블 조회 - 신고많은 순
-		// 검색 카테고리가 '신고사유'일 경우 report테이블 조회 - 신고많은 순
+		// 검색 카테고리가 '상세신고내용'일 경우 report테이블 조회 - 신고많은 순
 		
 		ArrayList<Report> list = new ManagerService().searchReport(pi, keyword, searchBy);
 		
+		// 댓글창에 검색어 남아있게 하기위해 다시 검색할 내용과 카테고리 전달
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("searchBy", searchBy);
+				
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.getRequestDispatcher("views/manager/reportManagementPage.jsp").forward(request, response);

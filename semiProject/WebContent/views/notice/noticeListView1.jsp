@@ -14,21 +14,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-        .outer{
-           
-            color: black;
-            width: 1000px;
-            height: 500px;
-            margin: auto;
-            margin-top: 30px;
+        .suel{
+            width: 1500px;
+        	height: 850px;
+        	margin: auto;
+        	min-height:100%;
+        	position :relative;
         }
-        .outer>h2{
+        .suel>h2{
             border-style: solid white;
             border-radius: 120px;
             background-color: rgb(247, 195, 127);
-            width: 600px;
+            width: 500px;
             margin:auto;
             text-align:center;
+            padding:10px;
         }
         
        .notice-area>tbody>tr:hover{
@@ -50,7 +50,7 @@
 </head>
 <body>
 <%@ include file="../common/menubar.jsp" %>
-    <div class="outer">
+    <div class="suel">
     <br>
         <h2 align="center">공지사항</h2>
         <br>
@@ -98,6 +98,7 @@
     		location.href= '<%=contextPath%>/detail.no?nno='+nno;
     	})
     </script>
-
+	<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

@@ -14,6 +14,7 @@ import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Like;
 import com.kh.board.model.vo.Location;
+import com.kh.board.model.vo.ReReply;
 import com.kh.board.model.vo.Reply;
 import com.kh.board.model.vo.unLike;
 import com.kh.common.JDBCTemplate;
@@ -1023,5 +1024,177 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return list;
+	}
+
+	public int insertReReply(Connection conn, int rno, int bno, String content, int uno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, rno);
+			pstmt.setInt(2, bno);
+			pstmt.setInt(3, uno);
+			pstmt.setString(4, content);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<ReReply> selectReReplyList(Connection conn, int rno) {
+		ArrayList<ReReply> list = new ArrayList<ReReply>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rno);
+			
+			rset= pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new ReReply(rset.getInt("BOARD_REREPLY_NO")
+								    ,rset.getInt("BOARD_REF_RNO")
+						            ,rset.getInt("BOARD_REF_BNO")
+						            ,rset.getString("USER_ID")
+						            ,rset.getString("BOARD_REREPLY_CONTENT")
+						            ,rset.getString("CREATE_DATE")));
+						            
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int deleteReReply(Connection conn, int rrno, int rno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteReReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, rno);
+			pstmt.setInt(2, rrno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateReReply(Connection conn, int rno, int rrno, String content) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, content);
+			pstmt.setInt(2, rno);
+			pstmt.setInt(3, rrno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectByTitle(Connection conn, String keyword) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectByTitle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
+	}
+
+	public int selectByContent(Connection conn, String keyword) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectByContent");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
+	}
+
+	public int selectByWriter(Connection conn, String keyword) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectByWriter");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
 	}
 }

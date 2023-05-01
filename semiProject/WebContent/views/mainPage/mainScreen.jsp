@@ -10,6 +10,8 @@
             text-align: center;
             width : 1200px;
             margin : auto;
+            min-height:100%;
+            position :relative;
 	
         }
         #content>div:hover{
@@ -48,6 +50,7 @@
             <div id="content_6"><img id="photo6" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
     </div>
     <br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
     
        
        <script>
@@ -73,5 +76,7 @@
         })
 
     </script>
+    
 </body>
+    
 </html>

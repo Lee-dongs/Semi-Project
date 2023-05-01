@@ -8,9 +8,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
-
-
 public class NaverBlogSearch {
 	public static ArrayList<SearchResult> search(String query) throws IOException {
         String url = "https://search.naver.com/search.naver?where=view&sm=tab_jum&query="+query;
