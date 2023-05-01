@@ -204,7 +204,13 @@
             </div>
 
             <div id="cafeListDiv"> <!--카페 리스트 위치할 div-->
-                <%for(int i=0; i<4; i++){ %>
+            <%int end = 0;%>
+            <%if(cfatList.size() <=4) {%>
+            	<%end = cfatList.size(); %>
+            <%}else{ %>
+            	<%end = 4; %>
+            <%} %>
+                <%for(int i=0; i<end; i++){ %>
                 	<div>
 	                    <div>
 	                        <div class="cafeImgDiv">
@@ -262,7 +268,7 @@
     		location.href = "<%=contextPath%>/detail.cf?location="+"<%=location%>&&add="+address;
     	});
     	
-    	$(function(){
+    	$(function(){ //별점 부여
     		var list = newCafeList();
 			var k = 0;
     		for(var i=0; i<4; i++){
@@ -272,6 +278,11 @@
     		}
     	});
     	
+    	$(function(){
+    		<%if(cfatList.size() <= 4){%>
+    			$("#nextDiv button").attr("disabled", true);
+    		<%}%>
+    	})
     	
     	function score(){
     		str = "";
