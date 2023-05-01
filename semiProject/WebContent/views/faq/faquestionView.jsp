@@ -22,6 +22,8 @@
         	pi = (pageInfo)request.getAttribute("pi");    	
     	}
     	
+    	
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -75,7 +77,7 @@
             height: 200px;
             background-color: white; 
         }
-        .modal-header>h4{
+        .modal-header3>h4{
         	text-align:center;
         	color:black;        	
         	width:500px;
@@ -98,10 +100,10 @@
         }
         #search-area{float: right;
         }
-        .modal-body{
+        .modal-body3{
         	background-color: #bfd7d0;       	
         }
-        .modal-body thead td{
+        .modal-body3 thead td{
         	border-bottom:3px solid white;
         }
         .modal-header2>h4{
@@ -141,13 +143,13 @@
 		    <div class="modal-content">
 		
 		      <!-- Modal Header -->
-		      <div class="modal-header">
+		      <div class="modal-header3">
 		        <h4 class="modal-title" align="center">자주 묻는 질문 작성</h4>
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
 		      </div>
 		
 		      <!-- Modal body -->
-		      <div class="modal-body">
+		      <div class="modal-body3">
 		       <form action="<%=contextPath %>/insert.fo" method="post" >
 		      		  <table id="faq-table">
                         <thead>

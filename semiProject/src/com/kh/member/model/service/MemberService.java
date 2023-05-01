@@ -28,7 +28,7 @@ public class MemberService {
 		// 첨부파일 있으면 프로필사진 등록 
 		int result2 = 1;
 		if(at != null) {
-			result2 = new MemberDao().insertAttachment(conn, at);
+			result2 = new MemberDao().insertAttachment(conn, at, m);
 		}
 		
 		if(result1 > 0 && result2 > 0) {
@@ -39,8 +39,32 @@ public class MemberService {
 		
 		return result1 * result2;
 	} 
+	// 프로필사진 새로 삽입 메소드
+	public int updateAttachment(Member loginUser, Attachment newProfileAt) {
+		// 기존에 사진 있었으면 update 없었으면 insert
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = 0;
+		
+		if(newProfileAt != null) {
+			if(newProfileAt.getFileNo() != 0) { // 기존 첨부파일 있었으면
+				result = new MemberDao().updateAttachment(conn, newProfileAt);
+			}else { // 기존 첨부파일 없었으면
+				result = new MemberDao().insertAttachment(conn, newProfileAt, loginUser);
+			}
+		}
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	
 	// 로그인 메소드
-	public Member longinMember(String userId, String userPwd) {
+	public Member loginMember(String userId, String userPwd) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -50,6 +74,19 @@ public class MemberService {
 				
 		return m;
 	}
+
+	// 카카오 유저 정보 전부 가져오기
+	public Member kakaoSelectMember(String userId) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		Member m = new MemberDao().kakaoSelectMember(conn, userId);
+
+		JDBCTemplate.close(conn);
+
+		return m;
+	}
+
 	// 로그인시 프로필 사진 가져오는 메소드
 	public Attachment selectAttachment(String userId) {
 		
@@ -60,6 +97,23 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 		
 		return at;
+	}
+	// 프로필 삭제 메소드
+	public int deleteProfile(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().deleteProfile(conn, userNo);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 	// 아이디 중복확인 메소드
 	public int checkId(String checkId) {
@@ -274,6 +328,7 @@ public class MemberService {
 
 		return count;
 	}
+	
 	
 	
 }
