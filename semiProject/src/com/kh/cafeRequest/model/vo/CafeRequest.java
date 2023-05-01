@@ -5,7 +5,7 @@ import java.util.Date;
 public class CafeRequest {
 	
 	private int requestNo;
-	private int requestWriter;
+	private String requestWriter;
 	private String cafeName;
 	private String operationTime;
 	private String address;
@@ -17,7 +17,19 @@ public class CafeRequest {
 		super();
 	}
 
-	public CafeRequest(int requestNo, int requestWriter, String cafeName, String operationTime, String address,
+	public CafeRequest(int requestNo, String requestWriter, String cafeName, String operationTime, String address,
+			String content, Date createDate) {
+		super();
+		this.requestNo = requestNo;
+		this.requestWriter = requestWriter;
+		this.cafeName = cafeName;
+		this.operationTime = operationTime;
+		this.address = address;
+		this.content = content;
+		this.createDate = createDate;
+	}
+
+	public CafeRequest(int requestNo, String requestWriter, String cafeName, String operationTime, String address,
 			String content, Date createDate, String status) {
 		super();
 		this.requestNo = requestNo;
@@ -38,11 +50,11 @@ public class CafeRequest {
 		this.requestNo = requestNo;
 	}
 
-	public int getRequestWriter() {
+	public String getRequestWriter() {
 		return requestWriter;
 	}
 
-	public void setRequestWriter(int requestWriter) {
+	public void setRequestWriter(String requestWriter) {
 		this.requestWriter = requestWriter;
 	}
 

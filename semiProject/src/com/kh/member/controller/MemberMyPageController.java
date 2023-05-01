@@ -8,12 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Board;
 import com.kh.member.model.vo.BoardReply;
 import com.kh.member.model.vo.CafeRequest;
 import com.kh.member.model.vo.CafeRequestReply;
+import com.kh.member.model.vo.Member;
 import com.kh.member.model.vo.Question;
 import com.kh.member.model.vo.QuestionReply;
 
@@ -36,7 +38,9 @@ public class MemberMyPageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userNo = Integer.parseInt(request.getParameter("uno"));
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("loginUser");
+		int userNo = m.getUserNo();
 		
 		//댓글이 있는 요청글 조회
 		ArrayList<CafeRequest> cList = new MemberService().selectCafeRequestWith(userNo);
