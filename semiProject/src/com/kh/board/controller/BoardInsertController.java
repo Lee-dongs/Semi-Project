@@ -62,7 +62,7 @@ public class BoardInsertController extends HttpServlet {
 			String title = mr.getParameter("title");
 			String content = mr.getParameter("content");
 			String boardWriter = mr.getParameter("userNo");
-			
+			System.out.println(content);
 			Board b = new Board();
 			b.setLocationCode(location);
 			b.setTitle(title);
@@ -81,7 +81,7 @@ public class BoardInsertController extends HttpServlet {
 			int result = new BoardService().insertBoard(b,at);
 			
 			if(result>0) {
-				response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1");
+				response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1&sort=1");
 			}else {
 				if(at!=null) {
 					new File(savePath+at.getChangeName()).delete();

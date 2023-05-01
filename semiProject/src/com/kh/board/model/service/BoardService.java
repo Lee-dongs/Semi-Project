@@ -198,8 +198,8 @@ public class BoardService {
 		//새로운 첨부파일 없고 기존 첨부 파일도 없는 경우  - board update
 		//새로운 첨부파일 있고 기존 첨부파일 없는 경우 - board update / attachment insert
 		//새로운 첨부파일 있고 기존 첨부파일 있는 경우 - board update/ attachment update
-		int result = new BoardDao().updateBoard(conn,b);
 		
+		int result = new BoardDao().updateBoard(conn,b);
 		int result2 = 1;
 		if(at!=null) {
 			if(at.getFileNo()!=0) {

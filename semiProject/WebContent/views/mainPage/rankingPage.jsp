@@ -17,6 +17,7 @@
             height: 500px;
             margin: auto;
             position: relative;
+            min-height:100%;
         }
 
         #outer1>div{
@@ -413,6 +414,7 @@
     	}
 
     </script>
+    <br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
-
 </html>

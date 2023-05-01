@@ -12,6 +12,8 @@
             height: 600px;
             margin: auto;
             border: 1px solid black;
+            min-height:100%;
+        	position :relative;
         }
         .find{
             border: 1px solid red;
@@ -202,7 +204,7 @@
     };
    
     </script>
-
-
+	<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

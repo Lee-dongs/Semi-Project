@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.board.model.vo.Attachment;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
@@ -53,6 +54,11 @@ public class LoginController extends HttpServlet {
 			request.getSession().setAttribute("alertMsg", "로그인 정보를 다시 확인해주세요");
 			response.sendRedirect(request.getHeader("Referer"));
 		}else {
+			// 로그인성공시 프로필사진 첨부파일 가져오기
+			Attachment at = new MemberService().selectAttachment(userId);
+			//System.out.println(at);
+			
+			request.getSession().setAttribute("profileAt", at);
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");
 			if(userId.equals("admin")) {

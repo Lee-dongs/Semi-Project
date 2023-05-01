@@ -11,43 +11,61 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.outer{
-            color: black;
-            width: 1000px;
-            height: 500px;
-            margin: auto;
-            margin-top: 50px;
+
+	 .suel{
+            width: 1500px;
+        	height: 850px;
+        	margin: auto;
+        	min-height:100%;
+        	position :relative;
         }
-        .outer>h2{
+        .suel>h2{
             border-style: solid white;
             border-radius: 120px;
             background-color: rgb(247, 195, 127);
-            width: 600px;
+            width: 500px;
             margin:auto;
             text-align:center;
+            padding:10px;
+            
         }
-	 	#detail-area{
-	 		width: 1000px;	 		
+        .notice-area{
+        	width:1050px;
+    		height: 740px;
+	    	padding:10px;
+	    	background-color: rgb(246, 218, 182); 
+	    	border-radius: 30px;	
+	    	
+        }        
+	 	#detail-table{
+	 		width: 1000px;        	
+            height: 700px;	
 	 	}
-	   table th{
+	 	#detail-table>thead{
+	 		
+        	padding: 20px; 
+        }
+	   #detail-table th{
 	   	 font-size: 20px;
-	   	  border-bottom: 1px solid black;
+	   	  border-bottom: 3px solid white;
 	   }
-	   table td{
+	   #detail-table td{
 	   	font-size: 18px;
-	   	 border-bottom: 1px solid black;
+	   	 border-bottom: 3px solid white;
 	   }
 	   
 </style>
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-	<div class="outer">
+	<div class="suel" align= "center">
 	<br>
 	<h2 align="center">공지사항 상세페이지</h2>
 	<br><br>
-
-		<table id="detail-area" align="center">
+	<div class="notice-area">
+	
+		<table id="detail-table" align="center">
+		<thead>
 		<tr>
            <th width="70">제목</th>
            <td width="350" colspan="3"><%=n.getNoticeTitle() %></td>
@@ -64,7 +82,11 @@
            <td colspan="3"><p style="height:500px"><%=n.getNoticeContent() %></p></td>
                     
         </tr>
+        </thead>
 		</table>
+	</div>
+		
+		
 		<br>
 		<%if(loginUser !=null && loginUser.getUserId().equals(n.getNoticeWriter())) {%>
 		<div align="center">
@@ -73,6 +95,7 @@
 		<%} %>
 		<br><br><br><br><br>
 		</div>
-	
+		<br><br><br><br><br><br><br>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>
