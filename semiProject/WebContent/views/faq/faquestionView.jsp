@@ -24,6 +24,8 @@
         	pi = (pageInfo)request.getAttribute("pi");    	
     	}
     	
+    	
+    	
     %>
 <!DOCTYPE html>
 <html>
