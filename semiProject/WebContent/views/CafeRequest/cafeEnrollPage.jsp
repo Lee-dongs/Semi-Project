@@ -459,8 +459,8 @@
         		}
             });
 			$("#getrequest").click(function(){
-				var nos = $("#2-2").val();
-				var ats = $("#2-3").val();
+				var nos = $("#no2-2").val();
+				var ats = $("#no2-3").val();
 				var address = $("#address2").text();
                 var cafename = $("#cafename2").text();
                 var phone = $("#phone2").text();
