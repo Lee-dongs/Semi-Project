@@ -1,18 +1,14 @@
 package com.kh.cafeRequest.controller;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
 import com.kh.board.model.vo.Attachment;
 import com.kh.cafeRequest.model.service.CafeRequestService;
 import com.kh.cafeRequest.model.vo.Cafe;
@@ -21,14 +17,12 @@ import com.kh.cafeRequest.model.vo.CafeMenu;
 import com.kh.common.MyFileRenamePolicy;
 import com.kh.member.model.vo.Member;
 import com.oreilly.servlet.MultipartRequest;
-
 /**
  * Servlet implementation class CafeRequestManageController
  */
 @WebServlet("/manageCafe.co")
 public class CafeRequestManageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,17 +30,21 @@ public class CafeRequestManageController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String no = request.getParameter("no2");
 		String content = request.getParameter("sorry");
-		String[] list = no.split(",");
 		ArrayList<Integer> requestNos = new ArrayList();
-		for(int i=0; i<list.length;i++) {
-			requestNos.add(Integer.parseInt(list[i]));
+		
+		if(no.contains(",")) {
+			String[] list = no.split(",");
+			for(int i=0; i<list.length;i++) {
+				requestNos.add(Integer.parseInt(list[i]));
+			}
+		}else{
+			requestNos.add(Integer.parseInt(no));
 		}
 		int result = 1;
 		//리쿼스트 답변
@@ -61,10 +59,14 @@ public class CafeRequestManageController extends HttpServlet {
 		//첨부파일 삭제
 		if(request.getParameter("no2-3")!="") {
 			String rno = request.getParameter("no2-3");
-			String[] aList = rno.split(",");
 			ArrayList<Integer> attachNos = new ArrayList();
-			for(int i=0; i<aList.length;i++) {
-				attachNos.add(Integer.parseInt(aList[i]));
+			if(rno.contains(",")) {
+				String[] aList = rno.split(",");
+				for(int i=0; i<aList.length;i++) {
+					attachNos.add(Integer.parseInt(aList[i]));
+				}
+			}else {
+				attachNos.add(Integer.parseInt(rno));
 			}
 			result *= new CafeRequestService().delectCafeRequestAttachment(attachNos);
 		}
@@ -77,7 +79,6 @@ public class CafeRequestManageController extends HttpServlet {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -111,12 +112,13 @@ public class CafeRequestManageController extends HttpServlet {
 				
 				
 				ArrayList<CafeMenu> cmList = new ArrayList<>();
-				
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					CafeMenu cm = new CafeMenu();
-					cm.setMenuName(request.getParameter("menu"+i));
-					cm.setCafePrice(Integer.parseInt(request.getParameter("price"+i)));
-					cmList.add(cm);
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i)))!=0) {
+						cm.setMenuName(multiRequest.getParameter("menu"+i));
+						cm.setCafePrice(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i))));
+						cmList.add(cm);
+					}
 				}
 				
 				
@@ -130,7 +132,7 @@ public class CafeRequestManageController extends HttpServlet {
 					cAt.setFilePath("/resources/cafeRequest_files");
 					acList.add(cAt);
 				}
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					if(multiRequest.getOriginalFileName("image3-"+i)!=null) {
 						cAt = new CafeAttachment();
 						cAt.setType(2);
@@ -148,12 +150,48 @@ public class CafeRequestManageController extends HttpServlet {
 			
 			if(result>0) {
 				String no = multiRequest.getParameter("requestnos");
-				String attachNos = multiRequest.getParameter("atnos");
 				String content = multiRequest.getParameter("content3");
-				request.setAttribute("no2", no);
-				request.setAttribute("no2-3", attachNos);
-				request.setAttribute("sorry", content);
-				doGet(request, response);
+				ArrayList<Integer> requestNos = new ArrayList();
+				if(no.contains(",")) {
+					String[] list = no.split(",");
+					for(int i=0; i<list.length;i++) {
+						requestNos.add(Integer.parseInt(list[i]));
+					}
+				}else{
+					requestNos.add(Integer.parseInt(no));
+				}
+				int result1 = 1;
+				//리쿼스트 답변
+				HttpSession session = request.getSession();
+				Member m = (Member)session.getAttribute("loginUser");
+				int writerNo = m.getUserNo();
+				result1 *= new CafeRequestService().replyCafeRequest(requestNos,content,writerNo);
+				
+				//리쿼스트 삭제
+				result1 *= new CafeRequestService().delectCafeRequest(requestNos);
+					
+				//첨부파일 삭제
+				if(Integer.parseInt(setIntData(multiRequest.getParameter("atnos")))!=0) {
+					String attachnos = multiRequest.getParameter("atnos");
+					ArrayList<Integer> attachNos = new ArrayList();
+					if(attachnos.contains(",")) {
+						String[] aList = attachnos.split(",");
+						for(int i=0; i<aList.length;i++) {
+							attachNos.add(Integer.parseInt(aList[i]));
+						}
+					}else {
+						attachNos.add(Integer.parseInt(attachnos));
+					}
+					result *= new CafeRequestService().delectCafeRequestAttachment(attachNos);
+				}
+				
+				if(result>0) {
+					request.getSession().setAttribute("alertMsg", "요청글을 등록했습니다.");
+					response.sendRedirect(request.getContextPath()+"/cafeRequestAccept.co");
+				}else {
+					request.setAttribute("errorMsg", "요청글을 등록실패했습니다.");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
 			}else if(result==0){
 				for(CafeAttachment ca:acList) {
 					if(ca!=null) {
@@ -173,5 +211,12 @@ public class CafeRequestManageController extends HttpServlet {
 			}
 		}
 	}
-
+	public String setIntData(String str) {
+		
+		if(str == null || str.equals("")) {
+			return "0";
+		}else {
+			return str;
+		}
+	}
 }
