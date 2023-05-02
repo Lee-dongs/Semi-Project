@@ -299,7 +299,7 @@
     	}
     		
     	
-    	
+    	var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
     	function nextPage(){ //다음 페이지 처리
     		$("#prevDiv button").attr("disabled", false);
     		$.ajax({
@@ -310,7 +310,7 @@
     			type : "get",
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
-    				var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
+
 					var newPath; //카페 사진 가져올 경로
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
@@ -369,7 +369,7 @@
     				if(result == 1){
     					$("#prevDiv button").attr("disabled", true);
     				}
-    				var list = newCafeList();
+
 					var newPath;
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
@@ -414,7 +414,7 @@
     			url:"newList.cf",
     			data:{
     				location : "<%=location%>",
-    				status : "<%=status%>"
+    				status : "<%=status%>" // 현재 평점순인지 리뷰순인지 기본인지 체크 할 상태값
     			},
     			type : "get",
     			async: false, //순서를 보장해야하기 때문에 동기식으로 처리

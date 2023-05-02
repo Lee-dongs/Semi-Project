@@ -28,11 +28,10 @@
         position :relative;
     }
  
-    .wrap hr{
-        background-color: white;
-        border : 0;
+    hr{
+        background-color: black;
         width: 100%;
-        height: 3px;
+        height: 2px;
     }
     .board-info{
         margin: 0;
@@ -134,11 +133,8 @@
             margin:auto;
             text-align:center;
         }
-    .board-area{
-    	background-color: rgb(246, 218, 182);
-    	padding: 25px;
-    	border-radius:30px;
-    }
+ 
+    
 </style>
 
 <body>
@@ -147,7 +143,6 @@
         <br>
         <h2 align="center">자유게시판</h2>
         <br>
-        <div class="board-area">
         <h4>[<%=b.getLocationCode()%>]<%=b.getTitle() %></h4>
             <ul class="board-info">
                 <li>글번호 <%=b.getBoardNo() %></li>
@@ -160,6 +155,14 @@
             <p>
                 <%=b.getContent() %>
             </p>
+        </div>
+        <div id="file-area">
+        	첨부파일
+            <%if(at==null){%>
+            <p></p>
+            <%}else{%>
+            <a href="<%=contextPath +at.getFilePath()+"/"+at.getChangeName()%>" download><%=at.getOriginName()%></a>
+            <%} %>
         </div>
         <br><br>
         <%if(loginUser!=null){ %>
@@ -190,35 +193,25 @@
         </div>
         <%} %>
         <hr>
-        <div id="file-area">
-        	첨부파일
-            <%if(at==null){%>
-            <p></p>
-            <%}else{%>
-            <a href="<%=contextPath +at.getFilePath()+"/"+at.getChangeName()%>" download><%=at.getOriginName()%></a>
-            <%} %>
-        </div>
-        <hr>
         <div id="btn-area">
             <button type="button" id="btn" onclick ="enrollform();">글쓰기</button>
             <button type="button" id="btn" onclick ="listBoard();">목록</button>
         </div> 
         <br>
-        <%if(loginUser!=null && (loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>
+        <%if(loginUser!=null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
         <div id="btn-area2">
             <button type="button" id="btn" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
             <%if(at!=null){ %>
-            <button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
+            <button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
         	<%}else{%>
-        	<button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
+        	<button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
         	<%} %>
         <%} %>
         </div>
-	    </div>
-	    <br><br>
         <div id="reply-area">
             <table class="reply">
             <thead>
+            	<%if(loginUser !=null){ %>
                 <tr>
                     <td colspan="2"><textarea name="input" id="reply-input" placeholder="댓글을 입력하세요" 
                     cols="20" rows="10" style="resize: none;" onkeyup="chkByte(this, '500')"></textarea></td>
@@ -227,6 +220,13 @@
                 <tr>
                     <td colspan="3"><span id="byte">0</span>/500byte <br><br><br><br></td>
                 </tr>
+                <%}else{ %>
+                <tr>
+                    <td colspan="2"><textarea name="input" id="reply-input" placeholder="로그인 후 댓글 남겨주세요" 
+                    cols="20" rows="10" style="resize: none;" onkeyup="chkByte(this, '500')"></textarea></td>
+                    <td><button type="submit" id="btn-reply" onclick="insertReply();">등록</button></td>
+                </tr>
+                <%} %>
             </thead>
             </table>
 	         <div class="replyList-area">
@@ -312,6 +312,8 @@
 						 + "<tfoot>"
 						 + "</tfoot>"
 						 + "</table>"
+						
+						
 						 
 						 selectReReplyList(list[i].replyNo);
 				}
@@ -338,7 +340,7 @@
 		    for(var i=0; i<str_len; i++)
 		    {
 		        one_char = str.charAt(i);
-		        if(escape(one_char).length > 4) {						//16진법으로 변화하여 판별(escape함수)
+		        if(escape(one_char).length > 4) {
 		            rbyte += 3;                                         //한글3Byte
 		        }else{
 		            rbyte++;                                            //영문 등 나머지 1Byte
@@ -465,6 +467,7 @@
 					},
 					success : function(list){
 						var str="";
+						console.log(str);
 						for(var i=0;i<list.length;i++){
 						str += "<tr>"
 							 + "<td rowspan='2'>↳</td>"

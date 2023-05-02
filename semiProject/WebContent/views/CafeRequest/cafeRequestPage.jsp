@@ -81,11 +81,11 @@
                             </tr>
                             <tr>
                                 <th>영업시간:</th>
-                                <td><input id="operationTime" name="operationTime" type="text" style="width:90%"  required></td>
+                                <td><input id="operationTime" name="operationTime" type="text" style="width:90%"></td>
                             </tr>
                             <tr>
                                 <th>추천 이유:</th>
-                                <td><textarea  name="content" id="content" cols="30" rows="3" style="resize: none; height:250px; width:90%" required></textarea></td>
+                                <td><textarea  name="content" id="content" cols="30" rows="3" style="resize: none; height:250px; width:90%"></textarea></td>
                             </tr>
                             <tr>
                                 <th>첨부파일:</th>
