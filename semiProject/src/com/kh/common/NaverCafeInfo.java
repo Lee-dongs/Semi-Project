@@ -29,8 +29,8 @@ public class NaverCafeInfo {
                 }
                 in.close();
                 String responseData = response.toString();
+                if(responseData.indexOf("businessHours\":\"")>=0) {
                 int operationInfoStartIndex = responseData.indexOf("businessHours\":\"") + "businessHours\":\"".length();
-
 	             int operationEndIndex = responseData.indexOf("\"", operationInfoStartIndex);
 	             String operationInfo = responseData.substring(operationInfoStartIndex, operationEndIndex);
 	             operationInfo = operationInfo.replace("\\n", "\n").replace("\\t", "\t");
@@ -71,13 +71,15 @@ public class NaverCafeInfo {
 		            	 }
 	            	 }
 	             }
+                }
+                if(responseData.indexOf("tel\":\"")>=0) {
 	             int phoneInfoStartIndex = responseData.indexOf("tel\":\"") + "tel\":\"".length();
 
 	             int phoneEndIndex = responseData.indexOf("\"", phoneInfoStartIndex);
 	             String phoneInfo = responseData.substring(phoneInfoStartIndex, phoneEndIndex);
 	             phoneInfo = phoneInfo.replace("\\n", "\n").replace("\\t", "\t");
 	             ci.setPhone(phoneInfo);
-	             
+                }
 	             
             } else {
                 System.out.println("Error: " + responseCode + " - " + connection.getResponseMessage());

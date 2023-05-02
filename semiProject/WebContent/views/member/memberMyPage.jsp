@@ -37,7 +37,7 @@
 		height: 390px;
 	}
 	
-	#myPage {
+	#myPage1 {
 		width: 50%;
 		margin: auto;
 		margin-top: 150px;
@@ -51,7 +51,7 @@
 		height: 15%;
 	}
 	
-	#myPage>div {
+	#myPage1>div {
 		float: left;
 	}
 	
@@ -238,7 +238,7 @@
 	<%@include file="../common/menubar.jsp" %>
 	 <div id="outer2">
             <%if(loginUser!=null){ %>
-            <div id="myPage">
+            <div id="myPage1">
                 <div id="myTitle" align="center"><h1>마이페이지</h1></div>
                 <div id="information" align="center" style="margin-top:50px">
                 <form method="post" action="<%=contextPath %>/update.me">
@@ -270,14 +270,23 @@
                         </tr>
                         <tr class="info">
                             <th>생일:</th>
+                            <%if(loginUser.getBirth()!=null){ %>
                             <td><span><%=loginUser.getBirth() %></span></td>
+                            <%}else{ %>
+                            <td><span>정보 없음</span></td>
+                            <%} %>
                         </tr>
                         <tr>
                             <th>이메일:</th>
+                            <%if(loginUser.getEmail()!=null){ %>
                             <td class="info"><span><%=loginUser.getEmail() %></span></td>
+                            <%}else{ %>
+                            <td class="info"><span>정보 없음</span></td>
+                            <%} %>
                             <td class="update" style="display:none">
                             <input name="email" type="text" id="userEmail" value=<%=loginUser.getEmail() %>>
-                            <input type="button" id="emailChk" value="인증번호 보내기"></td>
+                            <input type="button" id="emailChk" value="인증번호 보내기">
+                            </td>
                         </tr>
                         <tr>
                        		<th></th>
@@ -288,12 +297,20 @@
                         <%if(!loginUser.getKakao().equals("Y")){ %>
                         <tr>
                             <th>번호:</th>
+                            <%if(loginUser.getPhone()!=null){ %>
                             <td class="info"><span><%=loginUser.getPhone() %></span></td>
+                            <%}else{ %>
+                            <td class="info"><span><%=loginUser.getPhone() %></span></td>
+                            <%} %>
                             <td class="update" style="display:none"><input name="phone" type="text" value=<%=loginUser.getPhone() %>></td>
                         </tr>
                         <tr>
                             <th>주소:</th>
+                            <%if(loginUser.getAddress()!=null){ %>
                             <td class="info"><span><%=loginUser.getAddress() %></span></td>
+                            <%}else{ %>
+                            <td class="info"><span>정보 없음</span></td>
+                            <%} %>
                             <td class="update" style="display:none">
                             <input type="text" id="sample5_address" name="address" value="<%=loginUser.getAddress() %>">
 							<input type="button"  onclick="sample5_execDaumPostcode()" value="검색하기"><br>
