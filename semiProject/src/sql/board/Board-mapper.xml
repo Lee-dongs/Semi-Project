@@ -206,19 +206,24 @@
 		SELECT COUNT(*) AS COUNT
 		FROM BOARD_UNLIKE
 		WHERE USER_NO = ?
+		AND BOARD_NO = ?
 	</entry>
 	<entry key="chkUserLike">
 		SELECT COUNT(*) AS COUNT
 		FROM BOARD_LIKE
 		WHERE USER_NO = ?
+		AND BOARD_NO = ?
 	</entry>
 	<entry key="deleteUnLike">
 		DELETE FROM BOARD_UNLIKE
 		WHERE USER_NO = ?
+		AND BOARD_NO = ?
+		
 	</entry>
 	<entry key="deleteLike">
 		DELETE FROM BOARD_LIKE
 		WHERE USER_NO = ?
+		AND BOARD_NO = ?
 	</entry>
 	<entry key="insertReReply">
 		INSERT INTO BOARD_REREPLY(BOARD_REREPLY_NO,BOARD_REF_RNO, BOARD_REF_BNO, BOARD_REREPLY_WRITER,BOARD_REREPLY_CONTENT)
