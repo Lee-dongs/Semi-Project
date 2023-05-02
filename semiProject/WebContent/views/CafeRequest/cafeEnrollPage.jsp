@@ -398,7 +398,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th rowspan="4">
+                                    <th rowspan="5">
                                         이미지:
                                     </th>
                                     <td colspan="2" style="width:75%;">
@@ -418,6 +418,11 @@
                                 <tr>
                                     <td colspan="2" style="width:75%;">
                                         <input type="file" name="image3-3" id="image3-4" style="width:100%;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width:75%;">
+                                        <input type="file" name="image3-4" id="image3-5" style="width:100%;">
                                     </td>
                                 </tr>
                                 <tr>

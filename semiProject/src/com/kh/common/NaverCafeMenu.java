@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class NaverCafeMenu {
 		public static ArrayList<CafeMenu> NaverSearch(String search) {
-			
 	        ArrayList<CafeMenu> cmList = new ArrayList<>();
 	       
 	        try {
