@@ -8,7 +8,7 @@
 <style>
 	#content{
             text-align: center;
-            width : 1800px;
+            width : 1500px;
             margin : auto;
             min-height:100%;
             position :relative;
@@ -24,12 +24,13 @@
             width: 400px;
             height: 300px;
             box-sizing: border-box;
-            margin: 50px;
+            margin: 30px;
         }
         #content img{
         	box-sizing : border-box;
         	width : 100%;
         	height : 100%;
+        	
         }
         
         div{
@@ -42,12 +43,12 @@
 	<%@include file="../common/menubar.jsp" %>
 	
 	<div id="content">
-            <div id="content_1"><img id="photo1" src="resources/images/영등포구.PNG" alt=""></div>
-            <div id="content_2"><img id="photo2" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
-            <div id="content_3"><img id="photo3" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
-            <div id="content_4"><img id="photo4" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
-            <div id="content_5"><img id="photo5" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
-            <div id="content_6"><img id="photo6" src="resources/images/브로콜리햄스터.jpg" alt=""></div>
+            <div id="content_1"><img id="photo1" src="resources/images/영등포구.PNG" alt="" style="box-shadow:5px 5px 10px grey;"></div>
+            <div id="content_2"><img id="photo2" src="resources/images/마포구.png" alt="" style="box-shadow:5px 5px 10px grey;"></div>
+            <div id="content_3"><img id="photo3" src="resources/images/동작구.png" alt="" style="box-shadow:5px 5px 10px grey;"></div>
+            <div id="content_4"><img id="photo4" src="resources/images/강남구.png" alt="" style="box-shadow:5px 5px 10px grey;"></div>
+            <div id="content_5"><img id="photo5" src="resources/images/서대문구.png" alt="" style="box-shadow:5px 5px 10px grey;"></div>
+            <div id="content_6"><img id="photo6" src="resources/images/종로구.png" alt="" style="box-shadow:5px 5px 10px grey;"></div>
     </div>
     <br><br><br>
     <%@ include file = "../common/footer.jsp" %>
