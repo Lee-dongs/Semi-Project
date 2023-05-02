@@ -110,7 +110,6 @@ public class CafeRequestService {
 		int result = new CafeRequestDao().insertCafe(conn, c);
 		int result2 = new CafeRequestDao().insertCafeMenu(conn,cmList);
 		int result3 = new CafeRequestDao().insertCafeAttachment(conn, acList);
-		
 		if((result*result2*result3)>0) {
 			JDBCTemplate.commit(conn);
 		}else {
