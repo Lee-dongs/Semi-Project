@@ -422,7 +422,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="width:75%;">
-                                        <input type="file" name="image3-3" id="image3-4" style="width:100%;">
+                                        <input type="file" name="image3-4" id="image3-5" style="width:100%;">
                                     </td>
                                 </tr>
                                 <tr>

@@ -9,12 +9,12 @@ import java.nio.charset.StandardCharsets;
 
 public class NaverCafeInfo {
 	public static CafeInfo NaverSearch(String search) {
-		String input = search;
-        String encoded = URLEncoder.encode(input, StandardCharsets.UTF_8);
-		String urlString = "https://map.naver.com/v5/api/search?caller=pcweb&query="+encoded+"&type=all&searchCoord=126.92596417903701;37.57652970000011&page=1&displayCount=20&isPlaceRecommendationReplace=true&lang=ko";
 		CafeInfo ci = new CafeInfo();
        
         try {
+        	String input = search;
+        	String encoded = URLEncoder.encode(input, "UTF-8");
+        	String urlString = "https://map.naver.com/v5/api/search?caller=pcweb&query="+encoded+"&type=all&searchCoord=126.92596417903701;37.57652970000011&page=1&displayCount=20&isPlaceRecommendationReplace=true&lang=ko";
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
