@@ -130,7 +130,7 @@ public class CafeUpdateController extends HttpServlet {
 	
 	public String setData(String str) { //null처리
 		
-		if(str == null) {
+		if(str == null || str.equals("")) {
 			return "";
 		}else {
 			return str;

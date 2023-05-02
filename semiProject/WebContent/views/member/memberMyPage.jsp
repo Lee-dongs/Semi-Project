@@ -37,7 +37,7 @@
 		height: 390px;
 	}
 	
-	#myPage1 {
+	#myPage {
 		width: 50%;
 		margin: auto;
 		margin-top: 150px;
@@ -51,7 +51,7 @@
 		height: 15%;
 	}
 	
-	#myPage1>div {
+	#myPage>div {
 		float: left;
 	}
 	
@@ -238,7 +238,7 @@
 	<%@include file="../common/menubar.jsp" %>
 	 <div id="outer2">
             <%if(loginUser!=null){ %>
-            <div id="myPage1">
+            <div id="myPage">
                 <div id="myTitle" align="center"><h1>마이페이지</h1></div>
                 <div id="information" align="center" style="margin-top:50px">
                 <form method="post" action="<%=contextPath %>/update.me">
