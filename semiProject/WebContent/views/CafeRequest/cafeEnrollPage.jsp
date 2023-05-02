@@ -421,6 +421,11 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colspan="2" style="width:75%;">
+                                        <input type="file" name="image3-4" id="image3-5" style="width:100%;">
+                                    </td>
+                                </tr>
+                                <tr>
                                 	<td colspan="4">
                                 		<textarea style="resize:none;width:100%;height:120px;" name="content3" id="content3">
 안녕하세요.
