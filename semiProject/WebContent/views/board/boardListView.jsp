@@ -42,6 +42,9 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	.list{
+    	width : 1200px;
+    }
     .list-area{
         width: 1000px;
         margin: auto;
@@ -120,6 +123,7 @@
             margin:auto;
             text-align:center;
         }
+    
 	
 </style>
 <body>

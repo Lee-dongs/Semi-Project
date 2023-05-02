@@ -27,6 +27,7 @@
 	.wrap{
 		min-height:100%;
         position :relative;
+        width : 800px;
 	}
 	.wrap>h2{
 		text-align : center;
