@@ -86,7 +86,7 @@ public class CafeRequestManageController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10*1024*1024;
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/board_files/");
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/cafe_files/");
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize,"UTF-8",
 														new MyFileRenamePolicy());
 															
@@ -138,7 +138,7 @@ public class CafeRequestManageController extends HttpServlet {
 						cAt.setType(2);
 						cAt.setOriginName(multiRequest.getOriginalFileName("image3-"+i));
 						cAt.setChangeName(multiRequest.getFilesystemName("image3-"+i));
-						cAt.setFilePath("/resources/cafeRequest_files");
+						cAt.setFilePath("/resources/cafe_files");
 						acList.add(cAt);
 					}
 				}
