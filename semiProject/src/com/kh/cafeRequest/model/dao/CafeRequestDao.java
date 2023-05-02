@@ -278,6 +278,7 @@ public class CafeRequestDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			for(CafeMenu cm:cmList) {
+				System.out.println(cm.getMenuName()+ " "+cm.getCafePrice());
 				pstmt.setString(1, cm.getMenuName());
 				pstmt.setInt(2, cm.getCafePrice());
 				result *= pstmt.executeUpdate();

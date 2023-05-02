@@ -48,8 +48,8 @@ public class CafeRequestGetDataController extends HttpServlet {
 		int requestNo = Integer.parseInt(request.getParameter("requestno"));
 		String address = request.getParameter("cafeaddress");
 		String[] str = address.split(" ");
-		String search = str[2] +" "+ cafeName;
-
+		String search = str[1] +" "+ cafeName;
+		System.out.println(search);
 		ArrayList<SearchResult> sList = new ArrayList<>();
 		try{
 			sList = NaverBlogSearch.search(search);
