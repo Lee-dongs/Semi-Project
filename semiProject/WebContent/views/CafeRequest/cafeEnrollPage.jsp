@@ -398,7 +398,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th rowspan="4">
+                                    <th rowspan="5">
                                         이미지:
                                     </th>
                                     <td colspan="2" style="width:75%;">
