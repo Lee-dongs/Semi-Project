@@ -43,7 +43,7 @@ public class BoardUnLikeController extends HttpServlet {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		int uno = loginUser.getUserNo();
 		int result = 0;
-		result = new BoardService().chkUserUnLike(uno);
+		result = new BoardService().chkUserUnLike(uno, bno);
 		
 		if(result >0) {			
 			result = new BoardService().deleteUnLike(uno,bno)-1;

@@ -45,7 +45,7 @@ public class BoardLikeController extends HttpServlet {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		int uno = loginUser.getUserNo();
 		int result = 0;
-		result = new BoardService().chkUserLike(uno);
+		result = new BoardService().chkUserLike(uno,bno);
 		
 		if(result>0) {
 			result = new BoardService().deleteLike(uno,bno)-1;

@@ -269,19 +269,14 @@ public class BoardService {
 		return ul;
 	}
 
-	public int chkUserUnLike(int uno) {
-		int result = new BoardDao().chkUserUnLike(conn, uno);
+	public int chkUserUnLike(int uno, int bno) {
+		int result = new BoardDao().chkUserUnLike(conn, uno, bno);
 		
-		if(result>0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
 		return result;
 	}
 
 	public int deleteUnLike(int uno, int bno) {
-		int result = new BoardDao().deleteUnLike(conn, uno);
+		int result = new BoardDao().deleteUnLike(conn, uno, bno);
 		
 		int result2 = 0;
 		
@@ -297,20 +292,15 @@ public class BoardService {
 		
 	}
 
-	public int chkUserLike(int uno) {
-		int result = new BoardDao().chkUserLike(conn, uno);
+	public int chkUserLike(int uno, int bno) {
+		int result = new BoardDao().chkUserLike(conn, uno, bno);
 		
-		if(result>0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
 		return result;
 		
 	}
 
 	public int deleteLike(int uno, int bno) {
-		int result = new BoardDao().deleteLike(conn, uno);
+		int result = new BoardDao().deleteLike(conn, uno, bno);
 		
 		int result2 = 0;
 		
@@ -326,19 +316,6 @@ public class BoardService {
 		
 	}
 
-	public ArrayList<Board> sortLocation(pageInfo pi, int location) {
-		ArrayList<Board> list = new ArrayList<>();
-		switch(location) {
-		case 1 : list = new BoardDao().selectDongJak(conn, pi); break;
-		case 2 : list = new BoardDao().selectMaPo(conn, pi); break;
-		case 3 : list = new BoardDao().selectSeoDaeMoon(conn, pi); break;
-		case 4 : list = new BoardDao().selectYeongDeungPo(conn, pi); break;
-		case 5 : list = new BoardDao().selectYangCheon(conn, pi); break;
-		case 6 : list = new BoardDao().selectJung(conn, pi); break;
-				
-		}
-		return list;
-	}
 
 	public int insertReReply(int rno, int bno, String content, int uno) {
 		int result = new BoardDao().insertReReply(conn,bno,rno,content,uno);

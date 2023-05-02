@@ -28,11 +28,10 @@
         position :relative;
     }
  
-    .wrap hr{
-        background-color: white;
-        border : 0;
+    hr{
+        background-color: black;
         width: 100%;
-        height: 3px;
+        height: 2px;
     }
     .board-info{
         margin: 0;
@@ -134,11 +133,8 @@
             margin:auto;
             text-align:center;
         }
-    .board-area{
-    	background-color: rgb(246, 218, 182);
-    	padding: 25px;
-    	border-radius:30px;
-    }
+ 
+    
 </style>
 
 <body>
@@ -147,7 +143,6 @@
         <br>
         <h2 align="center">자유게시판</h2>
         <br>
-        <div class="board-area">
         <h4>[<%=b.getLocationCode()%>]<%=b.getTitle() %></h4>
             <ul class="board-info">
                 <li>글번호 <%=b.getBoardNo() %></li>
@@ -203,18 +198,16 @@
             <button type="button" id="btn" onclick ="listBoard();">목록</button>
         </div> 
         <br>
-        <%if(loginUser!=null && (loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>
+        <%if(loginUser!=null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
         <div id="btn-area2">
             <button type="button" id="btn" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
             <%if(at!=null){ %>
-            <button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
+            <button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>&changeName=<%=at.getChangeName()%>'">삭제</button>
         	<%}else{%>
-        	<button type="button" id="btn" onclick="location.href = '<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
+        	<button type="button" id="btn" onclick="location.href = '<%=contextPath %>/delete.bo?bno=<%=b.getBoardNo()%>'">삭제</button>
         	<%} %>
         <%} %>
         </div>
-	    </div>
-	    <br><br>
         <div id="reply-area">
             <table class="reply">
             <thead>
@@ -319,6 +312,8 @@
 						 + "<tfoot>"
 						 + "</tfoot>"
 						 + "</table>"
+						
+						
 						 
 						 selectReReplyList(list[i].replyNo);
 				}
@@ -472,6 +467,7 @@
 					},
 					success : function(list){
 						var str="";
+						console.log(str);
 						for(var i=0;i<list.length;i++){
 						str += "<tr>"
 							 + "<td rowspan='2'>↳</td>"
