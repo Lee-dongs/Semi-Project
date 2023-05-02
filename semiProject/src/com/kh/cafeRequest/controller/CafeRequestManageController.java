@@ -129,7 +129,7 @@ public class CafeRequestManageController extends HttpServlet {
 					cAt.setType(1);
 					cAt.setOriginName(multiRequest.getOriginalFileName("image3"));
 					cAt.setChangeName(multiRequest.getFilesystemName("image3"));
-					cAt.setFilePath("/resources/cafe_files/");
+					cAt.setFilePath("resources/cafe_files/");
 					acList.add(cAt);
 				}
 				for(int i=0; i<5;i++) {
@@ -138,7 +138,7 @@ public class CafeRequestManageController extends HttpServlet {
 						cAt.setType(2);
 						cAt.setOriginName(multiRequest.getOriginalFileName("image3-"+i));
 						cAt.setChangeName(multiRequest.getFilesystemName("image3-"+i));
-						cAt.setFilePath("/resources/cafe_files/");
+						cAt.setFilePath("resources/cafe_files/");
 						acList.add(cAt);
 					}
 				}
