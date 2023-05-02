@@ -398,7 +398,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th rowspan="4">
+                                    <th rowspan="5">
                                         이미지:
                                     </th>
                                     <td colspan="2" style="width:75%;">
@@ -413,6 +413,11 @@
                                 <tr>
                                     <td colspan="2" style="width:75%;">
                                         <input type="file" name="image3-2" id="image3-3" style="width:100%;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width:75%;">
+                                        <input type="file" name="image3-3" id="image3-4" style="width:100%;">
                                     </td>
                                 </tr>
                                 <tr>
@@ -459,7 +464,7 @@
 				var address = $("#address2").text();
                 var cafename = $("#cafename2").text();
                 var phone = $("#phone2").text();
-               
+              	
                 $("#requestnos").val(nos);
                 $("#atnos").val(ats);
                 $("#address3").val(address);
@@ -475,6 +480,14 @@
                 	type: "post",
                 	success: function(list){
                 		console.log("통신 성공했습니다.");
+                		$("#phone3").val("");
+                		$("#time3").val("");
+                		$("#time3-1").val("");
+                		$("#rest3").val("");
+                		for(var i=0; i<list[0].length;i++){
+                			$("#menu3-"+i).val("");
+                			$("#price3-"+i).val("");
+                		}
                 		$("#phone3").val(list[1].phone);
                 		$("#time3").val(list[1].startTime);
                 		$("#time3-1").val(list[1].offTime);
@@ -524,6 +537,7 @@
                 var date = $(this).children("#date1").text();
                 var itself = $(this).children("#itself").val();
                	var ah = $(".rno"+no);
+               	
                	var arr2 = new Array();
                	for (var i=0; i < ah.length; i++ )  { 
                 	arr2[i]=ah[i].value;
@@ -535,7 +549,7 @@
                 	/* console.log(ch[i].value); */ 
                 	arr[i]=ch[i].value;
                 };
-                
+                console.log($(".rno"+no));
                 $("#address2").text(address);
                 $("#cafename2").text(cafename);
                 $("#content2").text(content);

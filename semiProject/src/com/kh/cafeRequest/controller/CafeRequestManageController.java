@@ -120,13 +120,13 @@ public class CafeRequestManageController extends HttpServlet {
 				
 				
 				ArrayList<CafeMenu> cmList = new ArrayList<>();
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					CafeMenu cm = new CafeMenu();
-					cm.setMenuName(multiRequest.getParameter("menu"+i));
-					if(multiRequest.getParameter("price"+i)!=null) {
-						cm.setCafePrice(Integer.parseInt(multiRequest.getParameter("price"+i)));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i)))!=0) {
+						cm.setMenuName(multiRequest.getParameter("menu"+i));
+						cm.setCafePrice(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i))));
+						cmList.add(cm);
 					}
-					cmList.add(cm);
 				}
 				
 				
@@ -140,7 +140,7 @@ public class CafeRequestManageController extends HttpServlet {
 					cAt.setFilePath("/resources/cafeRequest_files");
 					acList.add(cAt);
 				}
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					if(multiRequest.getOriginalFileName("image3-"+i)!=null) {
 						cAt = new CafeAttachment();
 						cAt.setType(2);
@@ -179,7 +179,7 @@ public class CafeRequestManageController extends HttpServlet {
 				result1 *= new CafeRequestService().delectCafeRequest(requestNos);
 					
 				//첨부파일 삭제
-				if(multiRequest.getParameter("atnos")!=null) {
+				if(Integer.parseInt(setIntData(multiRequest.getParameter("atnos")))!=0) {
 					String attachnos = multiRequest.getParameter("atnos");
 					ArrayList<Integer> attachNos = new ArrayList();
 					if(attachnos.contains(",")) {
@@ -220,4 +220,14 @@ public class CafeRequestManageController extends HttpServlet {
 		}
 	}
 
+	public String setIntData(String str) {
+		
+		if(str == null || str.equals("")) {
+			System.out.println("비어있습니다.");
+			return "0";
+		}else {
+			System.out.println("값이 있습니다.");
+			return str;
+		}
+	}
 }
