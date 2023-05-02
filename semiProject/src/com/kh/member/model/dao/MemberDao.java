@@ -65,7 +65,7 @@ public class MemberDao {
 		return result;
 	}
 	// 프로필사진 등록 메소드
-	public int insertAttachment(Connection conn, Attachment at) {
+	public int insertAttachment(Connection conn, Attachment at, Member m) {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -74,9 +74,10 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, at.getOriginName());
-			pstmt.setString(2, at.getChangeName());
-			pstmt.setString(3, at.getFilePath());
+			pstmt.setInt(1, m.getUserNo());
+			pstmt.setString(2, at.getOriginName());
+			pstmt.setString(3, at.getChangeName());
+			pstmt.setString(4, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
 			
@@ -101,6 +102,48 @@ public class MemberDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			pstmt.setString(2, userPwd);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				m = new Member(rset.getInt("USER_NO")
+						, rset.getString("USER_ID")
+						, rset.getString("USER_PWD")
+						, rset.getString("USER_NAME")
+						, rset.getString("PHONE")
+						, rset.getString("EMAIL")
+						, rset.getString("ADDRESS")
+						, rset.getString("BIRTH")
+						, rset.getInt("REPORT")
+						, rset.getDate("ENROLL_DATE")
+						, rset.getDate("MODIFY_DATE")
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO"));	
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+	
+		return m;
+	}
+
+	// 카카오 유저 정보 모두 가져오기
+	public Member kakaoSelectMember(Connection conn, String userId) {
+		
+		Member m = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("kakaoSelectMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
 			
 			rset = pstmt.executeQuery();
 			
@@ -163,6 +206,56 @@ public class MemberDao {
 		}
 
 		return at;
+	}
+	// 기존프로필사진 지우고 새로운 파일로 업데이트하는 메소드
+	public int updateAttachment(Connection conn, Attachment newProfileAt) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, newProfileAt.getOriginName());
+			pstmt.setString(2, newProfileAt.getChangeName());
+			pstmt.setString(3, newProfileAt.getFilePath());
+			pstmt.setInt(4, newProfileAt.getFileNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	// 프로필 삭제 메소드
+	public int deleteProfile(Connection conn, int userNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteProfile");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 	// 아이디 중복확인 메소드

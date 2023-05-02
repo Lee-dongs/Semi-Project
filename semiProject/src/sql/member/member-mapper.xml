@@ -9,7 +9,17 @@ VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)
 
 <entry key="insertAttachment">
 INSERT INTO PROFILE_ATTACHMENT(PROFILE_FILE_NO, REF_MNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH)
-VALUES(SEQ_MANO.NEXTVAL, SEQ_UNO.CURRVAL, ?, ?, ?)
+VALUES(SEQ_MANO.NEXTVAL, ?, ?, ?, ?)
+</entry>
+
+<entry key="updateAttachment">
+UPDATE PROFILE_ATTACHMENT
+SET ORIGIN_NAME = ?
+	, CHANGE_NAME = ?
+	, FILE_PATH = ?
+	, UPLOAD_DATE = SYSDATE
+WHERE PROFILE_FILE_NO = ?
+AND STATUS = 'Y'
 </entry>
 
 <entry key="loginMember">
@@ -20,12 +30,25 @@ AND USER_PWD = ?
 AND STATUS = 'Y'
 </entry>
 
+<entry key="kakaoSelectMember">
+SELECT *
+FROM MEMBER
+WHERE USER_ID = ?
+AND STATUS = 'Y'
+</entry>
+
 <entry key="selectAttachment">
 SELECT PROFILE_FILE_NO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH
 FROM PROFILE_ATTACHMENT P
 JOIN MEMBER ON(REF_MNO = USER_NO)
 WHERE USER_ID = ?
 AND P.STATUS='Y'
+</entry>
+
+<entry key="deleteProfile">
+DELETE PROFILE_ATTACHMENT 
+WHERE REF_MNO = ? 
+AND STATUS='Y'
 </entry>
 
 <entry key="deleteMember">
@@ -41,8 +64,8 @@ WHERE USER_ID = ?
 </entry>
 
 <entry key="kakaoLoginMember">
-INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH)
-VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?)
+INSERT INTO MEMBER (USER_NO, USER_ID, USER_PWD, USER_NAME, EMAIL, BIRTH, KAKAO)
+VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?, 'Y')
 </entry>
 
 	<entry key="selectBoardWith">

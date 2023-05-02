@@ -161,14 +161,6 @@
                 <%=b.getContent() %>
             </p>
         </div>
-        <div id="file-area">
-        	첨부파일
-            <%if(at==null){%>
-            <p></p>
-            <%}else{%>
-            <a href="<%=contextPath +at.getFilePath()+"/"+at.getChangeName()%>" download><%=at.getOriginName()%></a>
-            <%} %>
-        </div>
         <br><br>
         <%if(loginUser!=null){ %>
         <div id="like-area">
@@ -198,6 +190,15 @@
         </div>
         <%} %>
         <hr>
+        <div id="file-area">
+        	첨부파일
+            <%if(at==null){%>
+            <p></p>
+            <%}else{%>
+            <a href="<%=contextPath +at.getFilePath()+"/"+at.getChangeName()%>" download><%=at.getOriginName()%></a>
+            <%} %>
+        </div>
+        <hr>
         <div id="btn-area">
             <button type="button" id="btn" onclick ="enrollform();">글쓰기</button>
             <button type="button" id="btn" onclick ="listBoard();">목록</button>
@@ -218,7 +219,6 @@
         <div id="reply-area">
             <table class="reply">
             <thead>
-            	<%if(loginUser !=null){ %>
                 <tr>
                     <td colspan="2"><textarea name="input" id="reply-input" placeholder="댓글을 입력하세요" 
                     cols="20" rows="10" style="resize: none;" onkeyup="chkByte(this, '500')"></textarea></td>
@@ -227,13 +227,6 @@
                 <tr>
                     <td colspan="3"><span id="byte">0</span>/500byte <br><br><br><br></td>
                 </tr>
-                <%}else{ %>
-                <tr>
-                    <td colspan="2"><textarea name="input" id="reply-input" placeholder="로그인 후 댓글 남겨주세요" 
-                    cols="20" rows="10" style="resize: none;" onkeyup="chkByte(this, '500')"></textarea></td>
-                    <td><button type="submit" id="btn-reply" onclick="insertReply();">등록</button></td>
-                </tr>
-                <%} %>
             </thead>
             </table>
 	         <div class="replyList-area">
@@ -345,7 +338,7 @@
 		    for(var i=0; i<str_len; i++)
 		    {
 		        one_char = str.charAt(i);
-		        if(escape(one_char).length > 4) {
+		        if(escape(one_char).length > 4) {						//16진법으로 변화하여 판별(escape함수)
 		            rbyte += 3;                                         //한글3Byte
 		        }else{
 		            rbyte++;                                            //영문 등 나머지 1Byte
