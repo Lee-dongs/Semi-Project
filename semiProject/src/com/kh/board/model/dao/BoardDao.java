@@ -694,7 +694,7 @@ public class BoardDao {
 		return ul;
 	}
 
-	public int chkUserUnLike(Connection conn, int uno) {
+	public int chkUserUnLike(Connection conn, int uno, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -704,6 +704,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, uno);
+			pstmt.setInt(2, bno);
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
@@ -719,7 +720,7 @@ public class BoardDao {
 		return result;
 	}
 
-	public int deleteUnLike(Connection conn, int uno) {
+	public int deleteUnLike(Connection conn, int uno, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("deleteUnLike");
@@ -728,6 +729,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, uno);
+			pstmt.setInt(2, bno);
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -739,7 +741,7 @@ public class BoardDao {
 		return result;
 	}
 
-	public int chkUserLike(Connection conn, int uno) {
+	public int chkUserLike(Connection conn, int uno, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -749,6 +751,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, uno);
+			pstmt.setInt(2, bno);
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
@@ -764,7 +767,7 @@ public class BoardDao {
 		return result;
 	}
 
-	public int deleteLike(Connection conn, int uno) {
+	public int deleteLike(Connection conn, int uno, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("deleteLike");
@@ -773,6 +776,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, uno);
+			pstmt.setInt(2, bno);
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -820,210 +824,6 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
-	}
-
-	public ArrayList<Board> selectDongJak(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectDongJak");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-
-	public ArrayList<Board> selectMaPo(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectMaPo");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-
-	public ArrayList<Board> selectSeoDaeMoon(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectSeoDaeMoon");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-
-	public ArrayList<Board> selectYeongDeungPo(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectYeongDeungPo");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-
-	public ArrayList<Board> selectYangCheon(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectYangCheon");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-
-	public ArrayList<Board> selectJung(Connection conn, pageInfo pi) {
-		ArrayList<Board> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectJung");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			int startRow = (pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow = (startRow + pi.getBoardLimit())-1;
-			pstmt.setInt(1, startRow );
-			pstmt.setInt(2, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO")
-								  ,rset.getString("LOCATION_NAME")
-								  ,rset.getString("BOARD_TITLE")
-								  ,rset.getString("USER_ID")
-								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
 	}
 
 	public int insertReReply(Connection conn, int rno, int bno, String content, int uno) {
