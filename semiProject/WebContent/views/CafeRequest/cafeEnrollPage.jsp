@@ -610,7 +610,7 @@
                 		
                 		if(list[1]!=null){
                 			var str2 = "";
-                			str2 += "<img src='"+"<%=contextPath%>"+list[1].filePath+"/"+list[1].changeName+"' width='100%;' height='100%;''>";
+                			str2 += "<img src='"+"<%=contextPath%>"+list[1].filePath+list[1].changeName+"' width='100%;' height='100%;''>";
                 			$("#attach2").html(str2);
                 		}else{
                 			$("#attach2").html("");
