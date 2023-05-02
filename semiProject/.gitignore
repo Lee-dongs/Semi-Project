@@ -13,7 +13,10 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+
+# JDT-specific (Eclipse Java Development Tools)     
 .classpath
+
 # External tool builders
 .externalToolBuilders/
 .project

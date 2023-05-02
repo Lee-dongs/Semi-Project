@@ -153,12 +153,16 @@ public class CafeRequestManageController extends HttpServlet {
 				String content = multiRequest.getParameter("content3");
 				ArrayList<Integer> requestNos = new ArrayList();
 				if(no.contains(",")) {
-					String[] list = no.split(",");
-					for(int i=0; i<list.length;i++) {
-						requestNos.add(Integer.parseInt(list[i]));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("requestnos")))!=0) {
+						String[] list = no.split(",");
+						for(int i=0; i<list.length;i++) {
+							requestNos.add(Integer.parseInt(list[i]));
+						}
 					}
 				}else{
-					requestNos.add(Integer.parseInt(no));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("requestnos")))!=0) {
+						requestNos.add(Integer.parseInt(no));
+					}
 				}
 				int result1 = 1;
 				//리쿼스트 답변
