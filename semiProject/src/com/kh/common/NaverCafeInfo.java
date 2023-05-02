@@ -9,12 +9,12 @@ import java.nio.charset.StandardCharsets;
 
 public class NaverCafeInfo {
 	public static CafeInfo NaverSearch(String search) {
-		String input = search;
-        String encoded = URLEncoder.encode(input, StandardCharsets.UTF_8);
-		String urlString = "https://map.naver.com/v5/api/search?caller=pcweb&query="+encoded+"&type=all&searchCoord=126.92596417903701;37.57652970000011&page=1&displayCount=20&isPlaceRecommendationReplace=true&lang=ko";
 		CafeInfo ci = new CafeInfo();
        
         try {
+        	String input = search;
+        	String encoded = URLEncoder.encode(input, "UTF-8");
+        	String urlString = "https://map.naver.com/v5/api/search?caller=pcweb&query="+encoded+"&type=all&searchCoord=126.92596417903701;37.57652970000011&page=1&displayCount=20&isPlaceRecommendationReplace=true&lang=ko";
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -29,8 +29,8 @@ public class NaverCafeInfo {
                 }
                 in.close();
                 String responseData = response.toString();
+                if(responseData.indexOf("businessHours\":\"")>=0) {
                 int operationInfoStartIndex = responseData.indexOf("businessHours\":\"") + "businessHours\":\"".length();
-
 	             int operationEndIndex = responseData.indexOf("\"", operationInfoStartIndex);
 	             String operationInfo = responseData.substring(operationInfoStartIndex, operationEndIndex);
 	             operationInfo = operationInfo.replace("\\n", "\n").replace("\\t", "\t");
@@ -71,13 +71,15 @@ public class NaverCafeInfo {
 		            	 }
 	            	 }
 	             }
+                }
+                if(responseData.indexOf("tel\":\"")>=0) {
 	             int phoneInfoStartIndex = responseData.indexOf("tel\":\"") + "tel\":\"".length();
 
 	             int phoneEndIndex = responseData.indexOf("\"", phoneInfoStartIndex);
 	             String phoneInfo = responseData.substring(phoneInfoStartIndex, phoneEndIndex);
 	             phoneInfo = phoneInfo.replace("\\n", "\n").replace("\\t", "\t");
 	             ci.setPhone(phoneInfo);
-	             
+                }
 	             
             } else {
                 System.out.println("Error: " + responseCode + " - " + connection.getResponseMessage());

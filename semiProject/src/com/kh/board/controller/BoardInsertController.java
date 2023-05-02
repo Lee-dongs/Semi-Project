@@ -62,6 +62,7 @@ public class BoardInsertController extends HttpServlet {
 			String title = mr.getParameter("title");
 			String content = mr.getParameter("content");
 			String boardWriter = mr.getParameter("userNo");
+			System.out.println(content);
 			Board b = new Board();
 			b.setLocationCode(location);
 			b.setTitle(title);

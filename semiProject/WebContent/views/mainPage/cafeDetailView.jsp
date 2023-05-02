@@ -1105,7 +1105,7 @@
     				if(count == 1){
         				str = "<hr>" + "<p ='review'>리뷰 ("+<%=cafe.getReplyCount() %>+")</p>";
     				}
-    				var checkBtn = false;
+    				var checkBtn = false; //더보기 버튼 삭제 유무 변수
 								
     				var userId;
     				for(var i=4*count - 4; i<count*4; i++){
@@ -1132,9 +1132,9 @@
     						+"</div>"
     						+"<hr>"
     				}
-    				if(list.length > count*4-4){
-    					str += "<button class='moreBtn' onclick='moreReply("+ count +")'>더보기</button>" //더보기 버튼
-    				}
+    				
+    				str += "<button class='moreBtn' onclick='moreReply("+ count +")'>더보기</button>" //더보기 버튼
+    				
     				if(count == 1){ //count가 1이라면(처음 페이지 접속시) .html로 댓글 띄워줌
     					$("#replyDiv").html(str);
     				}else{ //아니면 .append로 댓글 이어 붙임 / .remove로 더보기 버튼도 삭제

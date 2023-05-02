@@ -31,7 +31,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자유게시판</title>
+    <title>Document</title>
 </head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -48,14 +48,13 @@
     .list-area{
         width: 1000px;
         margin: auto;
-        
+        border-top: 1px solid black;
         min-height:100%;
         position :relative;
     }
     .list-area>thead>tr, .list-area>tbody>tr{
         text-align: center;
         border-bottom: 1px solid rgb(189, 187, 187);
-        height: 50px;
     }
     .list-area>thead{
         font-size: 15px;    
@@ -81,7 +80,7 @@
         margin-left: 10px;
         font-size:16px;
     }
-    .list-area>tbody>tr:hover{
+    tbody>tr:hover{
         background-color: rgb(243, 242, 242);
         cursor: pointer;
     }
@@ -123,16 +122,14 @@
             margin:auto;
             text-align:center;
         }
-    
-	
+
 </style>
 <body>
 <%@ include file="../common/menubar.jsp" %>
-
     <div class="list">
         <br>
-        <h2 align="center">자유게시판</h2>
-        <br><br>
+        <h2 align="center">자유 게시판</h2>
+        <br>
         <table class="list-area">
             <thead>
                 <tr>

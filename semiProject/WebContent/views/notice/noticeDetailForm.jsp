@@ -33,7 +33,7 @@
         	width:1050px;
     		height: 740px;
 	    	padding:10px;
-	    	background-color: rgb(245, 228, 206); 
+	    	background-color: rgb(246, 218, 182); 
 	    	border-radius: 30px;	
 	    	
         }        

@@ -398,7 +398,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th rowspan="4">
+                                    <th rowspan="5">
                                         이미지:
                                     </th>
                                     <td colspan="2" style="width:75%;">
@@ -418,6 +418,11 @@
                                 <tr>
                                     <td colspan="2" style="width:75%;">
                                         <input type="file" name="image3-3" id="image3-4" style="width:100%;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width:75%;">
+                                        <input type="file" name="image3-4" id="image3-5" style="width:100%;">
                                     </td>
                                 </tr>
                                 <tr>
@@ -454,12 +459,12 @@
         		}
             });
 			$("#getrequest").click(function(){
-				var nos = $("#no2-2").val();
-				var ats = $("#no2-3").val();
+				var nos = $("#2-2").val();
+				var ats = $("#2-3").val();
 				var address = $("#address2").text();
                 var cafename = $("#cafename2").text();
                 var phone = $("#phone2").text();
-               
+                
                 $("#requestnos").val(nos);
                 $("#atnos").val(ats);
                 $("#address3").val(address);
@@ -483,7 +488,7 @@
                 			$("#menu3-"+i).val(list[0][i].menu);
                 			$("#price3-"+i).val(list[0][i].price);
                 		}
-                		
+                	
                 	},
                 	error: function(){
                 		console.log("통신 실패했습니다.");
