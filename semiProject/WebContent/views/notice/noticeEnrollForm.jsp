@@ -6,12 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-        .suel{
-             width: 1100px;
+       .suel{
+            width: 1100px;
         	height: 1000px;
         	margin: auto;
         	min-height:100%;
         	position :relative;
+        	
         	
         }
         .suel>h2{

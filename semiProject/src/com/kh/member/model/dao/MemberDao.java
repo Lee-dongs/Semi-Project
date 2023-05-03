@@ -74,10 +74,9 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, m.getUserNo());
-			pstmt.setString(2, at.getOriginName());
-			pstmt.setString(3, at.getChangeName());
-			pstmt.setString(4, at.getFilePath());
+			pstmt.setString(1, at.getOriginName());
+			pstmt.setString(2, at.getChangeName());
+			pstmt.setString(3, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
 			
@@ -206,6 +205,33 @@ public class MemberDao {
 		}
 
 		return at;
+	}
+
+	// 로그인 한 상태에서 프로필 사진 첨부
+	public int insertAttachment2(Connection conn, Attachment newProfileAt, Member loginUser) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment2");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, loginUser.getUserNo());
+			pstmt.setString(2, newProfileAt.getOriginName());
+			pstmt.setString(3, newProfileAt.getChangeName());
+			pstmt.setString(4, newProfileAt.getFilePath());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 	// 기존프로필사진 지우고 새로운 파일로 업데이트하는 메소드
 	public int updateAttachment(Connection conn, Attachment newProfileAt) {
@@ -722,12 +748,26 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, userEmail);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, userEmail);
 			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next() && rset.getString("USER_NAME").equals(userName)) {
-				m = new Member(rset.getString("USER_ID"));
+			if(rset.next()) {
+				m = new Member(rset.getInt("USER_NO")
+						, rset.getString("USER_ID")
+						, rset.getString("USER_PWD")
+						, rset.getString("USER_NAME")
+						, rset.getString("PHONE")
+						, rset.getString("EMAIL")
+						, rset.getString("ADDRESS")
+						, rset.getString("BIRTH")
+						, rset.getInt("REPORT")
+						, rset.getDate("ENROLL_DATE")
+						, rset.getDate("MODIFY_DATE")
+						, rset.getString("STATUS")
+						, rset.getString("KAKAO"));	
+
 			}
 			
 		} catch (SQLException e) {
@@ -739,6 +779,37 @@ public class MemberDao {
 		}
 		return m;
 	}
+
+	// 비번찾기 - 회원정보 가져오기
+	public int findUserPwd(Connection conn, String userId, String userEmail) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findUserPwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userEmail);
+			pstmt.setString(2, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return count;
+	}
+
 	// 비밀번호 찾기 - 랜덤으로 생성한 새로운 비밀번호로 변경 메소드
 	public int updatePwd(Connection conn, String userId, String newPwd) {
 		
@@ -787,6 +858,8 @@ public class MemberDao {
 		}
 		return count;
 	}
+	
+	
 	
 
 }
