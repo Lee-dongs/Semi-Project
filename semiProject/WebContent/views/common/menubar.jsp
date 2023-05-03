@@ -11,6 +11,7 @@
     	Attachment profileAt = (Attachment)session.getAttribute("profileAt");
 
     	String alertMsg = (String)session.getAttribute("alertMsg");
+    	
 
     %>
 <!DOCTYPE html>
@@ -66,8 +67,7 @@
             width:100%;
         }
         #header{
-        	background-color: rgba(238, 231, 168, 0.565);
-        	
+        	background-color: #FFDC7C;
             height: 80%;
         }
         #menubar{
@@ -84,6 +84,7 @@
         }
         #header_2{
             width: 60%;
+            margin: auto;
         }
         #header_3{
             width: 20%;
@@ -95,6 +96,13 @@
             text-decoration: none;
             color: black;
             font-size: 13px;
+        }
+        #header_2 #logo-img{
+        	display: block;
+        	margin: auto;
+        	margin-top: 40px;
+        	height : 150px; 
+        	width : 350px;
         }
         /*================ menubar ================*/
         #navi{
@@ -159,16 +167,18 @@
             position: relative;
         }
         #header_3 #login-btn{
-           width: 150px;
-           height: 30px; 
-           position: absolute;
-           margin: auto;
-           top: 0;
-           bottom: 0;
-           left: 0;
-           right: 0;
+           	width: 150px;
+	        height: 30px; 
+	        position: absolute;
+         	right: 0;
+         	margin: 10px 10px;
         }
-        #header_3 #login-btn>button{
+        #login-btn>button{
+        	background-color: #FFDC7C;
+        	border: none;
+        	color: #006699;
+        }
+        #header_3 #submit-btn{
             width: 100%;
             height: 100%;
             line-height: 10px;
@@ -190,7 +200,7 @@
         }
         #login-modal #login-table>tbody button{
         	height: 100%;
-        	width: 65%;
+        	width: 100%;
         }
         #login-modal .modal-footer a{
             text-decoration: none;
@@ -205,17 +215,17 @@
         
        /* ================ 회원정보카드 ================ */
         .info-card{
-        width: 90%;
-        height: 60%;
-        border: 2px solid #6DA292;
-        border-radius: 5%;
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
+	        width: 90%;
+	        height: 60%;
+	        border: 2px solid #6DA292;
+	        border-radius: 5%;
+	        box-sizing: border-box;
+	        position: absolute;
+	        top: 0;
+	        bottom: 0;
+	        left: 0;
+	        right: 0;
+	        margin: auto;
 	    }
 	    #info-table{
 	        padding: 10px 5px;
@@ -271,7 +281,19 @@
 		    overflow: hidden;
 		    border: 0;
 		}
-	 
+	 	/*프로필사진*/
+	 	.box{
+	 		width: 100px;
+		    height: 100px; 
+		    border-radius: 70%;
+		    overflow: hidden;
+	 	}
+	 	#profileImg{
+	 		width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    border: 0;
+	 	}
 	    
     </style>
 </head>
@@ -304,17 +326,18 @@
 
     <div class="menubar-outer">
         <div id="header">
-            <div id="header_1"></div>
-            <div id="header_2" >
+            <div id="header_1" style="border: none">
+            </div>
+            <div id="header_2" style="border: none">
 	            <a href="http://localhost:8888/semiProject/">
-	             <img alt="" src="resources/images/카공이미지.png" height="230" width="700">
+	             <img id="logo-img" src="resources/images/로고파랑.png" >
 	            </a>
             </div>
-            <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
+            <div id="header_3" style="border: none"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
          <%if(loginUser == null){ %>
  
-            <div id="login-btn">
-            	<button type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
+            <div id="login-btn" style="border: none">
+            	<button type="button" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
           	</div>
                
             <div class="modal" id="login-modal">
@@ -322,7 +345,7 @@
             		<div class="modal-content">
   
             <div class="modal-header">
-            	<p class="modal-title" id="page-title">우리사이트이름</p>
+            	<img src="resources/images/로고노랑.png" width="300" height="100">
             </div>
     
   
@@ -343,7 +366,7 @@
                             <tr><td height="20"> </td></tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr width="300" height="45">
                                 <td colspan="2"><button type="submit" id="submit-btn"class="btn btn-success">로그인</button></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
@@ -358,19 +381,26 @@
 	                	<input type="hidden" name="birthday">
 	                </form>
 	                <!-- 네이버 로그인 -->
-  					 <%
-				    String clientId = "aIxQUJI0DPZGmIDYZ94e";//애플리케이션 클라이언트 아이디값";
-				    String redirectURI = URLEncoder.encode("http://localhost:8888/semiProject/", "UTF-8");
-				    SecureRandom random = new SecureRandom();
-				    String state = new BigInteger(130, random).toString();
-				    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-				    apiURL += "&client_id=" + clientId;
-				    apiURL += "&redirect_uri=" + redirectURI;
-				    apiURL += "&state=" + state;
-				    session.setAttribute("state", state);
+	                 <!-- 네이버 로그인 버튼 노출 영역 -->
+					  	<div id="naver_id_login" style="display:none"></div>
+					 <!-- //네이버 로그인 버튼 노출 영역 -->
+  					<script>
+					  <%
+					  	String clientId = "aIxQUJI0DPZGmIDYZ94e";//애플리케이션 클라이언트 아이디값";
+					    String redirectURI = URLEncoder.encode("http://localhost:8888/semiProject/naverLogin.me", "UTF-8");
+					    SecureRandom random = new SecureRandom();
+					    String state = new BigInteger(130, random).toString();
+					    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+					    apiURL += "&client_id=" + clientId;
+					    apiURL += "&redirect_uri=" + redirectURI;
+					    apiURL += "&state=" + state;
+					    session.setAttribute("state", state);	
+					    
 					 %>
-					  <a href="<%=contextPath%>/naverLogin.me"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
-					<!-- 네이버 로그인 -->
+					
+					 </script>
+					 
+					
             </div>
     
  
@@ -380,7 +410,7 @@
                 <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
             </div>
             	<br>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal()">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
             
         	</div>
         </div>
@@ -406,12 +436,15 @@
 						<%}else{ %>
 						<!-- 첨부파일이 있는 경우 -->
 						<td rowspan="2">
-							<img src="<%=contextPath + profileAt.getFilePath() + '/' + profileAt.getChangeName()%>" width="120" height="100" 
-								id="profileImg"  data-toggle="modal" data-target="#profile-modal"  style="cursor:pointer">
+							<div class="box">
+								<img src="<%=contextPath + profileAt.getFilePath() + '/' + profileAt.getChangeName()%>" 
+									id="profileImg"  data-toggle="modal" data-target="#profile-modal"  style="cursor:pointer">
+							</div>
 						</td>
 						<%} %>
 						<td id="managerPage">
-                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" style="display:none"></td>
+                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" 
+                            	style="display:none"></td>
 					</tr>
                     <tr>
                         <td id="myPage">
@@ -441,7 +474,7 @@
 	     	 				<div class="filebox">
 							    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
 							    <label for="file">파일찾기</label> 
-							    <input type="file" id="file" onchange="loadImg(this);">
+							    <input type="file" id="file" name="updateProfile" onchange="loadImg(this);">
 							</div>
 	     	 			
 	     	 			<input type="hidden" name="fileNo" value="<%=profileAt.getFileNo() %>">

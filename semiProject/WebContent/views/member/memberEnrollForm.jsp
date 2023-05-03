@@ -249,14 +249,16 @@
     <script>
     // 모든 필수입력사항 입력하면 submit가능
     function checkAll(){
-    	if($("#userName") == "" || $("#userEmail").attr("readonly",false)
-    		|| $('#enroll-form input[name=userPwd]').attr("readonly",false)){
+    	if($("#userName") != "" && $("#userEmail").attr("readonly",true)
+    		&& $('#enroll-form input[name=userPwd]').attr("readonly",true)){
+    		$("#enroll-form input[type=submit]").removeAttr("disabled");
+    		return true;
+    	}else{
 	    		alert("이메일 인증 및 필수입력사항을 모두 입력해주세요");
 	    		$("#checkAll").text("*표시는 필수입력사항입니다.");
 	    		$("#checkAll").css("color","red");
 	    		return false;
     	}    	
-    $("#enroll-form input[type=submit]").removeAttr("disabled");
 	     };
     
     
@@ -264,6 +266,7 @@
 	 $(".enroll>#userPwd").click(function(){
 		if (!$("#enroll-form input[name=userId]").prop("readonly")) {
 		 	window.alert("아이디 중복확인을 먼저 진행해주세요.");
+		 	$("#enroll-form input[name=userId]").focus();
 		}
 	  });
     
@@ -335,13 +338,14 @@
 			$("#checkId").css("color", "green");
 		}
 	});
+    
     // 비밀번호 유효성검사
 	$('#enroll-form input[name=userPwd]').keyup(function(){
 		
 		var regExp = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
 		var userPwd = $(this).val();
 		
-		if(!regExp.test(userPwd)){ // 아이디가 정규식을 만족하지 못하면
+		if(!regExp.test(userPwd)){ // 비밀번호가 정규식을 만족하지 못하면
 			$('#checkPwd').html("비밀번호 형식을 확인해주세요");
 			$("#checkPwd").css("color", "red");
 		} else{

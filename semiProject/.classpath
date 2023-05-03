@@ -12,9 +12,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.8.9.jar"/>
-	<classpathentry kind="lib" path="D:/dev/cos-22.o5/lib/cos.jar"/>
 	<classpathentry kind="lib" path="D:/dev/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="D:/dev/activation.jar"/>
 	<classpathentry kind="lib" path="D:/dev/javax.mail.jar"/>
+	<classpathentry kind="lib" path="D:/dev/cos-22.05/lib/cos.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

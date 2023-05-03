@@ -1,6 +1,7 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,20 +42,27 @@ public class FindMemberIdControllerAjax extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// 비동기 : 전달받은 이메일로 아이디 발송하기
 		String userName = request.getParameter("userName");
 		String userEmail = request.getParameter("userEmail");
 		String result = ""; // 성공 실패 여부 보낼 매개변수
-		
 		// 이메일로 유저를 검색해서, 사용자가 입력한 이름과 일치한다면 이메일, 아니면 result에 'N'보내기
+		
+		ServletContext context = getServletContext();
+        InputStream inputStream = context.getResourceAsStream("/WEB-INF/classes/sql/smtp/smtp.properties");
+        // 네이버 이메일 전송 사용자 정보 담아둔 property파일
+        Properties smtp = new Properties();
+        smtp.load(inputStream);
 		
 		Member m = new MemberService().findUserId(userName, userEmail);
 		
 		if (m != null) { // 정보가 일치하는 회원이 있으면 메일 발송
 			
-			String host = "smtp.naver.com";
-			int port = 465;
-			String from = "yoojin930521@naver.com"; // 보내는 사람
-			String password = "kimlea93!";
+			String host = smtp.getProperty("host");
+			int port = Integer.parseInt(smtp.getProperty("port"));
+			String from = smtp.getProperty("from"); // 보내는 사람
+			String password = smtp.getProperty("password");
+			
 			String title = "5조에서 보내는 회원님의 아이디찾기 결과입니다.";
 			String content = "[아이디]" + m.getUserId() + " 입니다.";
 
@@ -64,7 +73,7 @@ public class FindMemberIdControllerAjax extends HttpServlet {
 			prop.put("mail.smtp.ssl.enable", "true");
 			prop.put("mail.smtp.ssl.trust", host);
 
-			Authenticator auth = new SMTPAuthenticator("yoojin930521", password); // 내 아이디랑 비밀번호
+			Authenticator auth = new SMTPAuthenticator(smtp.getProperty("id"), password); // 내 아이디랑 비밀번호
 			Session session = Session.getDefaultInstance(prop, auth);
 			MimeMessage message = new MimeMessage(session);
 

@@ -565,11 +565,11 @@
         $(function(){
         	$('input[name=password]').keyup(function(){
         		
-        		var regExp = /^[a-zA-z0-9*!@#$%^&]{8,15}$/;
+        		var regExp = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
         		var userPwd = $(this).val();
         		console.log(userPwd);
         		$("#update1").css({"display":""});
-        		if(!regExp.test(userPwd)){ // 아이디가 정규식을 만족하지 못하면
+        		if(!regExp.test(userPwd)){ // 비밀번호가 정규식을 만족하지 못하면
         			$('#chk1').html("비밀번호 형식을 확인해주세요");
         			$("#chk1").css("color", "red");
         			$("#submit").attr("disabled","true");

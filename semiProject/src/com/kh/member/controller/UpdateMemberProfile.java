@@ -60,7 +60,6 @@ public class UpdateMemberProfile extends HttpServlet {
 			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 			Attachment profileAt = (Attachment)request.getSession().getAttribute("profileAt");
 			
-			
 			// 새로 전달된 사진이 있는 경우
 			Attachment newProfileAt = null;
 			if(multiRequest.getOriginalFileName("updateProfile") != null) { // 새로 첨부하면
