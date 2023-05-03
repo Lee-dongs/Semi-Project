@@ -163,4 +163,10 @@
 	    END IF;
 	END;
 </entry>
+
+<entry key="checkReview">
+	SELECT *
+	FROM CAFE_REPLY
+	WHERE CAFE_REPLY_WRITER = ?
+</entry>
 </properties>

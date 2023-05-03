@@ -341,6 +341,7 @@
             height: 400px;
             border: 1px solid blue;
             margin-left: 250px;
+            z-index : -1;
         }
 
         #map, #bodyContent{

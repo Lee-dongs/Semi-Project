@@ -529,6 +529,7 @@
 	    			  +"</div>"
 	    			  +"<br>";
 	        		$(".faq-area tbody>#tr2").html(fff);
+	        		location.reload();
         		}
         	})
         }

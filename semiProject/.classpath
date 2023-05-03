@@ -8,7 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/한얼/Downloads/jsoup-1.15.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/한얼/Downloads/activation.jar"/>
 	<classpathentry kind="lib" path="C:/Users/한얼/Downloads/javax.mail.jar"/>
 	<classpathentry kind="lib" path="C:/div/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/div/ojdbc6.jar"/>
