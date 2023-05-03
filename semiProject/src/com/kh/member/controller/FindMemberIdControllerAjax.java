@@ -45,7 +45,7 @@ public class FindMemberIdControllerAjax extends HttpServlet {
 		// 비동기 : 전달받은 이메일로 아이디 발송하기
 		String userName = request.getParameter("userName");
 		String userEmail = request.getParameter("userEmail");
-		String result = ""; // 성공 실패 여부 보낼 매개변수
+		
 		// 이메일로 유저를 검색해서, 사용자가 입력한 이름과 일치한다면 이메일, 아니면 result에 'N'보내기
 		
 		ServletContext context = getServletContext();
@@ -53,9 +53,11 @@ public class FindMemberIdControllerAjax extends HttpServlet {
         // 네이버 이메일 전송 사용자 정보 담아둔 property파일
         Properties smtp = new Properties();
         smtp.load(inputStream);
-		
+	
+        // 입력한 정보 일치하는 회원 있는지 확인
 		Member m = new MemberService().findUserId(userName, userEmail);
-		
+
+		String result = ""; // 성공 실패 여부 보낼 매개변수
 		if (m != null) { // 정보가 일치하는 회원이 있으면 메일 발송
 			
 			String host = smtp.getProperty("host");
