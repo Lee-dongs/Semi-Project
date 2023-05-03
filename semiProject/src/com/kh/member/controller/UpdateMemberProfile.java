@@ -60,6 +60,9 @@ public class UpdateMemberProfile extends HttpServlet {
 			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 			Attachment profileAt = (Attachment)request.getSession().getAttribute("profileAt");
 			
+			System.out.println("loginUser" + loginUser);
+			System.out.println("profileAt" + profileAt);
+			
 			// 새로 전달된 사진이 있는 경우
 			Attachment newProfileAt = null;
 			if(multiRequest.getOriginalFileName("updateProfile") != null) { // 새로 첨부하면
@@ -81,7 +84,7 @@ public class UpdateMemberProfile extends HttpServlet {
 					// 회원번호로 새로 등록해주기
 					newProfileAt.setRefBno(loginUser.getUserNo());
 				}
-				
+				System.out.println("newProfileAt" + newProfileAt);
 				int result = new MemberService().updateAttachment(loginUser, newProfileAt); // 프로필 삽입 또는 업데이트
 				
 				response.setContentType("text/html; charset=UTF-8" );
