@@ -35,13 +35,12 @@ public class BoardDeleteController extends HttpServlet {
 		String savePath = request.getSession().getServletContext().getRealPath("/resources/board_files/");
 		String changeName = String.valueOf(request.getParameter("changeName"));
 		
-		
 		if(result>0 && changeName !=null) {
 			new File(savePath+changeName).delete();
 			request.getSession().setAttribute("alertMsg", "게시글이 삭제되었습니다.");
-			response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1");
+			response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1&sort=1");
+			
 		}
-		
 	}
 
 	/**

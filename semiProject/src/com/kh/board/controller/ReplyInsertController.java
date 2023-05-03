@@ -41,10 +41,13 @@ public class ReplyInsertController extends HttpServlet {
 		String content = request.getParameter("content");
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
+		int result = 0;
+		if(content.length()!=0) {
+			result = new BoardService().replyinsert(bno, content, userNo);
+			response.setContentType("json/application; charset=UTF-8");
+			response.getWriter().print(result);
+		}
 		
-		int result = new BoardService().replyinsert(bno, content, userNo);
-		response.setContentType("json/application; charset=UTF-8");
-		response.getWriter().print(result);
 	}
 
 }

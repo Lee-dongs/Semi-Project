@@ -33,7 +33,6 @@ public class BoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		int listCount; //현재 총 게시글 개수
 		int currentPage; //현재페이지
 		int pageLimit; // 페이지 하단에 보여질 페이징바의 페이지 최대개수
@@ -59,19 +58,14 @@ public class BoardListController extends HttpServlet {
 		if(endPage>maxPage) {
 			endPage = maxPage;
 		}
-		
 		pageInfo pi = new pageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		
 		ArrayList<Board> list = new ArrayList<Board>();
-		
 		int sort = Integer.parseInt(request.getParameter("sort"));
-		
 		if(sort==1) {
 			list = new BoardService().selectList(pi);
 		}else if(sort==2) {
 			list = new BoardService().mostViewList(pi);
 		}
-		
 		request.setAttribute("sort", sort);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
