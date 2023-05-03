@@ -56,7 +56,7 @@ public class CafeUpdateController extends HttpServlet {
 
 		if(ServletFileUpload.isMultipartContent(request)) {	
 			int maxSize = 10*1024*1024;
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/board_files/");
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/cafe_files/");
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
 			int[] cafeFileNo = Stream.of(multiRequest.getParameterValues("cafeFileNo")).mapToInt(Integer::parseInt).toArray();
@@ -69,7 +69,7 @@ public class CafeUpdateController extends HttpServlet {
 					CafeAttachment cafeAttachment = new CafeAttachment();
 					cafeAttachment.setOriginName(multiRequest.getOriginalFileName(key));
 					cafeAttachment.setChangeName(multiRequest.getFilesystemName(key));
-					cafeAttachment.setFilePath("resources/board_files/");
+					cafeAttachment.setFilePath("resources/cafe_files/");
 					cafeAttachment.setCafeFileNo(cafeFileNo[i-1]);
 					
 					if(i==1) {
@@ -130,7 +130,7 @@ public class CafeUpdateController extends HttpServlet {
 	
 	public String setData(String str) { //null처리
 		
-		if(str == null) {
+		if(str == null || str.equals("")) {
 			return "";
 		}else {
 			return str;

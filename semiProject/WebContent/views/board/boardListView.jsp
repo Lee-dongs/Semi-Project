@@ -42,6 +42,9 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	.list{
+    	width : 1200px;
+    }
     .list-area{
         width: 1000px;
         margin: auto;
@@ -77,7 +80,7 @@
         margin-left: 10px;
         font-size:16px;
     }
-    .list-area>tbody>tr:hover{
+    tbody>tr:hover{
         background-color: rgb(243, 242, 242);
         cursor: pointer;
     }
@@ -119,7 +122,7 @@
             margin:auto;
             text-align:center;
         }
-	
+
 </style>
 <body>
 <%@ include file="../common/menubar.jsp" %>

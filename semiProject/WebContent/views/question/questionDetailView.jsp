@@ -62,6 +62,7 @@
 	   .reply-area>tbody{
 	   	height:200px;
 	   }
+	   #qContent{white-space: pre;}
 	   
 	  
 </style>
@@ -91,7 +92,7 @@
                          <tr>
                          	
                          	<th>내용</th>
-                            <td colspan="3"><p style="height:500px"><%=qq.getContent() %></p></td>
+                            <td colspan="3"><p style="height:500px,text-align:left;" id="qContent"><%=qq.getContent() %></p></td>
                          </tr>
                          
                       </thead>
@@ -246,7 +247,7 @@
 					+'</button>'
 					+"</td>"
     	            +"</tr>";
-    	$("#reply-area tbody").html(updateReply);
+    	$(".reply-area tbody").html(updateReply);
     	            
     	            
     };

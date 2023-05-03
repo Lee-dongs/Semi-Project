@@ -299,7 +299,7 @@
     	}
     		
     	
-    	
+    	var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
     	function nextPage(){ //다음 페이지 처리
     		$("#prevDiv button").attr("disabled", false);
     		$.ajax({
@@ -308,9 +308,11 @@
     				pageCount : $(".currentPage").val(),  //페이지 정보를 전달
     			},
     			type : "get",
+    			async : false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
-    				var list = newCafeList(); //화면에 새로 보여줄 카페 리스트 가져오기
+					
+
 					var newPath; //카페 사진 가져올 경로
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
@@ -334,20 +336,24 @@
       						  +"</div>"
     					}else{
     						$("#nextDiv button").attr("disabled", true); //더이상 보여줄 리스트가 없으면 다음 페이지 disabled
+    						break;
     					}
     				}
     				if(list[0].length == result*4){
     					$("#nextDiv button").attr("disabled", true); //리스트의 크기가 4배수면 다음 페이지 disabled
     				}
     				$("#cafeListDiv").html(str);
-    				
 					var k = 0;
     				for(var j=result*4-4; j<result*4; j++){ //별점 사이즈 조정하기(* .html로 새로이 갱신한 뒤에 해야함)
-    					var size = list[0][j].score * 20 + 1.5;
-    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
-    					k = k+1;
+    					if(list[0][j] != null){
+    						var size = list[0][j].score * 20 + 1.5;
+        					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+        					k = k+1;
+    					}else{
+    						break;
+    					}
+    					
     				}
-    				
     				$(".cafeImgDiv>img").click(function(){ //이미지 클릭하면 address값에 맞는 페이지 띄워줌
     					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;
@@ -369,7 +375,7 @@
     				if(result == 1){
     					$("#prevDiv button").attr("disabled", true);
     				}
-    				var list = newCafeList();
+
 					var newPath;
     				var str="";
     				for(var i=result*4-4; i<result*4; i++){
@@ -414,7 +420,7 @@
     			url:"newList.cf",
     			data:{
     				location : "<%=location%>",
-    				status : "<%=status%>"
+    				status : "<%=status%>" // 현재 평점순인지 리뷰순인지 기본인지 체크 할 상태값
     			},
     			type : "get",
     			async: false, //순서를 보장해야하기 때문에 동기식으로 처리

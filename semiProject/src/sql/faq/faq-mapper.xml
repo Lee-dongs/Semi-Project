@@ -18,4 +18,10 @@
 	WHERE FAQ_NO = ?
 	AND STATUS = 'Y'
 </entry>
+<entry key="updateFAQ">
+	UPDATE FAQ
+	SET FAQ_CONTENT = ?
+	WHERE FAQ_NO = ?
+	AND STATUS = 'Y'
+</entry>
 </properties>

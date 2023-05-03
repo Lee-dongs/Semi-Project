@@ -44,6 +44,8 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    
+    
 }
         body{
         /*
@@ -120,7 +122,7 @@
             margin-top: 2px;
         }  
         #navi a{
-        	font-family: 'SDSamliphopangche_Outline';
+        	
             text-decoration: none;
             color: white;            
             font-size: 18px;
@@ -694,4 +696,3 @@
 	
 	</script>
 </body>
-</html>

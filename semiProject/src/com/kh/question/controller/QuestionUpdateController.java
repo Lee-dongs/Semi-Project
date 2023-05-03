@@ -58,7 +58,7 @@ public class QuestionUpdateController extends HttpServlet {
 		
 		if(result>0) {
 						
-			response.sendRedirect(request.getContextPath()+"/list.fo?currentPage=1");
+			response.sendRedirect(request.getContextPath()+"/detail.qo?qqo="+questionNo);
 		}else {
 			request.setAttribute("errorMsg", "문의글 수정 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

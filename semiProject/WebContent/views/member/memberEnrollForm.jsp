@@ -14,6 +14,7 @@
         .enrollWrap{
             font-family: 'Noto Sans KR', sans-serif;
             font-size: 14px;
+            background-color: #fffcf6;
             line-height: 2;
             margin: 0;
         }
@@ -158,7 +159,8 @@
             <div>
                 <input type="tel" class="form-control" name="phone" placeholder="전화번호는 -포함하여 입력">
             </div>
-        </div>
+        </div><br>
+        
         
         <div class="enroll">
         	<b>주소</b>
@@ -229,7 +231,7 @@
        <div class="enroll">
             <b>프로필 사진</b>
             <div>
-                <input type="file" class="form-control" name="profile">
+                <input type="file" class="form-control" name="profile" placeholder="전화번호는 -포함하여 입력">
             </div>
         </div>
         
@@ -249,12 +251,17 @@
     <script>
     // 모든 필수입력사항 입력하면 submit가능
     function checkAll(){
+
     	if($("#userName") != "" && $("#userEmail").attr("readonly",true)
     		&& $('#enroll-form input[name=userPwd]').attr("readonly",true)){
     		$("#enroll-form input[type=submit]").removeAttr("disabled");
     		return true;
     	}else{
 	    		alert("이메일 인증 및 필수입력사항을 모두 입력해주세요");
+
+    	if($("#userName") == "" && $("#userEmail").attr("readonly",false)
+    		&& $('#enroll-form input[name=userPwd]').attr("readonly",false)){
+	    		alert("필수입력사항을 모두 입력해주세요");
 	    		$("#checkAll").text("*표시는 필수입력사항입니다.");
 	    		$("#checkAll").css("color","red");
 	    		return false;

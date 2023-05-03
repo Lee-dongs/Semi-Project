@@ -72,7 +72,7 @@ public class CafeRequestInsertController extends HttpServlet {
 				atRe = new CafeRequestAttachment();
 				atRe.setOriginName(multiRequest.getOriginalFileName("upfile")); 
 				atRe.setChangeName(multiRequest.getFilesystemName("upfile"));
-				atRe.setFilePath("/resources/cafeRequest_files");
+				atRe.setFilePath("/resources/cafeRequest_files/");
 			}
 			
 			int result = new CafeRequestService().insertCafeRequest(cafeRe, atRe);

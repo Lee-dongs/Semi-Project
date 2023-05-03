@@ -1,18 +1,14 @@
 package com.kh.cafeRequest.controller;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
 import com.kh.board.model.vo.Attachment;
 import com.kh.cafeRequest.model.service.CafeRequestService;
 import com.kh.cafeRequest.model.vo.Cafe;
@@ -21,14 +17,12 @@ import com.kh.cafeRequest.model.vo.CafeMenu;
 import com.kh.common.MyFileRenamePolicy;
 import com.kh.member.model.vo.Member;
 import com.oreilly.servlet.MultipartRequest;
-
 /**
  * Servlet implementation class CafeRequestManageController
  */
 @WebServlet("/manageCafe.co")
 public class CafeRequestManageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +30,6 @@ public class CafeRequestManageController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -86,7 +79,6 @@ public class CafeRequestManageController extends HttpServlet {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -94,7 +86,7 @@ public class CafeRequestManageController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10*1024*1024;
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/board_files/");
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/cafe_files/");
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize,"UTF-8",
 														new MyFileRenamePolicy());
 															
@@ -120,13 +112,13 @@ public class CafeRequestManageController extends HttpServlet {
 				
 				
 				ArrayList<CafeMenu> cmList = new ArrayList<>();
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					CafeMenu cm = new CafeMenu();
-					cm.setMenuName(multiRequest.getParameter("menu"+i));
-					if(multiRequest.getParameter("price"+i)!=null) {
-						cm.setCafePrice(Integer.parseInt(multiRequest.getParameter("price"+i)));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i)))!=0) {
+						cm.setMenuName(multiRequest.getParameter("menu"+i));
+						cm.setCafePrice(Integer.parseInt(setIntData(multiRequest.getParameter("price"+i))));
+						cmList.add(cm);
 					}
-					cmList.add(cm);
 				}
 				
 				
@@ -137,16 +129,16 @@ public class CafeRequestManageController extends HttpServlet {
 					cAt.setType(1);
 					cAt.setOriginName(multiRequest.getOriginalFileName("image3"));
 					cAt.setChangeName(multiRequest.getFilesystemName("image3"));
-					cAt.setFilePath("/resources/cafeRequest_files");
+					cAt.setFilePath("resources/cafe_files/");
 					acList.add(cAt);
 				}
-				for(int i=0; i<4;i++) {
+				for(int i=0; i<5;i++) {
 					if(multiRequest.getOriginalFileName("image3-"+i)!=null) {
 						cAt = new CafeAttachment();
 						cAt.setType(2);
 						cAt.setOriginName(multiRequest.getOriginalFileName("image3-"+i));
 						cAt.setChangeName(multiRequest.getFilesystemName("image3-"+i));
-						cAt.setFilePath("/resources/cafeRequest_files");
+						cAt.setFilePath("resources/cafe_files/");
 						acList.add(cAt);
 					}
 				}
@@ -161,12 +153,16 @@ public class CafeRequestManageController extends HttpServlet {
 				String content = multiRequest.getParameter("content3");
 				ArrayList<Integer> requestNos = new ArrayList();
 				if(no.contains(",")) {
-					String[] list = no.split(",");
-					for(int i=0; i<list.length;i++) {
-						requestNos.add(Integer.parseInt(list[i]));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("requestnos")))!=0) {
+						String[] list = no.split(",");
+						for(int i=0; i<list.length;i++) {
+							requestNos.add(Integer.parseInt(list[i]));
+						}
 					}
 				}else{
-					requestNos.add(Integer.parseInt(no));
+					if(Integer.parseInt(setIntData(multiRequest.getParameter("requestnos")))!=0) {
+						requestNos.add(Integer.parseInt(no));
+					}
 				}
 				int result1 = 1;
 				//리쿼스트 답변
@@ -179,7 +175,7 @@ public class CafeRequestManageController extends HttpServlet {
 				result1 *= new CafeRequestService().delectCafeRequest(requestNos);
 					
 				//첨부파일 삭제
-				if(multiRequest.getParameter("atnos")!=null) {
+				if(Integer.parseInt(setIntData(multiRequest.getParameter("atnos")))!=0) {
 					String attachnos = multiRequest.getParameter("atnos");
 					ArrayList<Integer> attachNos = new ArrayList();
 					if(attachnos.contains(",")) {
@@ -219,5 +215,12 @@ public class CafeRequestManageController extends HttpServlet {
 			}
 		}
 	}
-
+	public String setIntData(String str) {
+		
+		if(str == null || str.equals("")) {
+			return "0";
+		}else {
+			return str;
+		}
+	}
 }
