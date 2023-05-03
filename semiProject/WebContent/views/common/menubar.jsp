@@ -1,7 +1,9 @@
 <%@page import="com.kh.board.model.vo.Attachment"%>
 <%@page import="com.kh.member.model.vo.Member"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
     <%
     	String contextPath = request.getContextPath();
     
@@ -10,6 +12,7 @@
 
     	String alertMsg = (String)session.getAttribute("alertMsg");
     	
+
     %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +33,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- 네이버로그인 -->
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     
     <style>
          /*웹 폰트 CDN*/
@@ -39,6 +44,8 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    
+    
 }
         body{
         /*
@@ -51,24 +58,18 @@
             font-family: 'Noto Sans KR', sans-serif;
         }
         .menubar-outer{
-
-        
             width: 100%;
-
             height: 300px;
             margin: auto;
         }
         div{
-           
             box-sizing: border-box;
         }
         #header,#menubar{
-            //border: 1px solid black;
             width:100%;
         }
         #header{
-        	background-color: rgba(238, 231, 168, 0.565);
-        	
+        	background-color: #FFDC7C;
             height: 80%;
         }
         #menubar{
@@ -85,6 +86,7 @@
         }
         #header_2{
             width: 60%;
+            margin: auto;
         }
         #header_3{
             width: 20%;
@@ -96,6 +98,13 @@
             text-decoration: none;
             color: black;
             font-size: 13px;
+        }
+        #header_2 #logo-img{
+        	display: block;
+        	margin: auto;
+        	margin-top: 40px;
+        	height : 150px; 
+        	width : 350px;
         }
         /*================ menubar ================*/
         #navi{
@@ -113,7 +122,7 @@
             margin-top: 2px;
         }  
         #navi a{
-        	font-family: 'SDSamliphopangche_Outline';
+        	
             text-decoration: none;
             color: white;            
             font-size: 18px;
@@ -125,16 +134,13 @@
             border-style: solid;
             border-radius: 120px;
             background-color: #6DA292;
-
             margin-left: 30px;
             box-sizing: border-box;
             transform: scale(1);
         }
         #navi a:hover{
-
             color: white;
             font-size: 16px;
-
         }
         #navi>li>ul{
             list-style-type: none;
@@ -142,9 +148,7 @@
             display: none; 
         }
         #navi>li>ul a{
-
             font-size: 17px;
-
         }
         #navi>li>ul a:hover{
             font-size: 14px;
@@ -156,72 +160,74 @@
             display: block;
         }
         .menubar-outer .list{
-		width :70%;
-		margin :auto;
+			width :70%;
+			margin :auto;
 		}
 
-        /* ================ modal ================ */
+        /* ================ login-modal ================ */
         #header_3{
             position: relative;
         }
         #header_3 #login-btn{
-           width: 150px;
-           height: 30px; 
-           position: absolute;
-           margin: auto;
-           top: 0;
-           bottom: 0;
-           left: 0;
-           right: 0;
+           	width: 150px;
+	        height: 30px; 
+	        position: absolute;
+         	right: 0;
+         	margin: 10px 10px;
         }
-        #header_3 #login-btn>button{
+        #login-btn>button{
+        	background-color: #FFDC7C;
+        	border: none;
+        	color: #006699;
+        }
+        #header_3 #submit-btn{
             width: 100%;
             height: 100%;
             line-height: 10px;
             color: white;
         }
-        #header_3 .modal-title{
-        font-weight: 600;
-        color: rgb(220, 205, 35);
-        margin: auto;
+        #login-modal .modal-title{
+	        font-weight: 600;
+	        color: rgb(220, 205, 35);
+	        margin: auto;
         }
-        #header_3 #login-table{
+        #login-modal #login-table{
             margin: auto;
             height: 100%;
             width: 100%;
         }
-        #header_3 #login-table input{
+        #login-modal #login-table input{
             height: 100%;
             width: 100%;
         }
-        #header_3 #login-table>tbody button{
+        #login-modal #login-table>tbody button{
         	height: 100%;
-        	width: 65%;
+        	width: 100%;
         }
-        #header_3 .modal-footer a{
+        #login-modal .modal-footer a{
             text-decoration: none;
             color: black;
             font-size: 13px;
         }
-        #header_3 #page-title{
-        font-size: 30px;
-        font-family: 'SDSamliphopangche_Outline';
-        color: #6DA292;
+        #login-modal #page-title{
+	        font-size: 30px;
+	        font-family: 'SDSamliphopangche_Outline';
+	        color: #6DA292;
         }
         
        /* ================ 회원정보카드 ================ */
         .info-card{
-        width: 90%;
-        height: 60%;
-        border: 2px solid #6DA292;
-        border-radius: 5%;
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
+	        width: 90%;
+	        height: 60%;
+	        border: 2px solid #6DA292;
+	        border-radius: 5%;
+	        box-sizing: border-box;
+	        position: absolute;
+	        top: 0;
+	        bottom: 0;
+	        left: 0;
+	        right: 0;
+	        margin: auto;
 	    }
 	    #info-table{
 	        padding: 10px 5px;
@@ -242,7 +248,54 @@
 	    #info-table button{
 	    	text-align: right;
 	    }
-	 
+	    /*프로필사진, 프로필모달*/
+	   .filebox{
+	   		display: flex;
+	   		align-items: center;
+	   }
+	   .filebox .upload-name {
+	   		flex: 1;
+		    display: inline-block;
+		    height: 40px;
+		    padding: 0 10px;
+		    vertical-align: middle;
+		    border: 1px solid #dddddd;
+		    color: #999999;
+		}
+		
+		.filebox label {
+			padding: 5px 10px;
+		    color: #fff;
+		    background-color: #999999;
+		    cursor: pointer;
+		    height: 40px;
+		    margin: auto;
+		    font-size: 9px;
+		    line-height: 28px
+		    line-height: 10px;
+		   
+		}
+		.filebox input[type="file"] { /*원래 css 지우기*/
+		    position: absolute;
+		    width: 0;
+		    height: 0;
+		    padding: 0;
+		    overflow: hidden;
+		    border: 0;
+		}
+	 	/*프로필사진*/
+	 	.box{
+	 		width: 100px;
+		    height: 100px; 
+		    border-radius: 70%;
+		    overflow: hidden;
+	 	}
+	 	#profileImg{
+	 		width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    border: 0;
+	 	}
 	    
     </style>
 </head>
@@ -275,31 +328,29 @@
 
     <div class="menubar-outer">
         <div id="header">
-            <div id="header_1"></div>
-            <div id="header_2" >
-            <a href="http://localhost:8888/semiProject/">
-             <img alt="" src="resources/images/카공이미지.png" height="230" width="700">
-            </a>
+            <div id="header_1" style="border: none">
             </div>
-            <div id="header_3"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
+            <div id="header_2" style="border: none">
+	            <a href="http://localhost:8888/semiProject/">
+	             <img id="logo-img" src="resources/images/로고파랑.png" >
+	            </a>
+            </div>
+            <div id="header_3" style="border: none"><!--로그인모달영역 : 로그인전은 로그인버튼, 로그인 후 마이페이지 이동-->
          <%if(loginUser == null){ %>
-                    <!-- Button to Open the Modal -->
-                  <div id="login-btn">
-            <button type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
-            
-            
-               	</div>
-                <!-- The Modal -->
+ 
+            <div id="login-btn" style="border: none">
+            	<button type="button" data-toggle="modal" data-target="#login-modal" style="font-size:15px">로그인 / 회원가입</button>
+          	</div>
+               
             <div class="modal" id="login-modal">
-            <div class="modal-dialog">
-            <div class="modal-content">
+            	<div class="modal-dialog">
+            		<div class="modal-content">
   
-            <!-- Modal Header -->
             <div class="modal-header">
-            <p class="modal-title" id="page-title">우리사이트이름</p>
+            	<img src="resources/images/로고노랑.png" width="300" height="100">
             </div>
     
-            <!-- Modal body -->
+  
             <div class="modal-body">
                 <form action="<%=contextPath %>/login.me" method="post">
                     <table id="login-table">
@@ -317,32 +368,51 @@
                             <tr><td height="20"> </td></tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="2"><button type="submit" class="btn btn-success">로그인</button></td>
+                            <tr width="300" height="45">
+                                <td colspan="2"><button type="submit" id="submit-btn"class="btn btn-success">로그인</button></td>
                             </tr>
                             <tr><td height="20"> </td></tr>
                         </tbody>
                     </table>
                 </form>
                 
-                <img src="resources/images/kakao_login_medium_wide.png" id="kakao-login-btn" 
-                onclick="kakaoLogin();">
-                <form id="kakao-login-form" method="post" action="<%=contextPath %>/kakao-login.me">
-                	<input type="hidden" name="email">
-                	<input type="hidden" name="nickname">
-                	<input type="hidden" name="birthday">
-                </form>
+                <img src="resources/images/kakao_login_medium_wide.png" id="kakao-login-btn" onclick="kakaoLogin();">
+	               	 <form id="kakao-login-form" method="post" action="<%=contextPath %>/kakao-login.me">
+	                	<input type="hidden" name="email">
+	                	<input type="hidden" name="nickname">
+	                	<input type="hidden" name="birthday">
+	                </form>
+	                <!-- 네이버 로그인 -->
+	                 <!-- 네이버 로그인 버튼 노출 영역 -->
+					  	<div id="naver_id_login" style="display:none"></div>
+					 <!-- //네이버 로그인 버튼 노출 영역 -->
+  					<script>
+					  <%
+					  	String clientId = "aIxQUJI0DPZGmIDYZ94e";//애플리케이션 클라이언트 아이디값";
+					    String redirectURI = URLEncoder.encode("http://localhost:8888/semiProject/naverLogin.me", "UTF-8");
+					    SecureRandom random = new SecureRandom();
+					    String state = new BigInteger(130, random).toString();
+					    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+					    apiURL += "&client_id=" + clientId;
+					    apiURL += "&redirect_uri=" + redirectURI;
+					    apiURL += "&state=" + state;
+					    session.setAttribute("state", state);	
+					    
+					 %>
+					
+					 </script>
+					 
+					
             </div>
     
-            <!-- Modal footer -->
+ 
             <div class="modal-footer">
                 <div id="resetPwd"><a href="<%=contextPath%>/findUserInfo.me">비밀번호 찾기</a></div>|
                 <div id="findUserId"><a href="<%=contextPath%>/findUserInfo.me">아이디 찾기</a></div>|
                 <div id="enroll"><a href="<%=contextPath%>/enrollForm.me">회원가입</a></div> 
-            
             </div>
-            <br>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeModal()">Close</button>
+            	<br>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
             
         	</div>
         </div>
@@ -354,55 +424,183 @@
             <table id="info-table">
                 <thead>
                     <tr>
-                        <td id="showUserRank"><img src="resources/images/user.png"><small>개인회원</small></td>
-                        <td id="logout"colspan="2">
+                        <td id="showUserRank"><img src="resources/images/user.png"><small><%=loginUser.getUserName() %></small></td>
+                        <td id="logout">
                             <input type="button" class="logout btn btn-sm btn-outline-info" value="로그아웃&gt;"></td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td rowspan="3"><h5 style="color: steelblue;">안녕하세요</h5><%=loginUser.getUserName() %>님</td>
-                    </tr>
-                    <tr>
-                        <td id="managerPage">
-                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" style="display:none"></td>
-                    </tr>
+                	<tr>
+			            <%if(profileAt == null){ %>
+						<!-- 첨부파일이 없는 경우 -->
+						<td rowspan="2"><input type="button" id="upload-profile" class="btn btn-sm btn-outline-info" value="프로필등록&gt;" 
+							data-toggle="modal" data-target="#profile-modal"></td>
+						<%}else{ %>
+						<!-- 첨부파일이 있는 경우 -->
+						<td rowspan="2">
+							<div class="box">
+								<img src="<%=contextPath + profileAt.getFilePath() + '/' + profileAt.getChangeName()%>" 
+									id="profileImg"  data-toggle="modal" data-target="#profile-modal"  style="cursor:pointer">
+							</div>
+						</td>
+						<%} %>
+						<td id="managerPage">
+                            <input type="button" id="managerPage-btn" class="managerPage btn btn-sm btn-outline-info" value="관리페이지&gt;" 
+                            	style="display:none"></td>
+					</tr>
                     <tr>
                         <td id="myPage">
                             <input type="button" class="myPage btn btn-sm btn-outline-info" value="나의정보&gt;"></td>
                     </tr>
-
                 </tbody>
-               
             </table>
-
         </div>
     </div>
+    
+    <!--프로필사진 변경/등록/삭제모달 -->
+	<div class="modal" id="profile-modal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	 
+	      <div class="modal-header">
+	        <h4 class="modal-title">프로필사진 관리</h4>
+	      </div>
+	      
+	     <form id="update-profile">
+	     	<div class="modal-body">
+	     	 	<table>
+	     	 		<tr>
+	     	 			<%if(loginUser != null && profileAt != null){ %>
+	     	 			<td rowspan="2"><img src="<%=contextPath + profileAt.getFilePath() + '/' + profileAt.getChangeName()%>" class="profileImg" width="150" height="170"></td>
+	     	 			<td>
+	     	 				<div class="filebox">
+							    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+							    <label for="file">파일찾기</label> 
+							    <input type="file" id="file" name="updateProfile" onchange="loadImg(this);">
+							</div>
+	     	 			
+	     	 			<input type="hidden" name="fileNo" value="<%=profileAt.getFileNo() %>">
+						<input type="hidden" name="originFileName" value="<%=profileAt.getChangeName() %>"></td>
+	     	 			
+	     	 			<%}else{ %>
+	     	 			<td rowspan="2"><img src="resources/images/빵먹는 도라에몽.png" class="profileImg" width="200" height="170" ><br>
+	     	 			프로필 사진이 아직 없어요</td>
+	     	 			<td><input type="file" class="form-control" name="updateProfile" value="프로필사진 등록" onchange="loadImg(this);"></td>
+	     	 			<%} %>
+	     	 		</tr>
+	     	 		<tr>
+	     	 			<td><button type="button" id="deleteProfile" name="deleteProfile" class="btn btn-warning">프로필사진 삭제</button></td>
+	     	 		</tr>
+	     	 	</table>
+	      	</div>
+	
+		      <div class="modal-footer">
+		      	<button type="submit" id="form-submit-btn"class="btn btn-info">수정하기</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+		      </div>
+		</form>
+		
+	    </div>
+	  </div>
+	</div>
+	<!-- 프로필변경 모달 끝 -->
+	
     <script>
+    // 프로필 변경 모달에서 파일 첨부하면 파일명 보이게
+    $("#file").on('change',function(){
+  		var fileName = $("#file").val();
+ 		 $(".upload-name").val(fileName);
+	});
+    
+    // 관리자면 관리자페이지 이동 버튼 보이게
+    if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
+    	$("#managerPage-btn").css("display","block");
+    }
+    // 프로필사진 수정 - 멀티파트 폼 데이터 ajax처리
+    $("#form-submit-btn").click(function(){
+    	
+    	var form = $("#update-profile")[0];
+    	var formData = new FormData(form);
+    	
+    	$.ajax({
+    		url : 'updateProfile.me',
+    		type : 'post',
+    		enctype : 'multipart/form-data',
+    		data : formData,
+    		contentType : false,
+    		processData : false,
+    		cache: false,
+    		success : function(result){
+    		 	window.alert(result);
+    		 	location.reload();
+    		},
+    		error : function(){
+    			console.log("통신실패");
+    		}
+    	});
+    	
+    });
+    
+    // 프로필사진 수정 미리보기 
+    function loadImg(inputFile){
+    	//console.log(inputFile.files)
+    	if(inputFile.files.length == 1) {// 새로 프로필사진을 선택하면
+    		var reader = new FileReader(); // 파일 읽어줄 객체
+    		reader.readAsDataURL(inputFile.files[0]); // 파일읽어서 url부여
+    		
+    		reader.onload = function(e){
+    			//console.log(e);
+    			//console.log(e.target.result);
+    			
+    			$("#profile-modal .profileImg").attr("src", e.target.result);
+    		}
+    	}
+    	
+    };
+    
+    
+    // 프로필사진 삭제
+    $("#deleteProfile").click(function(){
+    	var userNo = <%=loginUser.getUserNo()%>
+    	
+    	if(<%=profileAt ==null%>){
+    		alert("삭제할 프로필이 없습니다.");
+    	}else{
+    		
+	    	if(window.confirm("정말 프로필을 초기화 하실건가요?")){
+	    		$.ajax({
+	    			type : "post",
+	        		url : "deleteProfile.me",
+	        		data : { userNo : userNo },
+	        		success : function(result){
+	        			
+	        			if(result > 0){
+		        			alert("프로필을 삭제했습니다.");
+		        			location.reload();
+	        			}else{
+	        				alert("프로필 삭제에 실패했습니댜.");
+	        			}
+	        		},
+	        		
+	        		error: function(){
+	        			console.log("통신실패");
+	        		}    		
+	        	});
+	    	}else{
+	    		$("#profile-modal").css("display","none"); // 프로필 수정 모달닫기
+	    	}
+    	}
+    });
+    
     $(".myPage").click(function(){
     	location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
     });
-    // 관리자계정이면 인포카드 내용 다르게 설정
-    if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
-    	$("#managerPage-btn").css("display","block");
-    	$("#showUserRank").html("<img src='resources/images/user.png'><small>관리자계정</small>");
-    }
+   
     </script>
     <%} %>
         </div><!-- 헤더3끝 --> <!--로그인 모달 끝-->
-        
-    <script>
-    $(".logout").click(function(){
-    	location.href="<%=contextPath%>/logout.me";
-    });
-    $(".managerPage").click(function(){
-    	location.href="<%=contextPath%>/adminPage.ma";
-    });
-    
-    </script>
-           
-        
-            </div><!-- 헤더 끝 -->
+       
+      </div><!-- 헤더 끝 -->
             
             <div id="menubar">
                 <ul id="navi">
@@ -418,6 +616,21 @@
             </div>
 
         </div>
+        
+     
+	
+    
+	<script>
+    
+    $(".logout").click(function(){
+    	location.href="<%=contextPath%>/logout.me";
+    });
+    $(".managerPage").click(function(){
+    	location.href="<%=contextPath%>/adminPage.ma";
+    });
+    
+    </script>
+	   
         
    <!-- 카카오 로그인 -->
 	 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -475,7 +688,7 @@
 	
 	// 모달 닫기
 	function closeModal(){
-		var modal = document.getElementById("myModal");
+		var modal = document.getElementById("login-modal");
 		modal.style.display = "none";
 	};
 	
@@ -483,4 +696,3 @@
 	
 	</script>
 </body>
-</html>

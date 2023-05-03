@@ -164,6 +164,7 @@
 		                    	<input id="original" type="hidden" value="<%=number %>">
 		                    	<input id="itself" type="hidden" value="<%=number %>">
 			                    <input class="no<%=number%>" id="no1" type="hidden" value="<%=number %>">
+		                    	<input id="content1" type="hidden" value="<%=cList.get(i).getContent() %>">
 		                    	<input id="operation1" type="hidden" value="<%=cList.get(i).getOperationTime() %>">
 		                    	<input id="address1" type="hidden" value="<%=cList.get(i).getAddress() %>">
                                 <td style="width: 20%;" id="userName1"><%=cList.get(i).getRequestWriter() %></td>
@@ -459,8 +460,8 @@
         		}
             });
 			$("#getrequest").click(function(){
-				var nos = $("#2-2").val();
-				var ats = $("#2-3").val();
+				var nos = $("#no2-2").val();
+				var ats = $("#no2-3").val();
 				var address = $("#address2").text();
                 var cafename = $("#cafename2").text();
                 var phone = $("#phone2").text();
@@ -610,7 +611,7 @@
                 		
                 		if(list[1]!=null){
                 			var str2 = "";
-                			str2 += "<img src='"+"<%=contextPath%>"+list[1].filePath+"/"+list[1].changeName+"' width='100%;' height='100%;''>";
+                			str2 += "<img src='"+"<%=contextPath%>"+list[1].filePath+list[1].changeName+"' width='100%;' height='100%;''>";
                 			$("#attach2").html(str2);
                 		}else{
                 			$("#attach2").html("");

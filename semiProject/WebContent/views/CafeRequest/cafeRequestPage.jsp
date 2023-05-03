@@ -152,7 +152,7 @@
                         infowindow.open(map, marker);
                         
                         document.getElementById("address").value = place.address_name;
-                        console.log(place.phone);
+                        
                         $.ajax({
 		                	url:"AddressCheck.bo",
 		                	data:{

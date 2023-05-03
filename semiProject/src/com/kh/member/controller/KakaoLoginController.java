@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.board.model.vo.Attachment;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
@@ -69,6 +70,9 @@ public class KakaoLoginController extends HttpServlet {
 		//System.out.println(loginUser);
 		
 		if(result > 0) { // 로그인 성공
+			Attachment at = new MemberService().selectAttachment(userId);
+			
+			request.getSession().setAttribute("profileAt", at);
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "카카오로그인에 성공했습니다.");
 			
