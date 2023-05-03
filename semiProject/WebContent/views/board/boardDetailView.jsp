@@ -280,7 +280,7 @@
 					str += "<table class ='replyList"+list[i].replyNo+"'>"
 					     + "<body>"
 					     + "<tr>"
-						 + "<td rowspan='2' width='10%' id='replyNo'>" +list[i].replyNo+ "</td>"
+						 + "<td rowspan='2' width='10%' id='replyNo'></td>"
 						 + "<td>"+ list[i].replyWriter+"&nbsp;&nbsp;&nbsp;"+list[i].createDate+"</td>"
 						 + "</tr>"
 					     + "<tr>"
