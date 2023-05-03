@@ -9,7 +9,7 @@ VALUES(SEQ_UNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)
 
 <entry key="insertAttachment">
 INSERT INTO PROFILE_ATTACHMENT(PROFILE_FILE_NO, REF_MNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH)
-VALUES(SEQ_MANO.NEXTVAL, ?, ?, ?, ?)
+VALUES(SEQ_MANO.NEXTVAL, SEQ_UNO.CURRVAL, ?, ?, ?)
 </entry>
 
 <entry key="updateAttachment">
