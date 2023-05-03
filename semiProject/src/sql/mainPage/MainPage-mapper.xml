@@ -77,7 +77,8 @@
 <entry key="checkScore">
 	SELECT USER_NO
 	FROM SCORE
-	WHERE USER_NO = ?
+	WHERE CAFE_NO = ?
+	AND USER_NO = ?
 </entry>
 
 <entry key="insertScore">

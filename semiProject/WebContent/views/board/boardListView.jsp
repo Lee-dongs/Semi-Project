@@ -178,9 +178,6 @@
                     <td id="id"><%=b.getBoardWriter() %></td>
                     <td id="date"><%=b.getCreateDate() %></td>
                     <td id="count"><%=b.getCount() %></td>
-                	<%if(loginUser!=null &&loginUser.getUserId().equals("admin")){ %>
-                    <td><button class = "btn btn-danger">삭제</button></td>
-                    <%} %>
                 </tr>
             	<%} %>
             <%} %>
@@ -240,7 +237,6 @@
     	function enrollform(){
 			location.href ="<%=contextPath%>/insert.bo"
 		};
-		
 		$(".list-area>tbody>tr").click(function(){
 			var bno = $(this).children().eq(0).text();
 			
@@ -269,6 +265,8 @@
     			}
     			
     		};
+    		
+    		
     	</script>
 </body>
 <br><br><br><br><br><br>

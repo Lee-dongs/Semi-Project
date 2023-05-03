@@ -246,7 +246,7 @@
 
 	</div>
     <script>
-    // 모든 필수입력사항 입력하면 submit가능
+ // 모든 필수입력사항 입력하면 submit가능
     function checkAll(){
     	
     	if($("#userEmail").prop("readonly") == false || $("#emailVerifyNo").prop("readonly") == false){
@@ -396,7 +396,7 @@
     	});
     });
     
-    // 이메일 인증 : 인증번호 일치 확인하기
+ // 이메일 인증 : 인증번호 일치 확인하기
     
     $("#emailChk2").click(function(){ // 인증번호 입력하기 버튼을 누르면
     	

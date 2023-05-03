@@ -114,10 +114,10 @@ public class MainPageService {
 		return list;
 	}
 	
-	public int checkScore(int userNo) {
+	public int checkScore(int cafeNo, int userNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int checkId = new MainPageDao().checkScore(conn, userNo);
+		int checkId = new MainPageDao().checkScore(conn, cafeNo, userNo);
 		
 		JDBCTemplate.close(conn);
 		
