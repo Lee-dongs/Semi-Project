@@ -37,16 +37,14 @@ public class FAQupdateController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+				
 		String content = request.getParameter("content");
 		//System.out.println(content);
 		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
 		//System.out.println(faqNo);
 		
 		int result = new FAQService().updateFAQ(content,faqNo);
-		
-		
+				
 		response.setContentType("json/application; charset=UTF-8");
 		response.getWriter().print(result);
 		

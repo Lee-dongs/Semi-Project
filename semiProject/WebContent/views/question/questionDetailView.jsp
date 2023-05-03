@@ -62,7 +62,7 @@
 	   .reply-area>tbody{
 	   	height:200px;
 	   }
-	   #qContent{white-space: pre;}
+	   #qContent{white-space: pre; height:500px;}
 	   
 	  
 </style>
