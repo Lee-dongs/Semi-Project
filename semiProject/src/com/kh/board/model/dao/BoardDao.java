@@ -78,7 +78,8 @@ public class BoardDao {
 								  ,rset.getString("BOARD_TITLE")
 								  ,rset.getString("USER_ID")
 								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
+								  ,rset.getDate("CREATE_DATE")
+								  ,rset.getInt("REPLY_COUNT")));
 			}
 		
 		} catch (SQLException e) {
@@ -263,7 +264,8 @@ public class BoardDao {
 								  ,rset.getString("BOARD_TITLE")
 								  ,rset.getString("USER_ID")
 								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
+								  ,rset.getDate("CREATE_DATE")
+								  ,rset.getInt("REPLY_COUNT")));
 			}
 			
 		} catch (SQLException e) {
@@ -302,7 +304,8 @@ public class BoardDao {
 								  ,rset.getString("BOARD_TITLE")
 								  ,rset.getString("USER_ID")
 								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
+								  ,rset.getDate("CREATE_DATE")
+								  ,rset.getInt("REPLY_COUNT")));
 			}
 			
 		} catch (SQLException e) {
@@ -339,7 +342,8 @@ public class BoardDao {
 								  ,rset.getString("BOARD_TITLE")
 								  ,rset.getString("USER_ID")
 								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
+								  ,rset.getDate("CREATE_DATE")
+								  ,rset.getInt("REPLY_COUNT")));
 			}
 			
 		} catch (SQLException e) {
@@ -374,7 +378,8 @@ public class BoardDao {
 								  ,rset.getString("BOARD_TITLE")
 								  ,rset.getString("USER_ID")
 								  ,rset.getInt("COUNT")
-								  ,rset.getDate("CREATE_DATE")));
+								  ,rset.getDate("CREATE_DATE")
+								  ,rset.getInt("REPLY_COUNT")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -638,7 +643,7 @@ public class BoardDao {
 		return result;
 	}
 
-	public Like likeSelectList(Connection conn, int bno) {
+	public Like likeSelectList(Connection conn, int bno, int uno) {
 		Like l = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -648,6 +653,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, bno);
+			pstmt.setInt(2, uno);
 			
 			rset = pstmt.executeQuery();
 			
@@ -656,6 +662,7 @@ public class BoardDao {
 							,rset.getInt("USER_NO")
 							,rset.getInt("BOARD_NO")
 							,rset.getInt("GOOD_COUNT"));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -666,7 +673,7 @@ public class BoardDao {
 		return l;
 	} 
 
-	public unLike unLikeSelectList(Connection conn, int bno) {
+	public unLike unLikeSelectList(Connection conn, int bno, int uno) {
 		unLike ul = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -676,6 +683,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, bno);
+			pstmt.setInt(2, uno);
 			
 			rset = pstmt.executeQuery();
 			
@@ -996,5 +1004,25 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return listCount;
+	}
+
+	public int replyCount(Connection conn, int bno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("replyCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
 	}
 }

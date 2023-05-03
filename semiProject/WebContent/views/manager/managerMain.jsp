@@ -7,10 +7,12 @@
 <title>관리자페이지</title>
     <style>
         .admin-wrap{
-            border: 1px solid black;
+            border: 2px solid black;
+            border-radius: 20px;
             width: 1000px;
             height: 600px;
             margin: auto;
+            margin-top: 40px;
             min-height:100%;
         	position :relative;
         }
@@ -27,9 +29,9 @@
         /*관리자명함 스타일*/
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
             width: 80%;
             margin: auto;
+            margin-left: 55px;
             background-color: rgb(237, 248, 248);
             }
 
@@ -51,7 +53,7 @@
                       <tr>
                          <td rowspan="2" width="30%">
                             <div class="card">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZmpczK4t42nwpaOJUDQpSyZn4HSO43SMFQ&usqp=CAU" alt="Avatar" style="width:100%">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZmpczK4t42nwpaOJUDQpSyZn4HSO43SMFQ&usqp=CAU" onclick="myPage();" style="width:100%">
                             <div class="container">
                                 <h4><b>관리자</b></h4> 
                                 <p><%=loginUser.getEmail() %></p> 
@@ -72,6 +74,10 @@
     </div>
 
     <script>
+    
+    	function myPage(){
+    		location.href="<%=contextPath%>/myPage.me?uno=<%=loginUser.getUserNo()%>";
+    	};
         function memberManagePage(){
             location.href="<%=contextPath%>/memberManagement.ma?currentPage=1";
         };
