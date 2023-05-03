@@ -77,7 +77,7 @@ public class searchQuestionController extends HttpServlet {
 		request.setAttribute("slist", qlist);
 		request.setAttribute("spi", spi);
 		
-		//자주묻는 질문
+		
 		
 		ArrayList<FAQ> list = new FAQService().selecList();
 		request.setAttribute("list", list);
