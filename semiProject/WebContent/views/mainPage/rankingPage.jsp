@@ -308,8 +308,10 @@
     				pageCount : $(".currentPage").val(),  //페이지 정보를 전달
     			},
     			type : "get",
+    			async : false,
     			success : function(result){
     				$(".currentPage").attr("value", result); //currentPage를 result로 바꿈
+					
 
 					var newPath; //카페 사진 가져올 경로
     				var str="";
@@ -334,20 +336,24 @@
       						  +"</div>"
     					}else{
     						$("#nextDiv button").attr("disabled", true); //더이상 보여줄 리스트가 없으면 다음 페이지 disabled
+    						break;
     					}
     				}
     				if(list[0].length == result*4){
     					$("#nextDiv button").attr("disabled", true); //리스트의 크기가 4배수면 다음 페이지 disabled
     				}
     				$("#cafeListDiv").html(str);
-    				
 					var k = 0;
     				for(var j=result*4-4; j<result*4; j++){ //별점 사이즈 조정하기(* .html로 새로이 갱신한 뒤에 해야함)
-    					var size = list[0][j].score * 20 + 1.5;
-    					$(".star-ratings-fill:eq("+k+")").width(size+"%");
-    					k = k+1;
+    					if(list[0][j] != null){
+    						var size = list[0][j].score * 20 + 1.5;
+        					$(".star-ratings-fill:eq("+k+")").width(size+"%");
+        					k = k+1;
+    					}else{
+    						break;
+    					}
+    					
     				}
-    				
     				$(".cafeImgDiv>img").click(function(){ //이미지 클릭하면 address값에 맞는 페이지 띄워줌
     					var address = $(this).next().val();
     					location.href = "<%=contextPath%>/detail.cf?add="+address;

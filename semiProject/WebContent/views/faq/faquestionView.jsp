@@ -1,3 +1,4 @@
+<%@page import="com.kh.question.model.vo.Question_Reply"%>
 <%@page import="com.kh.common.model.vo.pageInfo"%>
 <%@page import="com.kh.question.model.vo.Question"%>
 <%@page import="com.kh.faq.model.vo.FAQ"%>
@@ -6,6 +7,7 @@
     pageEncoding="UTF-8"%>
     <%
     	ArrayList<FAQ> list = (ArrayList<FAQ>)request.getAttribute("list");
+    	ArrayList<Question_Reply> rlist = (ArrayList<Question_Reply>)request.getAttribute("rlist");
     	
     	
     	String category = (String)request.getAttribute("category");
@@ -21,6 +23,8 @@
     		qlist =(ArrayList<Question>)request.getAttribute("qlist");
         	pi = (pageInfo)request.getAttribute("pi");    	
     	}
+    	
+    	
     	
     %>
 <!DOCTYPE html>
@@ -49,33 +53,40 @@
             text-align:center;
             padding:10px;
         }
-        thead>tr{
+        .faq-area>thead>tr{
+        height:40px;
+        background-color:#bfd7d0;
+        
+        }
+        .question-area>thead>tr{
         height:40px;
         background-color:#bfd7d0;
         
         }
         .faq-area,.question-area{           
-           width: 800px;
+           width: 1000px;
         }       
         .tr1:hover{
             background-color: #88a099;
+            
         }
         .questionTr1:hover{
         	background-color: #88a099;
         }
        
          #tr2{
-            background-color: rgb(245, 225, 198);
+            background-color: rgba(238, 231, 168, 0.565);
             display: none;
         }
         
         .div1{
-            border: 1px solid black;
-            width: 500px;
-            height: 200px;
+            
+            width: auto;
+            height: auto;
             background-color: white; 
+            
         }
-        .modal-header>h4{
+        .modal-header3>h4{
         	text-align:center;
         	color:black;        	
         	width:500px;
@@ -84,24 +95,15 @@
         #qtitle>input{
         	width:500px;
         }
-        #tr3{
-        background-color:rgb(245, 225, 198);
-        display: none;
-        width:700px;
-        }
-        #tr4{
-        background-color:  rgb(244, 196, 133);
-        width:600px;
         
-        }
         .question-area>tbody{width:700px;       	
         }
         #search-area{float: right;
         }
-        .modal-body{
+        .modal-body3{
         	background-color: #bfd7d0;       	
         }
-        .modal-body thead td{
+        .modal-body3 thead td{
         	border-bottom:3px solid white;
         }
         .modal-header2>h4{
@@ -119,7 +121,11 @@
        .paging-area>button{
        		background-color: #88a099;
        }
-               
+       #fContent{white-space: pre;}
+       #fModal{
+       	background-color: #bfd7d0;
+       }  
+       
     </style>
 </head>
 <body>
@@ -136,29 +142,31 @@
 		</button>
 		
 		<!-- The Modal -->
-		<div class="modal" id="myModal">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
+		<div class="modal" id="myModal" >
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content" id="fModal" >
 		
 		      <!-- Modal Header -->
-		      <div class="modal-header">
-		        <h4 class="modal-title" align="center">자주 묻는 질문 작성</h4>
+		      <div class="modal-header3">
+		      <br>
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title" align="center">자주 묻는 질문 작성</h4>
+		        <br>
 		      </div>
 		
 		      <!-- Modal body -->
-		      <div class="modal-body">
+		      <div class="modal-body3">
 		       <form action="<%=contextPath %>/insert.fo" method="post" >
 		      		  <table id="faq-table">
                         <thead>
                             <tr>
                                 <td>제목</td>
-                                <td><input type="text"  name="title" placeholder="제목입력" width="100" required></td>                       
+                                <td id="id"><input type="text"  name="title" placeholder="제목입력" style="width:580px;" required></td>                       
                             </tr>
                            <tr height="20"></tr>
                             <tr>                            
                                 <td>내용</td>
-                                <td><textarea rows="10" cols="47" name="content" required></textarea></td>
+                                <td><textarea rows="20" cols="70" name="content" required ></textarea></td>
                             </tr>
                             <tr height="20"></tr>
                         </thead>
@@ -195,10 +203,10 @@
                 
                 <%}else{ %>
                 <%for(FAQ f :list){ %>
-                <tr class="tr1">
+                <tr class="tr1" height="30">
                 
                     <td width="50" align="center"><%=f.getFaqNo() %></td>
-                    <td align="center" width=""><%=f.getFaqTitle() %></td>
+                    <td align="center" width="">[공지]<%=f.getFaqTitle() %></td>
                     <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
                     <td width="100"><a href="<%=contextPath%>/delete.fo?ffo=<%=f.getFaqNo()%>"class="btn btn-danger">삭제하기</a></td>  
                     <%} %>         
@@ -207,11 +215,17 @@
                 <tr id="tr2">
                     <td colspan="3" id="td1" align="center">
                         <br>                                           
-                        <div class="div1">
+                        <div class="div1" id="fContent" style="text-align:left;">
                             <%=f.getFaqContent() %>
                         </div> 
-                        <br><br>                     
+                        <br>
+                        <%if(loginUser!=null && loginUser.getUserId().equals("admin")){ %>
+                         <div><button onclick="updateFAQ(this);">수정하기</button></div>
+                         <%} %>                  
+                        <br>                    
                     </td>
+                    
+                	
                 </tr>
                 <%} %>
                 <%} %>
@@ -228,8 +242,8 @@
 		
 		<!-- The Modal 2 -->
 		<div class="modal" id="myModal2">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content" id="fModal">
 		
 		      <!-- Modal Header 2 -->
 		      <div class="modal-header2">
@@ -246,13 +260,13 @@
                         <thead>
                             <tr>
                                 <td>제목</td>
-                                <td><input type="text"  name="title" placeholder="제목입력" required></td>
+                                <td><input type="text"  name="title" placeholder="제목입력" style="width:580px;" required></td>
                         
                             </tr>
                             <tr height="20"></tr>
                             <tr>
                                 <td>내용</td>
-                                <td><textarea rows="10" cols="47" name="content"></textarea></td>
+                                <td><textarea rows="20" cols="70" name="content" required></textarea></td>
                             </tr>
                             <tr height="20"></tr>
                         </thead>
@@ -318,8 +332,12 @@
         		<td width="50" align="center" id="questionNo"><%=q.getQuestionNo() %></td>
         		<td width="400"><%=q.getQuestionTitle() %></td>
         		<td align="center"><%=q.getQuestionWriter() %></td> 
-        		<td align="center"><%=q.getModifyDate() %></td>
-        		      	       		
+        		<td align="center"><%=q.getModifyDate() %></td>  
+        		<%if(q.getStatud().equals("답변대기")){ %>      		        		
+        		<td width="100"><button class="btn btn-success disabled"><%=q.getStatud() %></button></td>      		
+        		<%}else{ %>
+        		<td width="100"><button class="btn btn-success"><%=q.getStatud() %></button></td>
+        		<%} %>
         	</tr>
              
              <%} %>
@@ -413,19 +431,31 @@
         $(".question-area>tbody>.questionTr1").click(function(){
         	//console.log($(this).children().eq(0).text());
         	var qqo =$(this).children().eq(0).text();
-        	<%if(loginUser ==null){%>
+        	<%if(loginUser ==null ){%>
         		alert("로그인 후 이용가능합니다.");
         	<%}else{%>
+        	<%for(Question q:qlist){%>
+        	<%if(loginUser != null && loginUser.getUserId().equals("admin")){%>
+        	location.href= '<%=contextPath%>/detail.qo?qqo='+qqo;
+        	<%}else if(loginUser != null &&loginUser.getUserId().equals(q.getQuestionWriter())){%>
+        	
         		location.href= '<%=contextPath%>/detail.qo?qqo='+qqo;
-        	<%}%>
+        		<%}%>
+        		
+        		<%}%>
+        		<%}%>
+        	
         	
         })
+        /*검색어 없을시*/
         function searchBlanck(){
         	if($("#question_search").val().length == 0){
         		alert("검색할 내용을 입력해주세요");
         		return false;
         	}
         }
+        
+        /*검색카테고리 그대로 두기*/
         $(function(){
         	var category = "<%=request.getAttribute("category")%>";
         	
@@ -439,6 +469,72 @@
         	
         })
       
+        /*faq내용 수정*/
+       function updateFAQ(e){
+        	$btn = e;
+        	console.log($btn);
+        	//console.log($($btn).parents("tr").children().eq(0).text());
+        	var content = $($btn).parents("tr").children().eq(0).text();
+        	//console.log(content);
+        	//console.log($($btn).parents("tr").prev().children().eq(0).text());
+        	var faqNo = $($btn).parents("tr").prev().children().eq(0).text();
+        	//console.log(faqNo);
+        	var updateFaq = "";
+        	
+        	updateFaq+="<td colspan='3' id='td1' align='center'>"
+        			  +"<br>"
+        			  +"<textarea rows='10' cols='100' id='fContent'>"
+        			  +content
+        			  +"</textarea>"
+        			  +"<div>"
+        			  +'<button onclick = "updateF('+faqNo+');">'
+        			  +'수정하기'
+        			  +'</button>'
+        			  +"</div>"
+        			  +"<br>";
+        			  
+        			  
+       	$(".faq-area tbody>#tr2").html(updateFaq);
+        			  
+        };
+        
+        /*faq수정내용 넣기*/
+        function updateF(faqNo){
+        	
+        	var content = $("#fContent").val();
+        	console.log(content);
+        	$.ajax({
+        		url:"updateF.fo",
+        		data:{
+        			faqNo:faqNo,
+        			content:content
+        		},
+        		type:"post",
+        		success:function(result){
+        			
+        			alert("내용 수정 완료");
+        			
+        		var fff="";
+	        		fff+="<td colspan='3' id='td1' align='center'>"
+	      			  +"<br>"
+	    			  +"<div class='div1' id='fContent' style='text-align:left;' >"
+	    			  +content
+	    			  +"</div>"
+	    			  +"<div>"
+	    			  + "<%if(loginUser!=null && loginUser.getUserId().equals("admin")){ %>"
+	    			  +'<button onclick = "updateFAQ('+faqNo+');">'
+	    			  +'수정하기'
+	    			  +'</button>'
+	    			  +"<%}%>"
+	    			  +"</div>"
+	    			  +"<br>";
+	        		$(".faq-area tbody>#tr2").html(fff);
+        		}
+        	})
+        }
+        
+        
+        
         
         
         
@@ -446,5 +542,4 @@
 </body>
 <br><br><br><br><br><br><br>
     <%@ include file = "../common/footer.jsp" %>
-
 </html>
