@@ -48,7 +48,6 @@ public class LoginController extends HttpServlet {
 
 		
 		Member loginUser = new MemberService().loginMember(userId, userPwd);
-
 		
 		if(loginUser == null) { // 로그인실패
 			request.getSession().setAttribute("alertMsg", "로그인 정보를 다시 확인해주세요");
@@ -56,7 +55,7 @@ public class LoginController extends HttpServlet {
 		}else {
 			// 로그인성공시 프로필사진 첨부파일 가져오기
 			Attachment at = new MemberService().selectAttachment(userId);
-			
+
 			request.getSession().setAttribute("profileAt", at);
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인되었습니다.");

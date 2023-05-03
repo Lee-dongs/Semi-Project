@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="D:/dev/cos-22.05/lib/cos.jar"/>
 	<classpathentry kind="lib" path="D:/dev/javax.mail.jar"/>
 	<classpathentry kind="lib" path="D:/dev/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="D:/dev/jsoup-1.15.4.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
