@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 <style>
 	 .suel{
-            width: 1500px;
+            width: 1000px;
         	height: 850px;
         	margin: auto;
         	min-height:100%;

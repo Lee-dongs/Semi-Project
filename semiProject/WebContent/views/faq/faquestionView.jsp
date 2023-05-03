@@ -472,8 +472,8 @@
         	$btn = e;
         	console.log($btn);
         	//console.log($($btn).parents("tr").children().eq(0).text());
-        	var content = $($btn).parents("tr").children().eq(0).text();
-        	//console.log(content);
+        	var content = $($btn).parents("tr").children().children("div").eq(0).text();
+        	console.log(content);
         	//console.log($($btn).parents("tr").prev().children().eq(0).text());
         	var faqNo = $($btn).parents("tr").prev().children().eq(0).text();
         	//console.log(faqNo);
