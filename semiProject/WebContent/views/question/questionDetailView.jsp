@@ -20,7 +20,7 @@
      .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(243, 199, 199);
+            background-color: #7ea197;
             width: 500px;
             margin:auto;
             text-align:center;
@@ -39,7 +39,7 @@
     	width:1050px;
     	height: 740px;
     	padding:10px;
-    	background-color: rgb(251, 217, 217); 
+    	background-color: #d9e8e3; 
     	border-radius: 30px;
     }
      #question-table>thead{
@@ -56,12 +56,13 @@
 	   	 
 	   }
 	   .reply-area{
-	   	 border: 5px dashed rgb(243, 199, 199);
+	   	 border: 5px dashed #7ea197;
 	   	 width: 1000px;	   	 	   	 
 	   }
 	   .reply-area>tbody{
 	   	height:200px;
 	   }
+	   #qContent{white-space: pre;}
 	   
 	  
 </style>
@@ -91,7 +92,7 @@
                          <tr>
                          	
                          	<th>내용</th>
-                            <td colspan="3"><p style="height:500px"><%=qq.getContent() %></p></td>
+                            <td colspan="3"><p style="height:500px,text-align:left;" id="qContent"><%=qq.getContent() %></p></td>
                          </tr>
                          
                       </thead>
@@ -246,7 +247,7 @@
 					+'</button>'
 					+"</td>"
     	            +"</tr>";
-    	$("#reply-area tbody").html(updateReply);
+    	$(".reply-area tbody").html(updateReply);
     	            
     	            
     };
