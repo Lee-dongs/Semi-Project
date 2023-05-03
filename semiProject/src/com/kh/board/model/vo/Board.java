@@ -3,22 +3,23 @@ package com.kh.board.model.vo;
 import java.sql.Date;
 
 public class Board {
-	int boardNo;
-	String boardWriter;
-	String locationCode;
-	String title;
-	String content;
-	int count;
-	Date createDate;
-	Date modifyDate;
-	String status;
-	int good;
-	int bad;
+	private int boardNo;
+	private String boardWriter;
+	private String locationCode;
+	private String title;
+	private String content;
+	private int count;
+	private Date createDate;
+	private Date modifyDate;
+	private String status;
+	private int good;
+	private int bad;
+	private int replyCount;
 	public Board() {
 		super();
 	}
 	public Board(int boardNo, String boardWriter, String locationCode, String title, String content, int count,
-			Date createDate, Date modifyDate, String status, int good, int bad) {
+			Date createDate, Date modifyDate, String status, int good, int bad, int replyCount) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -31,9 +32,10 @@ public class Board {
 		this.status = status;
 		this.good = good;
 		this.bad = bad;
+		this.replyCount = replyCount;
 	}
 	
-	public Board(int boardNo,String locationCode, String title, String boardWriter,  int count, Date createDate) {
+	public Board(int boardNo,String locationCode, String title, String boardWriter,  int count, Date createDate, int replyCount) {
 		super();
 		this.boardNo = boardNo;
 		this.locationCode = locationCode;
@@ -41,6 +43,7 @@ public class Board {
 		this.boardWriter = boardWriter;
 		this.count = count;
 		this.createDate = createDate;
+		this.replyCount = replyCount;
 	}
 	
 	public Board(int boardNo, String locationCode, String title, String content,String boardWriter, Date createDate,int count,int good, int bad) {
@@ -120,6 +123,13 @@ public class Board {
 	}
 	public void setBad(int bad) {
 		this.bad = bad;
+	}
+	
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 	@Override
 	public String toString() {
