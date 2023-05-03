@@ -30,20 +30,11 @@ public class LogoutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
-		String userId = loginUser.getUserId();
-		
 		request.getSession().removeAttribute("loginUser");
 		request.getSession().setAttribute("alertMsg", "성공적으로 로그아웃 되었습니다.");
 		
-		if(userId.equals("admin")) { // 관리자가 로그아웃하면 메인페이지로
-			
-			response.sendRedirect(request.getContextPath());
-			
-		}else { // 사용자가 로그아웃하면 사용하던 페이지로
-			
-			response.sendRedirect(request.getHeader("Referer"));
-		}
+		response.sendRedirect(request.getContextPath());
+		
 		
 		
 	}
