@@ -45,10 +45,11 @@ public class ReReplyInsertController extends HttpServlet {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		int uno = loginUser.getUserNo();
 		
+		if(content.length()!=0) {
 		int result = new BoardService().insertReReply(bno,rno,content,uno);
 		response.setContentType("json/application; charset=UTF-8");
 		response.getWriter().print(result);
-		
+		}
 	}
 
 }
