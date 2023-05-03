@@ -57,8 +57,8 @@ public class MemberEnrollController extends HttpServlet {
 			// 파일명 변경
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
-			String userId = multiRequest.getParameter("userId");
-			String userPwd = multiRequest.getParameter("userPwd");
+			String userId = multiRequest.getParameter("inputUserId");
+			String userPwd = multiRequest.getParameter("inputUserPwd");
 			String userName = multiRequest.getParameter("userName");
 			String phone = multiRequest.getParameter("phone");
 			String email = multiRequest.getParameter("userEmail");
