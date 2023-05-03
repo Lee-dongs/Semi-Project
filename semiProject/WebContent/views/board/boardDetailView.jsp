@@ -21,6 +21,7 @@
 <title>자유게시판 상세페이지</title>
 </head>
 <style>
+	
     .wrap{
         width: 800px;
         margin: auto;
@@ -279,7 +280,7 @@
 					str += "<table class ='replyList"+list[i].replyNo+"'>"
 					     + "<body>"
 					     + "<tr>"
-						 + "<td rowspan='2' width='10%' id='replyNo'>" +list[i].replyNo+ "</td>"
+						 + "<td rowspan='2' width='10%' id='replyNo'></td>"
 						 + "<td>"+ list[i].replyWriter+"&nbsp;&nbsp;&nbsp;"+list[i].createDate+"</td>"
 						 + "</tr>"
 					     + "<tr>"
@@ -370,8 +371,10 @@
 						replyNo : replyNo
 					},
 					success : function(result){
+						if(result>0){
 						alert("댓글이 삭제 되었습니다.");
 						selectReplyList();
+						}
 					}
 				});
 			};
@@ -411,8 +414,10 @@
 					content : newContent
 				},
 				success :function(result){
+					if(result>0){
 					alert("댓글이 수정되었습니다.")
 					selectReplyList();
+					}
 				}
 			});
 		};

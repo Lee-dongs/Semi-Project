@@ -164,6 +164,7 @@
 		                    	<input id="original" type="hidden" value="<%=number %>">
 		                    	<input id="itself" type="hidden" value="<%=number %>">
 			                    <input class="no<%=number%>" id="no1" type="hidden" value="<%=number %>">
+		                    	<input id="content1" type="hidden" value="<%=cList.get(i).getContent() %>">
 		                    	<input id="operation1" type="hidden" value="<%=cList.get(i).getOperationTime() %>">
 		                    	<input id="address1" type="hidden" value="<%=cList.get(i).getAddress() %>">
                                 <td style="width: 20%;" id="userName1"><%=cList.get(i).getRequestWriter() %></td>

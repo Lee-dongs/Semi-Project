@@ -42,6 +42,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	
 	.list{
     	width : 1200px;
     }
@@ -62,7 +63,7 @@
     .list-area>tbody{
         font-size: 20px;
     }
-    #boardNo,#userId,#date{
+    #boardNo,#id,#date{
         text-align: center;
     }
     #count{
@@ -80,7 +81,7 @@
         margin-left: 10px;
         font-size:16px;
     }
-    tbody>tr:hover{
+    .list-area>tbody>tr:hover{
         background-color: rgb(243, 242, 242);
         cursor: pointer;
     }
@@ -169,8 +170,12 @@
                 <tr>
                 	<%for(Board b : list){ %>
                     <td id="boardNo"><%=b.getBoardNo() %></td>
-                    <td id="title">[<%=b.getLocationCode() %>] <%=b.getTitle() %></td>
-                    <td id="userId"><%=b.getBoardWriter() %></td>
+                    <td id="title">[<%=b.getLocationCode() %>] <%=b.getTitle() %>
+                    <%if(b.getReplyCount()!=0){ %>
+                    &nbsp;[<%=b.getReplyCount() %>]
+                    <%} %>
+                    </td>
+                    <td id="id"><%=b.getBoardWriter() %></td>
                     <td id="date"><%=b.getCreateDate() %></td>
                     <td id="count"><%=b.getCount() %></td>
                 	<%if(loginUser!=null &&loginUser.getUserId().equals("admin")){ %>
@@ -240,10 +245,10 @@
 			var bno = $(this).children().eq(0).text();
 			
 			<%if(loginUser==null){%>
-			var userId = null;
+			var id = null;
 			<%}%>
     			
-    			if(userId==null){
+    			if(id==null){
     				alert("로그인 후 사용해주시길 바랍니다.")
     			}else{
 	    			location.href = "<%=contextPath%>/detail.bo?bno="+bno

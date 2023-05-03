@@ -137,7 +137,10 @@ public class BoardService {
 	public int replyinsert(int bno, String content, int userNo) {
 		int result = new BoardDao().replyinsert(conn,bno,content,userNo);
 		
-		if(result>0) {
+		
+		int result2 = 1;
+		result2 = new BoardDao().replyCount(conn, bno);
+		if(result>0 && result2 >0) {
 			JDBCTemplate.commit(conn);
 		}else {
 			JDBCTemplate.rollback(conn);
@@ -145,7 +148,7 @@ public class BoardService {
 		
 		JDBCTemplate.close(conn);
 		
-		return result;
+		return result*result2;
 	}
 
 	public ArrayList<Reply> selectReplyList(int bno) {
@@ -255,15 +258,15 @@ public class BoardService {
 		return result*result2;
 	}
 	//detail뷰에서 사용
-	public Like likeSelectList(int bno) {
-		Like l = new BoardDao().likeSelectList(conn, bno);
+	public Like likeSelectList(int bno, int uno) {
+		Like l = new BoardDao().likeSelectList(conn, bno, uno);
 		
 		JDBCTemplate.close(conn);
 		return l;
 	}
 	//detail뷰에서 사용
-	public unLike selectUnLikeList(int bno) {
-		unLike ul = new BoardDao().unLikeSelectList(conn, bno);
+	public unLike selectUnLikeList(int bno, int uno) {
+		unLike ul = new BoardDao().unLikeSelectList(conn, bno, uno);
 		
 		JDBCTemplate.close(conn);
 		return ul;

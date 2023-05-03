@@ -1,6 +1,7 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +43,7 @@ public class FindMemberPwdControllerAjax extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 비동기 : 전달받은 이메일로 인증번호 발송하기
+		// 비동기 : 전달받은 이메일로 임시 비밀번호 발송하기
 		String userId = request.getParameter("userId");
 		String email = request.getParameter("email"); // 입력한 사용자 이메일주소
 		
@@ -60,16 +62,23 @@ public class FindMemberPwdControllerAjax extends HttpServlet {
 			newPwd += charSet[index];
 		}
 		
+		ServletContext context = getServletContext();
+        InputStream inputStream = context.getResourceAsStream("/WEB-INF/classes/sql/smtp/smtp.properties");
+        // 네이버 이메일 전송 사용자 정보 담아둔 property파일
+        Properties smtp = new Properties();
+        smtp.load(inputStream);
+		
 		// 비밀번호 업데이트
 		new MemberService().updatePwd(userId, newPwd);
 
 		// 메일로 새로운 비밀번호 보내기
-		String host = "smtp.naver.com";
-		int port = 465;
-		String from = "yoojin930521@naver.com"; // 보내는 사람
-		String password = "kimlea93!";
-		String title = "5조에서 보내는 비밀번호 변경 인증번호입니다.";
-		String content = "[변경된 비밀번호]" + newPwd + " 입니다. 반드시 해당 비밀번호로 로그인 후 마이페이지에서 새로운 비밀번호를 만들어주세요.";
+		String host = smtp.getProperty("host");
+		int port = Integer.parseInt(smtp.getProperty("port"));
+		String from = smtp.getProperty("from"); // 보내는 사람
+		String password = smtp.getProperty("password");
+		
+		String title = "5조에서 보내는 임시 비밀번호입니다.";
+		String content = "[임시 비밀번호]" + newPwd + " 입니다. 반드시 해당 비밀번호로 로그인 후 마이페이지에서 새로운 비밀번호를 만들어주세요.";
 
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", host);
@@ -78,7 +87,7 @@ public class FindMemberPwdControllerAjax extends HttpServlet {
 		prop.put("mail.smtp.ssl.enable", "true");
 		prop.put("mail.smtp.ssl.trust", host);
 
-		Authenticator auth = new SMTPAuthenticator("yoojin930521", password); // 내 아이디랑 비밀번호
+		Authenticator auth = new SMTPAuthenticator(smtp.getProperty("id"), password); // 내 아이디랑 비밀번호
 		Session session = Session.getDefaultInstance(prop, auth);
 		MimeMessage message = new MimeMessage(session);
 
