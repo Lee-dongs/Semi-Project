@@ -248,10 +248,10 @@
 
 	</div>
     <script>
-    // 모든 필수입력사항 입력하면 submit가능
+ // 모든 필수입력사항 입력하면 submit가능
     function checkAll(){
     	
-    	if($("#userEmail").prop("readonly") == false){
+    	if($("#userEmail").prop("readonly") == false || $("#emailVerifyNo").prop("readonly") == false){
     		alert("이메일 인증을 진행해주세요");
     		$("#checkAll").text("*표시는 필수입력사항입니다.");
     		$("#checkAll").css("color","red");
@@ -399,7 +399,7 @@
     	});
     });
     
-    // 이메일 인증 : 인증번호 일치 확인하기
+ // 이메일 인증 : 인증번호 일치 확인하기
     
     $("#emailChk2").click(function(){ // 인증번호 입력하기 버튼을 누르면
     	
@@ -407,7 +407,7 @@
     		$("#successEmailChk").text("인증번호가 일치합니다.");
     		$("#successEmailChk").css("color", "green");
     		$("#emailDoubleChk").val("true");
-    		$("#emailVerifyNo").attr("disabled",true);
+			$("#emailVerifyNo").attr("readonly",true); // 인증번호 변경불가
     	}else{
     		$("#successEmailChk").text("인증번호가 일치하지 않습니다. 다시입력하세요.");
     		$("#successEmailChk").css("color", "red");    
