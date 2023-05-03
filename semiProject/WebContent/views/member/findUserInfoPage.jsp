@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+_<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -203,8 +203,6 @@
     	};
     
     // 비밀번호 찾기
-    var code=""; // 전역변수 선언
-    // 인증번호 메일 보내기
     function findUserPwd(){
     	
     	var userId = $("#findPwd-userId").val();

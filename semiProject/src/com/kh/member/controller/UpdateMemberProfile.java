@@ -60,9 +60,6 @@ public class UpdateMemberProfile extends HttpServlet {
 			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 			Attachment profileAt = (Attachment)request.getSession().getAttribute("profileAt");
 			
-			System.out.println("loginUser" + loginUser);
-			System.out.println("profileAt" + profileAt);
-			
 			// 새로 전달된 사진이 있는 경우
 			Attachment newProfileAt = null;
 			if(multiRequest.getOriginalFileName("updateProfile") != null) { // 새로 첨부하면
@@ -84,10 +81,9 @@ public class UpdateMemberProfile extends HttpServlet {
 					// 회원번호로 새로 등록해주기
 					newProfileAt.setRefBno(loginUser.getUserNo());
 				}
-				System.out.println("newProfileAt" + newProfileAt);
+
 				int result = new MemberService().updateAttachment(loginUser, newProfileAt); // 프로필 삽입 또는 업데이트
 				
-				response.setContentType("text/html; charset=UTF-8" );
 				if (result > 0) {
 					request.getSession().setAttribute("profileAt", newProfileAt); // 세션 업데이트
 					response.getWriter().print("프로필 사진을 수정했습니다.");
@@ -96,7 +92,6 @@ public class UpdateMemberProfile extends HttpServlet {
 					response.getWriter().print("프로필 사진을 수정하지 못했습니다.");
 				}
 			}else { // 수정사항 없이 submit누르면
-				//newProfileAt = new MemberService().selectAttachment(loginUser.getUserId());
 				response.setContentType("text/html; charset=UTF-8" );
 				response.getWriter().print("수정사항이 없습니다.");
 			}
