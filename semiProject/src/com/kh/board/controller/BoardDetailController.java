@@ -1,6 +1,8 @@
 package com.kh.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Like;
 import com.kh.board.model.vo.unLike;
+import com.kh.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardDetailController
@@ -32,6 +35,9 @@ public class BoardDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int uno = loginUser.getUserNo();
+		
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		
 		request.setAttribute("bno", bno);
@@ -40,8 +46,8 @@ public class BoardDetailController extends HttpServlet {
 		if(result>0) {
 			Board b = new BoardService().selectBoard(bno);
 			Attachment at = new BoardService().selectAttachment(bno);
-			Like l = new BoardService().likeSelectList(bno);
-			unLike ul = new BoardService().selectUnLikeList(bno);
+			Like l = new BoardService().likeSelectList(bno, uno);
+			unLike ul = new BoardService().selectUnLikeList(bno, uno);
 			request.setAttribute("b", b);
 			request.setAttribute("at", at);
 			request.setAttribute("l", l);

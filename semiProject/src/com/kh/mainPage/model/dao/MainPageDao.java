@@ -598,5 +598,28 @@ public class MainPageDao {
 		return result;
 	}
 
+	public boolean checkReview(Connection conn, int userNo) {
+		boolean check = false;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("checkReview");
+		ResultSet rset = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				check =  true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+
 
 }

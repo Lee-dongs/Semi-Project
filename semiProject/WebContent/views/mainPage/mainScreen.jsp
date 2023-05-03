@@ -8,11 +8,11 @@
 <style>
 	#content{
             text-align: center;
-            width : 1500px;
+            width : 1100px;
             margin : auto;
             min-height:100%;
             position :relative;
-	
+            
         }
         #content>div:hover{
             color: gray;
@@ -21,10 +21,10 @@
         #content>div{
             margin-top: 50px;
             display: inline-block;
-            width: 400px;
-            height: 300px;
+            width: 300px;
+            height: 200px;
             box-sizing: border-box;
-            margin: 30px;
+            margin: 20px;
         }
         #content img{
         	box-sizing : border-box;
@@ -36,6 +36,8 @@
         div{
         	border : 1px solid white;
         }
+        
+
         
 </style>
 </head>

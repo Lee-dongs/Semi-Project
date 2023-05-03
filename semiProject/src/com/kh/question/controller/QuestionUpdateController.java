@@ -33,7 +33,7 @@ public class QuestionUpdateController extends HttpServlet {
 		int questionNo = Integer.parseInt(request.getParameter("qqo"));
 		
 		Question qq = new QuestionService().seletQuestion(questionNo);			
-		System.out.println(qq);
+		//System.out.println(qq);
 		request.setAttribute("question", qq);
 		
 		

@@ -12,7 +12,7 @@
 <style>
         
         .suel{
-            width: 1500px;
+            width: 1000px;
         	height: 850px;
         	margin: auto;
         	min-height:100%;
@@ -40,7 +40,7 @@
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
-	<div class="seul">
+	<div class="suel">
 		<br>
 		<h2 >공지사항 작성</h2>
 		<br>

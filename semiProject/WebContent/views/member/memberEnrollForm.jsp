@@ -253,8 +253,11 @@
     	
     	if($("#userEmail").prop("readonly") == false){
     		alert("이메일 인증을 진행해주세요");
+    		$("#checkAll").text("*표시는 필수입력사항입니다.");
+    		$("#checkAll").css("color","red");
     		return false;
     	}else{
+
     		return true;
     	}
     	
@@ -266,6 +269,7 @@
 		 	$("#userName").focus();
 		}
 	  });
+
     
     // 아이디 중복검사 없이 비밀번호를 입력하려고 하면 alert
 	 $("#enroll-form #inputUserPwd").click(function(){
