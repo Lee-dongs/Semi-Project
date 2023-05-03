@@ -33,26 +33,27 @@
         	width:1050px;
     		height: 740px;
 	    	padding:10px;
-	    	background-color: rgb(246, 218, 182); 
+	    	background-color: rgb(245, 228, 206); 
 	    	border-radius: 30px;	
 	    	
         }        
-	 	#detail-table{
+	 	#notice-table{
 	 		width: 1000px;        	
             height: 700px;	
 	 	}
-	 	#detail-table>thead{
+	 	#notice-table>thead{
 	 		
         	padding: 20px; 
         }
-	   #detail-table th{
+	   #notice-table th{
 	   	 font-size: 20px;
 	   	  border-bottom: 3px solid white;
 	   }
-	   #detail-table td{
+	   #notice-table td{
 	   	font-size: 18px;
 	   	 border-bottom: 3px solid white;
 	   }
+	   #fContent{white-space: pre; height:500px;}
 	   
 </style>
 </head>
@@ -64,7 +65,7 @@
 	<br><br>
 	<div class="notice-area">
 	
-		<table id="detail-table" align="center">
+		<table id="notice-table" align="center">
 		<thead>
 		<tr>
            <th width="70">제목</th>
@@ -79,7 +80,7 @@
         </tr>
         <tr>
            <th>내용</th>
-           <td colspan="3"><p style="height:500px"><%=n.getNoticeContent() %></p></td>
+           <td colspan="3"><p style="text-align:left;" id="fContent"><%=n.getNoticeContent() %></p></td>
                     
         </tr>
         </thead>

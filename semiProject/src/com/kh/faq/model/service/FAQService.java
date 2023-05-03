@@ -42,4 +42,15 @@ public class FAQService {
 		return result;
 	}
 
+	public int updateFAQ(String content, int faqNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new FAQDao().updateFAQ(conn,content,faqNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		return result;
+	}
+
 }
