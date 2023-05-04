@@ -530,6 +530,7 @@
     		contentType : false,
     		processData : false,
     		cache: false,
+    		async : false,
     		success : function(result){
     		 	window.alert(result);
     		 	location.reload();

@@ -301,7 +301,7 @@
                   <th class="search_input" colspan="5">
                   <br>
                     	<form action="search.qo" method="get" id="search-area" onsubmit="return searchBlanck()">
-                    	<input type="hidden" name="currentPage" value="<%=pi.getCurrentPage()%>">
+                    	<input type="hidden" name="currentPage" value="1">
                     		<select name="category" id="category">
                                 <option value="제목">제목</option>
                                 <option value="내용" id="seContent">내용</option>
