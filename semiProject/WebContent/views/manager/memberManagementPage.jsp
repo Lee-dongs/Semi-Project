@@ -255,20 +255,23 @@
 		<div class="paging-area text-center">
         	<div class="btn-group btn-group-sm">
 			<%if(pi.getCurrentPage()!= 1){ %>
-				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=pi.getCurrentPage()-1%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">이전</button>
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=pi.getCurrentPage()-1%>
+					&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">이전</button>
 			<%} %>
 			
 			<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++ ){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기  -->
 				<%if(i != pi.getCurrentPage()){ %>
-					<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=i%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>';"><%=i %></button>
+					<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=i%>
+						&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>';"><%=i %></button>
 				<%}else{ %>
 					<button class="btn btn-warning" disabled><%=i %></button>
 				<%} %>
 			<%} %>
 			
 			<%if((!list.isEmpty()) && pi.getCurrentPage() != pi.getMaxPage()){ %><!-- 조회결과 없으면 다음버튼 안보이게 -->
-				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=pi.getCurrentPage()+1%>&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">다음</button>
+				<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/searchMember.ma?currentPage=<%=pi.getCurrentPage()+1%>
+					&searchBy=<%=request.getAttribute("searchBy")%>&keyword=<%=request.getAttribute("keyword")%>'">다음</button>
 			<%} %>
 			<!-- 검색 초기화버튼 -->
 				<button class="btn btn-info" onclick="location.href='<%=contextPath%>/memberManagement.ma?currentPage=1'">전체보기</button>

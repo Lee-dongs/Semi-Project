@@ -313,7 +313,7 @@ public class MainPageDao {
 		return list;
 	}
 	
-	public int checkScore(Connection conn, int userNo) {
+	public int checkScore(Connection conn, int cafeNo, int userNo) {
 		int checkId = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -321,7 +321,8 @@ public class MainPageDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
+			pstmt.setInt(1, cafeNo);
+			pstmt.setInt(2, userNo);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -596,6 +597,29 @@ public class MainPageDao {
 		}
 		
 		return result;
+	}
+
+	public boolean checkReview(Connection conn, int userNo) {
+		boolean check = false;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("checkReview");
+		ResultSet rset = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				check =  true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
 	}
 
 

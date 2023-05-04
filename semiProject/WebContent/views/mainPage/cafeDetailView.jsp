@@ -341,6 +341,7 @@
             height: 400px;
             border: 1px solid blue;
             margin-left: 250px;
+            z-index : -1;
         }
 
         #map, #bodyContent{
@@ -1131,6 +1132,9 @@
     						+"<input type='hidden' class='CRNO' name='cafeReplyNo' value=" + list[i].cafeReplyNo + ">"
     						+"</div>"
     						+"<hr>"
+    					if(i == list.length-1){
+    						checkBtn = true;
+    					}
     				}
     				
     				str += "<button class='moreBtn' onclick='moreReply("+ count +")'>더보기</button>" //더보기 버튼

@@ -114,10 +114,10 @@ public class MainPageService {
 		return list;
 	}
 	
-	public int checkScore(int userNo) {
+	public int checkScore(int cafeNo, int userNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int checkId = new MainPageDao().checkScore(conn, userNo);
+		int checkId = new MainPageDao().checkScore(conn, cafeNo, userNo);
 		
 		JDBCTemplate.close(conn);
 		
@@ -280,6 +280,16 @@ public class MainPageService {
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+	public boolean checkReview(int userNo) { //리뷰를 썼는지 쓰지 않았는지 체크
+		Connection conn = JDBCTemplate.getConnection();
+		
+		boolean check = new MainPageDao().checkReview(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return check;
 	}
 
 }

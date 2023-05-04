@@ -206,7 +206,7 @@
                 <tr class="tr1" height="30">
                 
                     <td width="50" align="center"><%=f.getFaqNo() %></td>
-                    <td align="center" width="">[공지]<%=f.getFaqTitle() %></td>
+                    <td align="center" width=""><%=f.getFaqTitle() %></td>
                     <%if(loginUser !=null && loginUser.getUserId().equals("admin")) {%>
                     <td width="100"><a href="<%=contextPath%>/delete.fo?ffo=<%=f.getFaqNo()%>"class="btn btn-danger">삭제하기</a></td>  
                     <%} %>         
@@ -224,8 +224,6 @@
                          <%} %>                  
                         <br>                    
                     </td>
-                    
-                	
                 </tr>
                 <%} %>
                 <%} %>
@@ -474,8 +472,8 @@
         	$btn = e;
         	console.log($btn);
         	//console.log($($btn).parents("tr").children().eq(0).text());
-        	var content = $($btn).parents("tr").children().eq(0).text();
-        	//console.log(content);
+        	var content = $($btn).parents("tr").children().children("div").eq(0).text();
+        	console.log(content);
         	//console.log($($btn).parents("tr").prev().children().eq(0).text());
         	var faqNo = $($btn).parents("tr").prev().children().eq(0).text();
         	//console.log(faqNo);
@@ -529,6 +527,9 @@
 	    			  +"</div>"
 	    			  +"<br>";
 	        		$(".faq-area tbody>#tr2").html(fff);
+
+	        		 location.reload(); //새로고침
+
         		}
         	})
         }

@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 <style>
 	 .suel{
-            width: 1500px;
+            width: 1000px;
         	height: 850px;
         	margin: auto;
         	min-height:100%;
@@ -62,7 +62,7 @@
 	   .reply-area>tbody{
 	   	height:200px;
 	   }
-	   #qContent{white-space: pre;}
+	   #qContent{white-space: pre; height:500px;}
 	   
 	  
 </style>

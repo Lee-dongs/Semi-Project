@@ -14,7 +14,6 @@
         .enrollWrap{
             font-family: 'Noto Sans KR', sans-serif;
             font-size: 14px;
-            background-color: #fffcf6;
             line-height: 2;
             margin: 0;
         }
@@ -48,11 +47,11 @@
        }
        
        /*가입하기 버튼 스타일*/
-       #enroll-form #submit-btn{
+       #enroll-form #enroll-btn{
         background-color: #17a2b8;
         color: white;
        }
-       #enroll-form #submit-btn:hover{
+       #enroll-form #enroll-btn:hover{
         background-color: #537369;
        }
        #enroll-form #reset-btn{
@@ -66,8 +65,6 @@
        #address-table, #id-table, #email-table, #emailCheck-table{
         width: 100%;
        }
-      
-      
        
     </style>
         
@@ -90,7 +87,7 @@
           <table id="id-table">
         	<thead>
                 <tr>
-                    <td width="75%"><input type="text" class="form-control" id=userId name="userId" required placeholder="첫 글자는 영문자로, 영문자와 숫자를 포함하여 총 4~12자"></td>
+                    <td width="75%"><input type="text" class="form-control" id=inputUserId name="inputUserId" required placeholder="첫 글자는 영문자로, 영문자와 숫자를 포함하여 총 4~12자"></td>
                     <td width="25%"><input class="form-control btn btn-sm btn-outline-info" type="button" onclick="idCheck();" value="아이디 중복체크"></td>
                 </tr>
             </thead>
@@ -101,7 +98,7 @@
        
         <div class="enroll">
             <b>*비밀번호</b>
-            <input type="password" class="form-control" id="userPwd" name="userPwd" required 
+            <input type="password" class="form-control" id="inputUserPwd" name="inputUserPwd" required 
             	placeholder="영문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)로 총 8~15자로 입력하세요">
             <!--비밀번호 유효성 검사 결과 프린트구역-->
             <div class="check-info" id="checkPwd"></div>
@@ -115,7 +112,7 @@
         </div>
         <div class="enroll">
             <b>*이름</b>
-            <input type="text" class="form-control" name="userName" required>
+            <input type="text" class="form-control" name="userName" id="userName" required>
         </div>
 
         <!--생년월일-->
@@ -240,7 +237,7 @@
         <!-- 필수입력사항 체크 결과 프린트구역 -->
 		<div class="check-info" id="checkAll"></div>
 		
-        <input class="form-control btn" id="submit-btn" type="submit" value="가입하기"><br><br>
+        <input class="form-control btn" id="enroll-btn" type="submit" value="가입하기"><br><br>
         <input class="form-control btn" id="reset-btn" type="reset" value="다시 입력하기">
         <br><br>
         <!-- 아이디 중복검사를 해야 버튼 눌림 -->
@@ -249,31 +246,34 @@
 
 	</div>
     <script>
-    // 모든 필수입력사항 입력하면 submit가능
+ // 모든 필수입력사항 입력하면 submit가능
     function checkAll(){
-
-    	if($("#userName") != "" && $("#userEmail").attr("readonly",true)
-    		&& $('#enroll-form input[name=userPwd]').attr("readonly",true)){
-    		$("#enroll-form input[type=submit]").removeAttr("disabled");
-    		return true;
+    	
+    	if($("#userEmail").prop("readonly") == false || $("#emailVerifyNo").prop("readonly") == false){
+    		alert("이메일 인증을 진행해주세요");
+    		$("#checkAll").text("*표시는 필수입력사항입니다.");
+    		$("#checkAll").css("color","red");
+    		return false;
     	}else{
-	    		alert("이메일 인증 및 필수입력사항을 모두 입력해주세요");
 
-    	if($("#userName") == "" && $("#userEmail").attr("readonly",false)
-    		&& $('#enroll-form input[name=userPwd]').attr("readonly",false)){
-	    		alert("필수입력사항을 모두 입력해주세요");
-	    		$("#checkAll").text("*표시는 필수입력사항입니다.");
-	    		$("#checkAll").css("color","red");
-	    		return false;
-    	}    	
-	     };
-    
+    		return true;
+    	}
+    	
+    };
+    // 이름 입력없이 이메일입력시 alert
+    $("#userEmail").click(function(){
+		if ($("#userName").val()=="") {
+		 	window.alert("이름을 먼저 입력해주세요.");
+		 	$("#userName").focus();
+		}
+	  });
+
     
     // 아이디 중복검사 없이 비밀번호를 입력하려고 하면 alert
-	 $(".enroll>#userPwd").click(function(){
-		if (!$("#enroll-form input[name=userId]").prop("readonly")) {
+	 $("#enroll-form #inputUserPwd").click(function(){
+		if (!$("#enroll-form #inputUserId").prop("readonly")) {
 		 	window.alert("아이디 중복확인을 먼저 진행해주세요.");
-		 	$("#enroll-form input[name=userId]").focus();
+		 	$("#enroll-form #id=inputUserId").focus();
 		}
 	  });
     
@@ -287,7 +287,7 @@
     // 아이디 중복검사
     function idCheck(){
     	
-    	var $checkId = $("#enroll-form input[name=userId]");
+    	var $checkId = $("#enroll-form input[name=inputUserId]");
     	
     	$.ajax({
     		
@@ -315,29 +315,28 @@
    
     // 비밀번호 일치 검사
     $("#enroll-form input[name=userPwdCheck]").keyup(function(){
-    	var pwd1 = $('#enroll-form input[name=userPwd]').val();
+    	var pwd1 = $('#enroll-form input[name=inputUserPwd]').val();
     	var pwd2 = $(this).val();
     	
     	if(pwd1 !="" && pwd2 !=""){ // 비밀번호 입력 둘 다 공백이 아닐 때
     		if(pwd1 == pwd2){ // 비밀번호 일치하면
     			$('#checkPwd2').html("비밀번호가 일치합니다.");
     			$('#checkPwd2').css("color","green");
-    			$('#enroll-form input[name=userPwd]').attr("readonly",true);//비밀번호값 변경 불가
+    			$('#enroll-form input[name=inputUserPwd]').attr("readonly",true);//비밀번호값 변경 불가
     		}else{
     			$('#checkPwd2').html("비밀번호가 일치하지 않습니다.");
     			$('#checkPwd2').css("color","red");
     		}
     	}
-    	
     });
     
     // 아이디 유효성검사
-	$('#enroll-form input[name=userId]').keyup(function(){
+	$('#enroll-form input[name=inputUserId]').keyup(function(){
 		
 		var regExp = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/;
-		var userId = $(this).val();
+		var inputUserId = $(this).val();
 		
-		if(!regExp.test(userId)){ // 아이디가 정규식을 만족하지 못하면
+		if(!regExp.test(inputUserId)){ // 아이디가 정규식을 만족하지 못하면
 			$('#checkId').html("아이디 형식을 확인해주세요");
 			$("#checkId").css("color", "red");
 		} else{
@@ -347,12 +346,12 @@
 	});
     
     // 비밀번호 유효성검사
-	$('#enroll-form input[name=userPwd]').keyup(function(){
+	$('#enroll-form input[name=inputUserPwd]').keyup(function(){
 		
 		var regExp = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
-		var userPwd = $(this).val();
+		var inputUserPwd = $(this).val();
 		
-		if(!regExp.test(userPwd)){ // 비밀번호가 정규식을 만족하지 못하면
+		if(!regExp.test(inputUserPwd)){ // 비밀번호가 정규식을 만족하지 못하면
 			$('#checkPwd').html("비밀번호 형식을 확인해주세요");
 			$("#checkPwd").css("color", "red");
 		} else{
@@ -363,10 +362,10 @@
     
     // 이메일 인증 : 인증번호 입력하기
     var code=""; // 전역변수로 선언
+    
     $("#emailChk").click(function(){ // 인증번호 보내기를 입력하면
     	
     	var userEmail = $("#userEmail").val();
-    	//console.log(userEmail);
     	
     	$.ajax({
     		type : "GET",
@@ -397,23 +396,25 @@
     	});
     });
     
-    // 이메일 인증 : 인증번호 일치 확인하기
+ // 이메일 인증 : 인증번호 일치 확인하기
+    
     $("#emailChk2").click(function(){ // 인증번호 입력하기 버튼을 누르면
     	
     	if($("#emailVerifyNo").val() == code){ // 인증번호가 일치하면
     		$("#successEmailChk").text("인증번호가 일치합니다.");
     		$("#successEmailChk").css("color", "green");
     		$("#emailDoubleChk").val("true");
-    		$("#emailVerifyNo").attr("disabled",true);
+			$("#emailVerifyNo").attr("readonly",true); // 인증번호 변경불가
     	}else{
     		$("#successEmailChk").text("인증번호가 일치하지 않습니다. 다시입력하세요.");
     		$("#successEmailChk").css("color", "red");    
     		$("#emailDoubleChk").val("false");
     		$("#emailVerifyNo").attr("autofocus",true);
-    		
     	}
     });
     </script>
+    
+    
     <br><br><br><br><br><br><br>
     <%@ include file = "../common/footer.jsp" %>
 </body>

@@ -8,11 +8,11 @@
 <style>
 	#content{
             text-align: center;
-            width : 1500px;
+            width : 1100px;
             margin : auto;
             min-height:100%;
             position :relative;
-	
+            
         }
         #content>div:hover{
             color: gray;
@@ -21,10 +21,10 @@
         #content>div{
             margin-top: 50px;
             display: inline-block;
-            width: 400px;
-            height: 300px;
+            width: 300px;
+            height: 200px;
             box-sizing: border-box;
-            margin: 30px;
+            margin: 20px;
         }
         #content img{
         	box-sizing : border-box;
@@ -36,6 +36,8 @@
         div{
         	border : 1px solid white;
         }
+        
+
         
 </style>
 </head>
@@ -59,20 +61,20 @@
             $("#content_1>img").click(function(){
                 location.href= '<%=contextPath%>/ranking.cf?location=영등포구';
             });
-            $("#photo_2").click(function(){
-                location.href= '';
+            $("#content_2>img").click(function(){
+                location.href= '<%=contextPath%>/ranking.cf?location=마포구';
             });
-            $("#photo_3").click(function(){
-                location.href= '';
+            $("#content_3>img").click(function(){
+                location.href= '<%=contextPath%>/ranking.cf?location=동작구';
             });
-            $("#photo_4").click(function(){
-                location.href= '';
+            $("#content_4>img").click(function(){
+                location.href= '<%=contextPath%>/ranking.cf?location=강남구';
             });
-            $("#photo_5").click(function(){
-                location.href= '';
+            $("#content_5>img").click(function(){
+                location.href= '<%=contextPath%>/ranking.cf?location=서대문구';
             });
-            $("#photo_6").click(function(){
-                location.href= '';
+            $("#content_6>img").click(function(){
+                location.href= '<%=contextPath%>/ranking.cf?location=종로구';
             });
         })
 
