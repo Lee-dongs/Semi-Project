@@ -65,8 +65,6 @@
        #address-table, #id-table, #email-table, #emailCheck-table{
         width: 100%;
        }
-      
-      
        
     </style>
         
@@ -330,7 +328,6 @@
     			$('#checkPwd2').css("color","red");
     		}
     	}
-    	
     });
     
     // 아이디 유효성검사
