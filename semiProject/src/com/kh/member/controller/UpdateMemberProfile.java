@@ -85,6 +85,7 @@ public class UpdateMemberProfile extends HttpServlet {
 				int result = new MemberService().updateAttachment(loginUser, newProfileAt); // 프로필 삽입 또는 업데이트
 				
 				if (result > 0) {
+					response.setContentType("json/application ; chatset=UTF-8");
 					request.getSession().setAttribute("profileAt", newProfileAt); // 세션 업데이트
 					response.getWriter().print("프로필 사진을 수정했습니다.");
 					
