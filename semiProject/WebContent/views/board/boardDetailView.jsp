@@ -258,6 +258,7 @@
 				success : function(result){
 					if(result>0){
 						$("#reply-input").val(" ");
+						location.reload();
 						selectReplyList();
 					}
 				}
