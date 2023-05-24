@@ -81,11 +81,11 @@ public class UpdateMemberProfile extends HttpServlet {
 					// 회원번호로 새로 등록해주기
 					newProfileAt.setRefBno(loginUser.getUserNo());
 				}
-				
+
 				int result = new MemberService().updateAttachment(loginUser, newProfileAt); // 프로필 삽입 또는 업데이트
 				
-				response.setContentType("text/html; charset=UTF-8" );
 				if (result > 0) {
+					response.setContentType("json/application ; chatset=UTF-8");
 					request.getSession().setAttribute("profileAt", newProfileAt); // 세션 업데이트
 					response.getWriter().print("프로필 사진을 수정했습니다.");
 					
@@ -93,7 +93,6 @@ public class UpdateMemberProfile extends HttpServlet {
 					response.getWriter().print("프로필 사진을 수정하지 못했습니다.");
 				}
 			}else { // 수정사항 없이 submit누르면
-				//newProfileAt = new MemberService().selectAttachment(loginUser.getUserId());
 				response.setContentType("text/html; charset=UTF-8" );
 				response.getWriter().print("수정사항이 없습니다.");
 			}

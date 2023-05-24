@@ -51,9 +51,6 @@ public class CafeEvaluateController extends HttpServlet {
 		
 		Member m = (Member)request.getSession().getAttribute("loginUser");
 		
-		String add = (String)request.getParameter("add");
-
-		
 		int userNo = m.getUserNo();
 
 		ArrayList<Integer> list = new ArrayList<>();
@@ -62,7 +59,7 @@ public class CafeEvaluateController extends HttpServlet {
 		list.add(rating3);
 		list.add(rating4);
 		
-		int checkId = new MainPageService().checkScore(userNo);
+		int checkId = new MainPageService().checkScore(cafeNo, userNo);
 		
 		int result = 0;
 		String alertMsg = "";

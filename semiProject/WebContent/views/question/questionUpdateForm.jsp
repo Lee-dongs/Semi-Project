@@ -12,7 +12,11 @@
 <style>
 	 
          .suel{
+<<<<<<< HEAD
             width: 1500px;
+=======
+            width: 1000px;
+>>>>>>> refs/remotes/origin/main
         	height: 1000px;
         	margin: auto;
         	min-height:100%;

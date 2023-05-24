@@ -50,7 +50,7 @@ public class MemberService {
 			if(newProfileAt.getFileNo() != 0) { // 기존 첨부파일 있었으면
 				result = new MemberDao().updateAttachment(conn, newProfileAt);
 			}else { // 기존 첨부파일 없었으면
-				result = new MemberDao().insertAttachment(conn, newProfileAt, loginUser);
+				result = new MemberDao().insertAttachment2(conn, newProfileAt, loginUser);
 			}
 		}
 		
@@ -178,6 +178,19 @@ public class MemberService {
 		
 		return m;
 	}
+
+	// 비번찾기-정보 일치하는 사람 있는지
+	public int findUserPwd(String userId, String userEmail) {
+
+		Connection conn = JDBCTemplate.getConnection();
+
+		int count = new MemberDao().findUserPwd(conn, userId, userEmail);
+
+		JDBCTemplate.close(conn);
+
+		return count;
+	}
+
 	// 비밀번호 찾기 - 랜덤으로 생성한 새로운 비밀번호로 변경 메소드
 	public int updatePwd(String userId, String newPwd) {
 		

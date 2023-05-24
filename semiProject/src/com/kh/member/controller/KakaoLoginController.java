@@ -67,7 +67,6 @@ public class KakaoLoginController extends HttpServlet {
 			loginUser = new MemberService().loginMember(userId, userPwd);
 			
 		}
-		//System.out.println(loginUser);
 		
 		if(result > 0) { // 로그인 성공
 			Attachment at = new MemberService().selectAttachment(userId);

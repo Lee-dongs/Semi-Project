@@ -516,7 +516,7 @@
     if(<%=loginUser != null && loginUser.getUserId().equals("admin")%>){
     	$("#managerPage-btn").css("display","block");
     }
-    // 프로필사진 수정 - 멀티파트 폼 데이터 ajax처리
+    // 프로필사진 등록 및 수정 - 멀티파트 폼 데이터 ajax처리
     $("#form-submit-btn").click(function(){
     	
     	var form = $("#update-profile")[0];
@@ -530,6 +530,7 @@
     		contentType : false,
     		processData : false,
     		cache: false,
+    		async : false,
     		success : function(result){
     		 	window.alert(result);
     		 	location.reload();

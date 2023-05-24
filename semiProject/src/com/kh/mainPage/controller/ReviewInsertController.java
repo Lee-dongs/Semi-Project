@@ -41,14 +41,33 @@ public class ReviewInsertController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		int cafeNo = Integer.parseInt(request.getParameter("cafeNo")); //참조하는 카페 번호
-		
 		Member m = (Member)request.getSession().getAttribute("loginUser");
 		int userNo = m.getUserNo(); //댓글작성자
 		
+		boolean check = new MainPageService().checkReview(userNo);
+		/*
+		if(check) {
+			request.getSession().setAttribute("alertMsg", "리뷰는 한번만 작성할 수 있습니다. 리뷰를 수정하시거나 삭제 후 다시 시도해주세요.");
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
+		}else {
+			int cafeNo = Integer.parseInt(request.getParameter("cafeNo")); //참조하는 카페 번호		
+			String content = request.getParameter("reviewText");//리뷰(댓글)내용
+			
+			int result = new MainPageService().insertReview(cafeNo, userNo, content);
+			
+			if(result>0) {
+				request.getSession().setAttribute("alertMsg", "리뷰 작성 완료");
+				String before = request.getHeader("Referer");
+				response.sendRedirect(before);
+			}else {
+				request.getSession().setAttribute("alertMsg", "리뷰 작성 실패");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		}
+		*/
+		int cafeNo = Integer.parseInt(request.getParameter("cafeNo")); //참조하는 카페 번호		
 		String content = request.getParameter("reviewText");//리뷰(댓글)내용
-		
-		String add = request.getParameter("add"); //리다이렉트 할 주소 받아오기
 		
 		int result = new MainPageService().insertReview(cafeNo, userNo, content);
 		
@@ -61,5 +80,4 @@ public class ReviewInsertController extends HttpServlet {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
-
 }

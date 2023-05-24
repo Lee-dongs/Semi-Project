@@ -341,6 +341,7 @@
             height: 400px;
             border: 1px solid blue;
             margin-left: 250px;
+            
         }
 
         #map, #bodyContent{
@@ -405,30 +406,37 @@
         /*===================별점주는 모달창 작업=================*/
 		#modal{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal2{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal3{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal4{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal5{ 
 		  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal6{ 
 		  position:absolute; width:100%; height:100%; top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		#modal7{ 
 		  position:absolute; width:100%; height:100%; top:0; left:0; display:none;
+		  z-index : 1;
 		}
 		
 		.m_head{
@@ -1131,6 +1139,9 @@
     						+"<input type='hidden' class='CRNO' name='cafeReplyNo' value=" + list[i].cafeReplyNo + ">"
     						+"</div>"
     						+"<hr>"
+    					if(i == list.length-1){
+    						checkBtn = true;
+    					}
     				}
     				
     				str += "<button class='moreBtn' onclick='moreReply("+ count +")'>더보기</button>" //더보기 버튼

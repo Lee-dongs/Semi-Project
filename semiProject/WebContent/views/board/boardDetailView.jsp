@@ -199,7 +199,7 @@
             <button type="button" id="btn" onclick ="listBoard();">목록</button>
         </div> 
         <br>
-        <%if(loginUser!=null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
+        <%if(loginUser!=null && (loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getUserId().equals("admin"))){ %>
         <div id="btn-area2">
             <button type="button" id="btn" onclick="location.href ='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'">수정</button>
             <%if(at!=null){ %>
@@ -221,12 +221,6 @@
                 <tr>
                     <td colspan="3"><span id="byte">0</span>/500byte <br><br><br><br></td>
                 </tr>
-                <%}else{ %>
-                <tr>
-                    <td colspan="2"><textarea name="input" id="reply-input" placeholder="로그인 후 댓글 남겨주세요" 
-                    cols="20" rows="10" style="resize: none;" onkeyup="chkByte(this, '500')"></textarea></td>
-                    <td><button type="submit" id="btn-reply" onclick="insertReply();">등록</button></td>
-                </tr>
                 <%} %>
             </thead>
             </table>
@@ -236,6 +230,13 @@
     </div>
     
     <script>
+    	/*댓글 입력창 빈칸일때 알람*/
+    	$("#btn-reply").click(function(){
+    		chkblankReply =$("#reply-input").val();
+    		if(chkblankReply.length==0){
+    			alert("댓글을 입력해주세요.")
+    		}
+    	});
     	/*버튼 눌렀을때 페이지 이동할 주소*/
     	function enrollform(){
     		location.href ="<%=contextPath%>/insert.bo"
@@ -257,6 +258,7 @@
 				success : function(result){
 					if(result>0){
 						$("#reply-input").val(" ");
+						location.reload();
 						selectReplyList();
 					}
 				}
@@ -280,7 +282,7 @@
 					str += "<table class ='replyList"+list[i].replyNo+"'>"
 					     + "<body>"
 					     + "<tr>"
-						 + "<td rowspan='2' width='10%' id='replyNo'>" +list[i].replyNo+ "</td>"
+						 + "<td rowspan='2' width='10%' id='replyNo'></td>"
 						 + "<td>"+ list[i].replyWriter+"&nbsp;&nbsp;&nbsp;"+list[i].createDate+"</td>"
 						 + "</tr>"
 					     + "<tr>"
@@ -336,8 +338,6 @@
 		    var rlen = 0;
 		    var one_char = "";
 		    var str2 = "";
-
-
 		    for(var i=0; i<str_len; i++)
 		    {
 		        one_char = str.charAt(i);
@@ -432,14 +432,19 @@
 					 + '<button onclick = "selectReplyList();">'
 					 + '취소'
 					 + '</button>'
-					 + '<button onclick = "insertReReply('+replyNo+');">'
+					 + '<button id="reReply-btn" onclick = "insertReReply('+replyNo+');">'
 					 + '등록'
 					 + '</button>'
 					 + "</td>"
 					 + "</tr>"
 					
 					 $(".replyList"+replyNo).children("tfoot").html(str);
-					 
+			$("#reReply-btn").click(function(){
+				chkBlankReReply = $("#rereply-content").val();
+				if(chkBlankReReply.length ==0){
+					alert("대댓글을 입력해주세요.")
+				}
+			});
 			};
 			function insertReReply(replyNo){
 				bno = <%=b.getBoardNo()%>
@@ -472,7 +477,6 @@
 					},
 					success : function(list){
 						var str="";
-						console.log(str);
 						for(var i=0;i<list.length;i++){
 						str += "<tr>"
 							 + "<td rowspan='2'>↳</td>"
