@@ -268,10 +268,11 @@
     	}    	
 	     };
     
-    
+    }
     // 아이디 중복검사 없이 비밀번호를 입력하려고 하면 alert
 	 $(".enroll>#userPwd").click(function(){
-		if (!$("#enroll-form input[name=userId]").prop("readonly")) {
+		
+		 if (!$("#enroll-form input[name=userId]").prop("readonly")) {
 		 	window.alert("아이디 중복확인을 먼저 진행해주세요.");
 		 	$("#enroll-form input[name=userId]").focus();
 		}

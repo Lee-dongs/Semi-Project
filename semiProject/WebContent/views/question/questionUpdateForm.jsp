@@ -11,9 +11,9 @@
 <title>Insert title here</title>
 <style>
 	 
-        .suel{
+         .suel{
             width: 1500px;
-        	height: 850px;
+        	height: 1000px;
         	margin: auto;
         	min-height:100%;
         	position :relative;
@@ -22,53 +22,82 @@
      .suel>h2{
             border-style: solid white;
             border-radius: 120px;
-            background-color: rgb(243, 199, 199);
+            background-color: #7ea197;
             width: 500px;
             margin:auto;
             text-align:center;
             padding:10px;
         }
+        
+        
+     #question-table{
+        	width: 1000px;
+        	
+            height: 700px;
+                  
+        }
+    .question-area{
+    	
+    	width:1050px;
+    	height: 740px;
+    	padding:10px;
+    	background-color: #d9e8e3; 
+    	border-radius: 30px;
+    	margin:auto;
+
+    }
+     #question-table>thead{
+        	padding: 20px; 
+        }
+     #question-table th{
+	   	 font-size: 20px;
+	   	  border-bottom: 3px solid white;
+	   	  
+	   }
+	 #question-table td{
+	   	font-size: 18px;
+	   	 border-bottom: 3px solid white;
+	   	 
+	   }
         #question-table>table{border : 1px solid white;}
         #question-table input,textarea{
         	width : 100%;
         	box-sizing:border-box;
         }
-        #question-table{
-        	width: 1000px;
-        }
+        
 </style>
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-<div class="seul">
-		<br>
-	<h2>고객문의 수정</h2>
-	<br>
+<div class="suel">
+    <br><br>
+	<h2 align="center">고객문의 수정</h2>
+	<br><br>
 	<form action="<%=contextPath %>/update.qo" method="post" >
+	
+		 <div class="question-area" align="center">
 		 <input type="hidden" name="qqo" value="<%=qq.getQuestionNo()%>">
 		      	<table align="center" id="question-table">
                      <thead>                       
                        <tr>                           
-                         <td>제목</td>
+                         <th>제목</th>
                          <td><input type="text"  name="quTitle" value="<%=qq.getQuestionTitle() %>" required></td>
-                        
+                         	
                        </tr>
-                         <tr><td height="20"> </td></tr>
+                         
                          <tr>
-                         	<td>내용</td>
-                            <td><textarea rows="10" cols="47" name="quContent"><%=qq.getContent() %></textarea></td>
+                         	<th>내용</th>
+                            <td><textarea rows="20" cols="47" name="quContent"><%=qq.getContent() %></textarea></td>
                          </tr>
-                            
-                         <tr><td height="20"> </td></tr>
+                                                 
                       </thead>
-                      <tbody>
-                         <tr>
-                            <td colspan="2" align="center"><button type="submit" class="btn btn-success">등록</button></td>
-                         </tr>
-                         <tr><td height="20"> </td></tr>
-                            
-                     </tbody>
-               </table>	 
+                      
+                      
+               </table>
+               <br><br>
+               <div align="center"><button type="submit" class="btn btn-success">등록</button></div>	
+		 </div>
+               
 	</form>
 	</div>
 </body>
