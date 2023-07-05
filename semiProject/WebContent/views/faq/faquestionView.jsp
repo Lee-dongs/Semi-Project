@@ -215,7 +215,7 @@
                 <tr id="tr2">
                     <td colspan="3" id="td1" align="center">
                         <br>                                           
-                        <div class="div1" id="fContent" style="text-align:left;">
+                        <div class="div1" id="fContent" style="text-align:left; width:900px;">
                             <%=f.getFaqContent() %>
                         </div> 
                         <br>
@@ -350,7 +350,7 @@
             	
             	
  <!-- --------------------------------------페이징 바------------------------------------------------------ -->           	
-            	 <%if(searchText == null){ %>
+            	 <%if(request.getAttribute("searchText") == null){ %>
             <div align="center" class="paging-area" >                     
             
             	 <br><br>
@@ -375,6 +375,7 @@
             </div>
 				
 				<%}else{ %>
+				
 				<div align="center" class="paging-area" >                     
             	
 				
@@ -395,8 +396,8 @@
 					<%if((!qlist.isEmpty())&& pi.getCurrentPage() != pi.getMaxPage()) {%>
 						<button onclick="location.href='<%=contextPath%>/search.qo?currentPage=<%=pi.getCurrentPage()+1%>&category=<%=request.getAttribute("category") %>&searchText=<%=request.getAttribute("searchText")%>'">&gt;</button>
 					<%} %>
-					
-				<%} %>
+					<%} %>
+				
 					
 			
 				
@@ -437,11 +438,13 @@
         	location.href= '<%=contextPath%>/detail.qo?qqo='+qqo;
         	<%}else if(loginUser != null &&loginUser.getUserId().equals(q.getQuestionWriter())){%>
         	
+        		
         		location.href= '<%=contextPath%>/detail.qo?qqo='+qqo;
         		<%}%>
         		
         		<%}%>
         		<%}%>
+        		
         	
         	
         })
@@ -471,7 +474,7 @@
        function updateFAQ(e){
         	$btn = e;
         	console.log($btn);
-        	//console.log($($btn).parents("tr").children().eq(0).text());
+
         	var content = $($btn).parents("tr").children().children("div").eq(0).text();
         	console.log(content);
         	//console.log($($btn).parents("tr").prev().children().eq(0).text());
@@ -481,7 +484,7 @@
         	
         	updateFaq+="<td colspan='3' id='td1' align='center'>"
         			  +"<br>"
-        			  +"<textarea rows='10' cols='100' id='fContent'>"
+        			  +"<textarea rows='10' cols='90' id='fContent'>"
         			  +content
         			  +"</textarea>"
         			  +"<div>"

@@ -111,19 +111,19 @@
 	WHERE RNUM BETWEEN ? AND ?
 </entry>
 <entry key="selectTitleCount">
-	SELECT COUNT(*) AS COUNT
+	SELECT COUNT(*) "COUNT"
 	FROM QUESTION
 	WHERE STATUS = 'Y'
 	AND QUESTION_TITLE LIKE '%'||?||'%'
 </entry>
 <entry key="selectContentCount">
-	SELECT COUNT(*) AS COUNT
+	SELECT COUNT(*) "COUNT"
 	FROM QUESTION
 	WHERE STATUS = 'Y'
 	AND CONTENT LIKE '%'||?||'%'
 </entry>
 <entry key="selectWriterCount">
-	SELECT COUNT(*) AS COUNT
+	SELECT COUNT(*) "COUNT"
 	FROM QUESTION Q
 	JOIN MEMBER ON (USER_NO = QUESTION_WRITER)
 	WHERE Q.STATUS = 'Y'

@@ -12,7 +12,7 @@
 <style>
         
         .suel{
-            width: 1000px;
+            width: 1500px;
         	height: 1000px;
         	margin: auto;
         	min-height:100%;
@@ -103,4 +103,4 @@
 		<br><br><br><br>
 	</div>
 </body>
-</html>s
+</html>
